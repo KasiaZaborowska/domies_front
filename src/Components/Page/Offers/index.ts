@@ -1,3 +1,4 @@
 import OfferList from './OfferList';
+import OfferCard from './OfferCard';
 
-export { OfferList };
+export { OfferList, OfferCard };

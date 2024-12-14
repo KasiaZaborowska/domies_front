@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { offerInterface } from '../../../Interfaces';
+import { OfferCard } from '.';
 
 function OfferList() {
     const [offers, setOffers] = useState<offerInterface[]>([]);
@@ -14,7 +15,14 @@ function OfferList() {
             });
     }, []);
 
-    return <div></div>;
+    return (
+        <div className="container row">
+            {offers.length > 0 &&
+                offers.map((offer, index) => (
+                    <OfferCard offer={offer} key={index} />
+                ))}
+        </div>
+    );
 }
 
 export default OfferList;
