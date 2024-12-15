@@ -1,39 +1,23 @@
 import * as React from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
-import { useGetAnimalTypesQuery } from '../../../Apis/animalTypeApi';
-import { useDispatch } from 'react-redux';
-import { AnimalTypeInterface } from '../../../Interfaces';
-import {
-    animalTypeSlice,
-    setAnimalType,
-} from '../../../Store/Redux/animalTypeSlice';
-import { useEffect } from 'react';
+import { animalTypeInterface } from '../../../Interfaces';
+interface DataTableProps {
+    result: animalTypeInterface[];
+}
 
-const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 130 },
-    { field: 'animalType', headerName: 'Animal Type', width: 130 },
-];
-
-export default function DataTable() {
-    const dispatch = useDispatch();
-    const { data, isLoading } = useGetAnimalTypesQuery(null);
-
-    const rows = data.result.map((animalType: AnimalTypeInterface) => ({
+export default function DataTable({ data }: any) {
+    console.log(data);
+    const rows = data.result.map((animalType: animalTypeInterface) => ({
         id: animalType.animalTypeId,
-        animalType: animalType.type,
+        type: animalType.type,
     }));
-    console.log(data.result);
     console.log(rows);
-    useEffect(() => {
-        if (!isLoading) {
-            dispatch(setAnimalType(data.result));
-        }
-    }, [data, isLoading]);
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+    const columns: GridColDef[] = [
+        { field: 'id', headerName: 'ID', width: 130 },
+        { field: 'type', headerName: 'Animal Type', width: 190 },
+    ];
 
     return (
         <Paper sx={{ height: 400, width: '100%' }}>
@@ -44,7 +28,7 @@ export default function DataTable() {
                     pagination: { paginationModel: { page: 0, pageSize: 5 } },
                 }}
                 pageSizeOptions={[5, 10]}
-                checkboxSelection
+                //checkboxSelection
                 sx={{ border: 0 }}
             />
         </Paper>

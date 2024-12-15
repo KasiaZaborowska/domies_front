@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import DataTable from './components/table';
-import { AnimalTypeInterface } from '../../Interfaces';
+import { animalTypeInterface } from '../../Interfaces';
 import { useGetAnimalTypesQuery } from '../../Apis/animalTypeApi';
 import { useDispatch } from 'react-redux';
 import { setAnimalType } from '../../Store/Redux/animalTypeSlice';
@@ -16,21 +16,19 @@ function AnimalTypes() {
         if (!isLoading) {
             dispatch(setAnimalType(data.result));
         }
-    }, [isLoading]);
+    }, [isLoading, data, dispatch]);
 
     if (isLoading) {
         return <div>Loading...</div>;
     }
 
-    //console.log(data.result);
-
     return (
         <div>
-            <div className="container row">
-                <DataTable />
+            <div className="container pt-5">
+                <DataTable data={data || []} />
 
                 {/* {data.result.map(
-                    (animalType: AnimalTypeInterface, index: number) => (
+                    (animalType: animalTypeInterface, index: number) => (
                         <div key={index}>
                             <p>{animalType.type}</p>
                         </div>
