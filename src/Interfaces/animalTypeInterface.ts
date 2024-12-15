@@ -1,4 +1,4 @@
-export default interface AnimalTypeInterface {
+export default interface animalTypeInterface {
     animalTypeId: number;
     type: string;
 }
