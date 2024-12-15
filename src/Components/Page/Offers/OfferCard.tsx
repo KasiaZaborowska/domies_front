@@ -1,6 +1,6 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
 import { offerInterface } from '../../../Interfaces';
+import { Link } from 'react-router-dom';
 
 interface Props {
     offer: offerInterface;
@@ -15,12 +15,14 @@ function OfferCard(props: Props) {
             >
                 <div className="card-body pt-2">
                     <div className="row col-10 offset-1 p-4">
-                        <img
-                            src={props.offer.photo}
-                            style={{ borderRadius: '50%' }}
-                            alt=""
-                            className="w-100 mt-5 image-box"
-                        />
+                        <Link to={`/offerDetails/${props.offer.id}`}>
+                            <img
+                                src={props.offer.photo}
+                                style={{ borderRadius: '50%' }}
+                                alt=""
+                                className="w-100 mt-5 image-box"
+                            />
+                        </Link>
                     </div>
 
                     <i
@@ -52,9 +54,11 @@ function OfferCard(props: Props) {
                     ></i>
 
                     <div className="text-center">
-                        <p className="card-title m-0 text-success fs-3">
-                            {props.offer.title}
-                        </p>
+                        <Link to={`/offerDetails/${props.offer.id}`}>
+                            <p className="card-title m-0 text-success fs-3">
+                                {props.offer.title}
+                            </p>
+                        </Link>
                         <p
                             className="badge bg-secondary"
                             style={{ fontSize: '12px' }}
