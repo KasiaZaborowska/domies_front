@@ -56,8 +56,11 @@ function Header() {
                                     className="dropdown-menu"
                                     aria-labelledby="navbarDropdownMenuLink"
                                 >
-                                    <a className="dropdown-item" href="#">
-                                        Action
+                                    <a
+                                        className="dropdown-item"
+                                        href="animmaltypes"
+                                    >
+                                        animmaltypes
                                     </a>
                                     <a className="dropdown-item" href="##">
                                         Another action
