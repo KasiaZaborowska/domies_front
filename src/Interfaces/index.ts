@@ -1,4 +1,11 @@
 import offerInterface from './offerInterface';
-import AnimalTypeInterface from './animalTypeInterface';
+import animalTypeInterface from './animalTypeInterface';
+import userAccountInterface from './userAccountInterface';
+import apiResponse from './apiResponse';
 
-export type { offerInterface, AnimalTypeInterface };
+export type {
+    offerInterface,
+    animalTypeInterface,
+    userAccountInterface,
+    apiResponse,
+};
