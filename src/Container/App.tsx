@@ -15,6 +15,7 @@ import {
     AuthenticationTestAdmin,
 } from '../Pages/AuthTest';
 import OfferDetails from '../Pages/Offer/OfferDetails';
+import Offers from '../Pages/Offers/Offers';
 
 function App() {
     const dispatch = useDispatch();
@@ -44,6 +45,7 @@ function App() {
                     ></Route>
                     <Route path="/signIn" element={<SingIn />}></Route>
                     <Route path="/signUp" element={<SingUp />}></Route>
+                    <Route path="/offers" element={<Offers />}></Route>
 
                     <Route
                         path="/authentication"
