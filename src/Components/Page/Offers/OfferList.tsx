@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { offerInterface } from '../../../Interfaces';
-import { OfferCard } from '.';
+import OfferCard from '../../../Pages/Offers/OfferCard';
 
 function OfferList() {
     const [offers, setOffers] = useState<offerInterface[]>([]);
