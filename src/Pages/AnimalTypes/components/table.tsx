@@ -11,12 +11,17 @@ export default function DataTable({ data }: any) {
     const rows = data.result.map((animalType: animalTypeInterface) => ({
         id: animalType.animalTypeId,
         type: animalType.type,
+        edit: any,
+        delete: any,
     }));
     console.log(rows);
 
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', width: 130 },
         { field: 'type', headerName: 'Animal Type', width: 190 },
+
+        { field: 'edit', headerName: 'option', width: 190 },
+        { field: 'delete', headerName: 'option', width: 190 },
     ];
 
     return (

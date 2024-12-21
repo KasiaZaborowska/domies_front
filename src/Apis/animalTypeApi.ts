@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { buffer } from 'stream/consumers';
 
 const animalTypeApi = createApi({
     reducerPath: 'animalTypeApi',
@@ -20,10 +19,27 @@ const animalTypeApi = createApi({
             }),
             providesTags: ['AnimalTypes'],
         }),
+        addAnimalType: builder.mutation({
+            query: (newType: { Type: string }) => ({
+                url: `animaltype`,
+                method: 'POST',
+                // params: {
+                //     userId,
+                // },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newType),
+            }),
+            invalidatesTags: ['AnimalTypes'],
+        }),
     }),
 });
 
-export const { useGetAnimalTypesQuery, useGetAnimalTypeByIdQuery } =
-    animalTypeApi;
+export const {
+    useGetAnimalTypesQuery,
+    useGetAnimalTypeByIdQuery,
+    useAddAnimalTypeMutation,
+} = animalTypeApi;
 
 export default animalTypeApi;
