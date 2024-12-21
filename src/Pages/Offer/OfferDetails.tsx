@@ -1,26 +1,34 @@
 import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetOfferByIdQuery } from '../../Apis/offerApi';
+import MainLoader from '../../Components/MainLoader';
 
 function OfferDetails() {
+    const { offerId } = useParams(); // offerId match the offerId from App.tsx
+    const { data, isLoading } = useGetOfferByIdQuery(offerId);
+    const navigate = useNavigate();
+    //console.log(data);
+
     return (
-        <div>
-            <div className="container pt-4 pt-md-5">
+        <div className="container pt-4 pt-md-5">
+            {!isLoading ? (
                 <div className="">
                     <div className="">
                         <div className="col-5">
                             <img
-                                src="https://via.placeholder.com/150"
+                                src={data.result.photo}
                                 width="100%"
                                 style={{ borderRadius: '50%' }}
                                 alt="No content"
                             ></img>
                         </div>
-                        <h2 className="text-success">NAME</h2>
+                        <h2 className="text-success">{data.result.title}</h2>
                         <span>
                             <span
                                 className="badge text-bg-dark pt-2"
                                 style={{ height: '40px', fontSize: '20px' }}
                             >
-                                CATEGORY
+                                typy pieskow
                             </span>
                         </span>
                         <span>
@@ -28,11 +36,11 @@ function OfferDetails() {
                                 className="badge text-bg-light pt-2"
                                 style={{ height: '40px', fontSize: '20px' }}
                             >
-                                SPECIAL TAG
+                                tag / ocena
                             </span>
                         </span>
                         <p style={{ fontSize: '20px' }} className="pt-2">
-                            DESCRIPTION
+                            {data.result.description}
                         </p>
                         <span className="h3">$10</span> &nbsp;&nbsp;&nbsp;
                         <span
@@ -44,14 +52,33 @@ function OfferDetails() {
                         >
                             <i
                                 className="bi bi-dash p-1"
-                                style={{ fontSize: '25px', cursor: 'pointer' }}
+                                style={{
+                                    fontSize: '25px',
+                                    cursor: 'pointer',
+                                }}
                             ></i>
                             <span className="h3 mt-3 px-3">XX</span>
                             <i
                                 className="bi bi-plus p-1"
-                                style={{ fontSize: '25px', cursor: 'pointer' }}
+                                style={{
+                                    fontSize: '25px',
+                                    cursor: 'pointer',
+                                }}
                             ></i>
                         </span>
+                        <div className="row pt-4">
+                            <span style={{ fontSize: '20px' }} className="pt-2">
+                                Moj adres
+                            </span>
+                            <span style={{ fontSize: '20px' }} className="pt-2">
+                                {data.result.country}, {data.result.city},
+                                {data.result.street}, {data.result.postalCode}
+                            </span>
+                            <span style={{ fontSize: '20px' }} className="pt-2">
+                                Skontaktuj się ze mną osobiście:{' '}
+                                {data.result.host}
+                            </span>
+                        </div>
                         <div className="row pt-4">
                             <div className="col-5">
                                 <button className="btn btn-success form-control">
@@ -60,14 +87,21 @@ function OfferDetails() {
                             </div>
 
                             <div className="col-5 ">
-                                <button className="btn btn-secondary form-control">
-                                    Back to Home
+                                <button
+                                    className="btn btn-secondary form-control"
+                                    onClick={() => navigate(-1)}
+                                >
+                                    Powrót
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            ) : (
+                <div>
+                    <MainLoader />
+                </div>
+            )}
         </div>
     );
 }
