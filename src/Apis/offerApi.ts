@@ -37,12 +37,15 @@ const offerApi = createApi({
             invalidatesTags: ['Offer'],
         }),
         addOffer: builder.mutation({
-            query: ({ userId, id }) => ({
+            query: ({ data, userId }) => ({
                 url: `offer`,
                 method: 'POST',
+                body: data,
                 params: {
-                    id,
                     userId,
+                },
+                headers: {
+                    'Content-Type': 'application/json', // Wysyłamy JSON
                 },
             }),
             invalidatesTags: ['Offer'],
