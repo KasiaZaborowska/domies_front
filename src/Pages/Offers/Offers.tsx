@@ -3,21 +3,38 @@ import OfferCard from './OfferCard';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import AddOffer from './AddOffer';
-import { offerInterface } from '../../Interfaces';
+import { offerInterface, userAccountInterface } from '../../Interfaces';
 import { useGetOffersQuery } from '../../Apis/offerApi';
-import { useDispatch } from 'react-redux';
-import { setOffers } from '../../Store/Redux/offerSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../Store/Redux/store';
 
 function Offers() {
-    //const [offers, setOffers] = useState<offerInterface[]>([]);
-    const { data, isLoading } = useGetOffersQuery(null);
     const dispatch = useDispatch();
+    const userData: userAccountInterface = useSelector(
+        (state: RootState) => state.userAccountStore,
+    );
+    console.log(userData.Email);
+    const loggedInUserEmail = userData.Email;
+
+    const { data, isLoading } = useGetOffersQuery(null);
+    const [filteredOffers, setFilteredOffers] = useState<offerInterface[]>([]);
+    console.log(data);
 
     useEffect(() => {
-        if (!isLoading) {
-            dispatch(setOffers(data.result));
+        if (!isLoading && data) {
+            const filtered = data.result.filter(
+                (offer: offerInterface) => offer.host === loggedInUserEmail,
+            );
+            console.log(filtered);
+
+            if (filtered.length > 0) {
+                setFilteredOffers(filtered);
+            } else {
+                console.log('Brak ofert dla tego użytkownika.');
+            }
+            // dispatch(setOffers(data.result));
         }
-    }, [isLoading]);
+    }, [isLoading, loggedInUserEmail, data, dispatch]);
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -26,7 +43,7 @@ function Offers() {
     if (isLoading) {
         return <div>Loading...</div>;
     }
-    console.log(data.result);
+
     return (
         <div className="container">
             <div>
@@ -64,10 +81,19 @@ function Offers() {
             </div>
 
             <div className="container row">
-                {data.result.length > 0 &&
-                    data.result.map((offer: offerInterface, index: number) => (
-                        <OfferCard offer={offer} key={index} />
-                    ))}
+                {isLoading ? (
+                    <p>Loading...</p>
+                ) : filteredOffers?.length > 0 ? (
+                    <ul>
+                        {filteredOffers.map(
+                            (offer: offerInterface, index: number) => (
+                                <OfferCard offer={offer} key={index} />
+                            ),
+                        )}
+                    </ul>
+                ) : (
+                    <p>Brak ofert.</p>
+                )}
             </div>
         </div>
     );
