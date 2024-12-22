@@ -9,6 +9,7 @@
     "@mui/material": "^6.2.0",
     "@mui/styled-engine-sc": "^6.2.0",
     "@mui/x-data-grid": "^7.23.2",
+    "@radix-ui/react-dialog": "^1.1.4",
     "@reduxjs/toolkit": "^1.9.1",
     "@stripe/react-stripe-js": "^1.16.1",
     "@stripe/stripe-js": "^1.46.0",
