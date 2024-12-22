@@ -2,35 +2,47 @@ import * as React from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { animalTypeInterface } from '../../../Interfaces';
-interface DataTableProps {
-    result: animalTypeInterface[];
-}
+import ActionsColumn from './ActionsColumn';
 
 export default function DataTable({ data }: any) {
-    console.log(data);
     const rows = data.result.map((animalType: animalTypeInterface) => ({
         id: animalType.animalTypeId,
         type: animalType.type,
-        edit: any,
-        delete: any,
+        actions: ActionsColumn,
     }));
-    console.log(rows);
+    // console.log(rows);
 
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', width: 130 },
-        { field: 'type', headerName: 'Animal Type', width: 190 },
+        { field: 'type', headerName: 'Animal Type', width: 490 },
 
-        { field: 'edit', headerName: 'option', width: 190 },
-        { field: 'delete', headerName: 'option', width: 190 },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            width: 250,
+            align: 'right',
+            renderCell: (params) => {
+                return <ActionsColumn row={params.row} />;
+            },
+        },
     ];
-
     return (
-        <Paper sx={{ height: 400, width: '100%' }}>
+        <Paper sx={{ height: '100%', width: '100%' }}>
             <DataGrid
                 rows={rows}
                 columns={columns}
                 initialState={{
-                    pagination: { paginationModel: { page: 0, pageSize: 5 } },
+                    pagination: {
+                        paginationModel: {
+                            page: 0,
+                            pageSize: 5,
+                        },
+                    },
+                    columns: {
+                        columnVisibilityModel: {
+                            id: false,
+                        },
+                    },
                 }}
                 pageSizeOptions={[5, 10]}
                 //checkboxSelection
