@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import OfferCard from './OfferCard';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import AddOffer from './AddOffer';
+import AddOfferForm from './AddOffer';
 import { offerInterface, userAccountInterface } from '../../Interfaces';
 import { useGetOffersQuery } from '../../Apis/offerApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../Store/Redux/store';
+import './Offers.css';
 
 function Offers() {
     const dispatch = useDispatch();
@@ -18,7 +19,6 @@ function Offers() {
 
     const { data, isLoading } = useGetOffersQuery(null);
     const [filteredOffers, setFilteredOffers] = useState<offerInterface[]>([]);
-    console.log(data);
 
     useEffect(() => {
         if (!isLoading && data) {
@@ -34,7 +34,7 @@ function Offers() {
             }
             // dispatch(setOffers(data.result));
         }
-    }, [isLoading, loggedInUserEmail, data, dispatch]);
+    }, [isLoading, data]);
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -47,36 +47,26 @@ function Offers() {
     return (
         <div className="container">
             <div>
-                <div className="d-flex justify-content-end pt-4">
-                    <Button
-                        variant="primary"
-                        onClick={handleShow}
-                        style={{
-                            backgroundColor: 'pink',
-                            borderColor: 'pink',
-                            borderRadius: '50px',
-                            padding: '10px',
-                        }}
-                    >
-                        Dodaj swoją ofertę!
-                    </Button>
-                </div>
-
-                <Modal show={show} onHide={handleClose}>
+                <Modal
+                    show={show}
+                    onHide={handleClose}
+                    dialogClassName="custom-modal"
+                    size="xl"
+                >
                     <Modal.Header closeButton>
                         <Modal.Title>Dodaj nową ofertę:</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <AddOffer />
+                        <AddOfferForm />
                     </Modal.Body>
-                    <Modal.Footer>
+                    {/* <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
                             Zamknij
                         </Button>
                         <Button variant="primary" onClick={handleClose}>
                             Dodaj ofertę
                         </Button>
-                    </Modal.Footer>
+                    </Modal.Footer> */}
                 </Modal>
             </div>
 
@@ -85,6 +75,20 @@ function Offers() {
                     <p>Loading...</p>
                 ) : filteredOffers?.length > 0 ? (
                     <ul>
+                        <div className="d-flex justify-content-end pt-4">
+                            <Button
+                                variant="primary"
+                                onClick={handleShow}
+                                style={{
+                                    backgroundColor: 'pink',
+                                    borderColor: 'pink',
+                                    borderRadius: '50px',
+                                    padding: '10px',
+                                }}
+                            >
+                                Dodaj swoją ofertę!
+                            </Button>
+                        </div>
                         {filteredOffers.map(
                             (offer: offerInterface, index: number) => (
                                 <OfferCard offer={offer} key={index} />
