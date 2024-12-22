@@ -20,16 +20,29 @@ const animalTypeApi = createApi({
             providesTags: ['AnimalTypes'],
         }),
         addAnimalType: builder.mutation({
-            query: (newType: { Type: string }) => ({
+            query: (data) => ({
                 url: `animaltype`,
                 method: 'POST',
-                // params: {
-                //     userId,
-                // },
+                body: data,
+            }),
+            invalidatesTags: ['AnimalTypes'],
+        }),
+        updateAnimalType: builder.mutation({
+            query: ({ data, id }) => ({
+                url: `animaltype/${id}`,
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newType),
+                body: data,
+            }),
+
+            invalidatesTags: ['AnimalTypes'],
+        }),
+        deleteAnimalType: builder.mutation({
+            query: (id) => ({
+                url: `animaltype/${id}`,
+                method: 'DELETE',
             }),
             invalidatesTags: ['AnimalTypes'],
         }),
@@ -40,6 +53,8 @@ export const {
     useGetAnimalTypesQuery,
     useGetAnimalTypeByIdQuery,
     useAddAnimalTypeMutation,
+    useUpdateAnimalTypeMutation,
+    useDeleteAnimalTypeMutation,
 } = animalTypeApi;
 
 export default animalTypeApi;
