@@ -1,6 +1,6 @@
 import animalTypeInterface from './animalTypeInterface';
 
-export default interface offerInterface {
+export default interface readOfferInterface {
     id?: number;
     name: string;
     description: string;
@@ -14,4 +14,5 @@ export default interface offerInterface {
     price: number;
     offerAnimalTypes: string[];
     file?: File | null;
+    photo: string;
 }
