@@ -55,7 +55,7 @@ function AnimalTypes() {
                 ) : (
                     <div>
                         <div className="p-3">
-                            <div className="d-flex align-items-center justify-content-between">
+                            <div className="d-flex align-items-center justify-content-between mx-5 px-4">
                                 <h1 className="text-success">Typy zwierząt</h1>
                                 <div className="d-flex justify-content-end pt-4">
                                     <Button
