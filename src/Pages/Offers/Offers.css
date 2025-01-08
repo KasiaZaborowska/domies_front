@@ -1,6 +1,12 @@
-.custom-modal {
+.container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 80vh;
+}
+
+.modal-dialog {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 90%;
+    max-height: 90vh;
 }
