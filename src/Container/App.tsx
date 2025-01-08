@@ -14,8 +14,9 @@ import {
     AuthenticationTest,
     AuthenticationTestAdmin,
 } from '../Pages/AuthTest';
-import OfferDetails from '../Pages/Offer/OfferDetails';
+import MyOfferDetails from '../Pages/Offer/MyOfferDetails';
 import Offers from '../Pages/Offers/Offers';
+import OfferDetails from '../Components/Page/Offers/OfferDetails';
 
 function App() {
     const dispatch = useDispatch();
@@ -35,6 +36,10 @@ function App() {
             <div>
                 <Routes>
                     <Route path="/" element={<Home />}></Route>
+                    <Route
+                        path="/myOfferDetails/:offerId"
+                        element={<MyOfferDetails />}
+                    ></Route>
                     <Route
                         path="/offerDetails/:offerId"
                         element={<OfferDetails />}
@@ -63,7 +68,6 @@ function App() {
                     <Route path="*" element={<NotFound />}></Route>
                 </Routes>
             </div>
-            <Footer />
         </div>
     );
 }
