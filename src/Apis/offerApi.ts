@@ -33,6 +33,9 @@ const offerApi = createApi({
                     id,
                     userId,
                 },
+                headers: {
+                    'Accept-Encoding': 'gzip',
+                },
             }),
             invalidatesTags: ['Offer'],
         }),
@@ -45,8 +48,15 @@ const offerApi = createApi({
                     userId,
                 },
                 headers: {
-                    'Content-Type': 'application/json', // Wysyłamy JSON
+                    'Accept-Encoding': 'gzip',
                 },
+            }),
+            invalidatesTags: ['Offer'],
+        }),
+        deleteOffer: builder.mutation({
+            query: (id) => ({
+                url: `offer/${id}`,
+                method: 'DELETE',
             }),
             invalidatesTags: ['Offer'],
         }),
@@ -58,6 +68,7 @@ export const {
     useGetOfferByIdQuery,
     useUpdateOfferMutation,
     useAddOfferMutation,
+    useDeleteOfferMutation,
 } = offerApi;
 
 export default offerApi;
