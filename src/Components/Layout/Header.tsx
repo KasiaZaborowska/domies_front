@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { RootState } from '../../Store/Redux/store';
 import { userAccountInterface } from '../../Interfaces';
 import {
@@ -24,7 +24,7 @@ function Header() {
     };
 
     return (
-        <div>
+        <div style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
             <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
                 <div className="container-fluid">
                     <NavLink className="nav-link" to="/">
@@ -81,18 +81,15 @@ function Header() {
                                     className="dropdown-menu"
                                     aria-labelledby="navbarDropdownMenuLink"
                                 >
-                                    <a
+                                    <Link
                                         className="dropdown-item"
-                                        href="animmaltypes"
+                                        to="/animmaltypes"
                                     >
                                         animmaltypes
-                                    </a>
-                                    <a className="dropdown-item" href="##">
+                                    </Link>
+                                    <Link className="dropdown-item" to="##">
                                         Another action
-                                    </a>
-                                    <a className="dropdown-item" href="#">
-                                        Something else here
-                                    </a>
+                                    </Link>
                                 </div>
                             </li>
                             <li className="nav-item">
@@ -132,11 +129,13 @@ function Header() {
                                         </li>
                                         <li className="nav-item">
                                             <button
-                                                className="btn btn-success btn-outlined rounded-pill text-white mx-2"
+                                                className="btn sbtn-outlined rounded-pill mx-2"
                                                 style={{
                                                     border: 'none',
                                                     height: '40px',
                                                     width: '100px',
+                                                    color: 'black',
+                                                    backgroundColor: '#f4acb7',
                                                 }}
                                                 onClick={handleLogout}
                                             >
@@ -158,11 +157,12 @@ function Header() {
                                         </li>
                                         <li className="nav-item text-white">
                                             <NavLink
-                                                className="btn btn-success btn-outlined rounded-pill text-white mx-2"
+                                                className="btn btn-outlined rounded-pill text-white mx-2"
                                                 style={{
                                                     border: 'none',
                                                     height: '40px',
                                                     width: '100px',
+                                                    backgroundColor: '#f4acb7',
                                                 }}
                                                 to="/signIn"
                                             >
