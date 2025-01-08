@@ -1,10 +1,10 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { offerInterface } from '../../../Interfaces';
-import OfferCard from '../../../Pages/Offers/OfferCard';
+import { readOfferInterface } from '../../../Interfaces';
+import OfferCardMainPage from './OfferCardMainPage';
 
 function OfferList() {
-    const [offers, setOffers] = useState<offerInterface[]>([]);
+    const [offers, setOffers] = useState<readOfferInterface[]>([]);
 
     useEffect(() => {
         fetch('https://localhost:7098/api/offer')
@@ -19,7 +19,7 @@ function OfferList() {
         <div className="container row">
             {offers.length > 0 &&
                 offers.map((offer, index) => (
-                    <OfferCard offer={offer} key={index} />
+                    <OfferCardMainPage offer={offer} key={index} />
                 ))}
         </div>
     );
