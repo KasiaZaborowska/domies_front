@@ -58,13 +58,20 @@ function EditOfferForm() {
     });
 
     const { data, isLoading } = useGetAnimalTypesQuery(null);
-    const [preview, setPreview] = useState<string | null>(null);
+
+    const [preview, setPreview] = useState<string | null>();
+
+    const photo = formData.file;
 
     useEffect(() => {
         if (!isLoading) {
             dispatch(setAnimalType(data.result));
         }
         console.log('Dane załadowane:', formData);
+
+        if (dataOffer.result.photo) {
+            setPreview(dataOffer.result.photo); // Ustawienie prewizualizacji obrazu z base64
+        }
     }, [isLoading, data, dispatch]);
 
     const renderSelected = () => {
@@ -113,28 +120,19 @@ function EditOfferForm() {
         formDataToSend.append('street', formData.street);
         formDataToSend.append('postalCode', formData.postalCode);
         formDataToSend.append('price', formData.price.toString());
-        // formDataToSend.append(
-        //     'offerAnimalTypes',
-        //     JSON.stringify(formData.offerAnimalTypes),
-        // );
-        // formData.offerAnimalTypes.forEach((type: string) => {
-        //     formDataToSend.append('offerAnimalTypes', type);
-        // });
-
-        formDataToSend.append(
-            'offerAnimalTypes',
-            formData.offerAnimalTypes.join(', '),
-        ); // Dodajemy typy zwierząt (jako string)
-
-        // Jeśli mamy plik, dodajemy go do formData
+        formData.offerAnimalTypes.forEach((type: string) => {
+            console.log(type);
+            formDataToSend.append('offerAnimalTypes[]', type);
+        });
         if (formData.file) {
-            formDataToSend.append('file', formData.file); // Dodajemy plik
+            formDataToSend.append('file', formData.file);
         }
 
         try {
             const response: offerInterface = await offferToUpdate({
                 data: formDataToSend,
                 userId: loggedInUserEmail,
+                id: offerId,
             }).unwrap();
             console.log(response);
             alert('dodane!');
@@ -143,8 +141,10 @@ function EditOfferForm() {
             console.error('Błąd przy dodawaniu:', error);
         }
         console.log('Dane załadowane:', formData);
-        console.log('Dane send:', Object.fromEntries(formDataToSend));
+        //console.log('Dane send:', Object.fromEntries(formDataToSend));
     };
+
+    //console.log(photo);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         //setFormData((prev) => ({ prev, file: e.target.file[0] }));
@@ -155,11 +155,13 @@ function EditOfferForm() {
                 setPreview(reader.result as string); // ustawienie prewizualizacji wybranego obrazu
             };
             reader.readAsDataURL(photo);
-            setFormData((prev) => ({ ...prev, file: photo })); // Przypisanie pliku do formData
-            ///setPhoto(photo); // ustawienie wybranego pliku
+            setFormData((prev) => ({ ...prev, file: photo }));
+
+            //setPhoto(photo); // ustawienie wybranego pliku
         }
     };
-
+    console.log('preview');
+    console.log(preview);
     //console.log(data);
     if (isLoading) {
         return <div>Loading...</div>;
@@ -167,94 +169,159 @@ function EditOfferForm() {
 
     return (
         <Form onSubmit={handleEditOffer}>
-            <Form.Group className="mb-2" controlId="name">
-                <Form.Label>Nazwa</Form.Label>
-                <Form.Control
-                    placeholder="Wpisz tytuł"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleUserInput}
-                />
+            <Form.Group
+                as={Row}
+                className="align-items-center mb-2"
+                controlId="name"
+            >
+                <Col sm={2}>
+                    <Form.Label>Nazwa</Form.Label>
+                </Col>
+                <Col sm={10}>
+                    <Form.Control
+                        placeholder="Wpisz tytuł"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleUserInput}
+                    />
+                </Col>
             </Form.Group>
-            <Form.Group className="mb-2" controlId="">
-                <Form.Label>Opis</Form.Label>
-                <Form.Control
-                    as="textarea"
-                    rows={3}
-                    placeholder="opis"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleUserInput}
-                />
+            <Form.Group as={Row} className="mb-2" controlId="">
+                <Col sm={2}>
+                    <Form.Label>Opis</Form.Label>
+                </Col>
+                <Col sm={10}>
+                    <Form.Control
+                        as="textarea"
+                        rows={3}
+                        placeholder="opis"
+                        name="description"
+                        value={formData.description}
+                        onChange={handleUserInput}
+                    />
+                </Col>
             </Form.Group>
-            <Form.Group className="mb-2" controlId="">
-                <Form.Label>Cena</Form.Label>
-                <Form.Control
-                    placeholder="cena"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleUserInput}
-                />
+            <Form.Group
+                as={Row}
+                className="align-items-center mb-2"
+                controlId=""
+            >
+                <Col sm={2}>
+                    <Form.Label>Cena</Form.Label>
+                </Col>
+                <Col sm={10}>
+                    <Form.Control
+                        placeholder="cena"
+                        name="price"
+                        value={formData.price}
+                        onChange={handleUserInput}
+                    />
+                </Col>
             </Form.Group>
-            <Form.Group className="mb-2" controlId="">
-                <Form.Label>country</Form.Label>
-                <Form.Control
-                    placeholder="opis"
-                    name="country"
-                    value={formData.country}
-                    onChange={handleUserInput}
-                />
+            <Form.Group
+                as={Row}
+                className="align-items-center mb-2"
+                controlId=""
+            >
+                <Col sm={2}>
+                    <Form.Label>Państwo</Form.Label>
+                </Col>
+                <Col sm={10}>
+                    <Form.Control
+                        placeholder="opis"
+                        name="country"
+                        value={formData.country}
+                        onChange={handleUserInput}
+                    />
+                </Col>
             </Form.Group>
-            <Form.Group className="mb-2" controlId="city">
-                <Form.Label>city</Form.Label>
-                <Form.Control
-                    placeholder="opis"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleUserInput}
-                />
+            <Form.Group
+                as={Row}
+                className="align-items-center mb-2"
+                controlId="city"
+            >
+                <Col sm={2}>
+                    <Form.Label>Miasto</Form.Label>
+                </Col>
+                <Col sm={10}>
+                    <Form.Control
+                        placeholder="opis"
+                        name="city"
+                        value={formData.city}
+                        onChange={handleUserInput}
+                    />
+                </Col>
             </Form.Group>
-            <Form.Group className="mb-2" controlId="street">
-                <Form.Label>street</Form.Label>
-                <Form.Control
-                    placeholder="opis"
-                    name="street"
-                    value={formData.street}
-                    onChange={handleUserInput}
-                />
+            <Form.Group
+                as={Row}
+                className="align-items-center mb-2"
+                controlId="street"
+            >
+                <Col sm={2}>
+                    <Form.Label>Ulica</Form.Label>
+                </Col>
+                <Col sm={10}>
+                    <Form.Control
+                        placeholder="opis"
+                        name="street"
+                        value={formData.street}
+                        onChange={handleUserInput}
+                    />{' '}
+                </Col>
             </Form.Group>
-            <Form.Group className="mb-2" controlId="postalCode">
-                <Form.Label>postalCode</Form.Label>
-                <Form.Control
-                    placeholder="opis"
-                    name="postalCode"
-                    value={formData.postalCode}
-                    onChange={handleUserInput}
-                />
+            <Form.Group
+                as={Row}
+                className="align-items-center mb-2"
+                controlId="postalCode"
+            >
+                <Col sm={2}>
+                    <Form.Label>Kod pocztowy</Form.Label>
+                </Col>
+                <Col sm={10}>
+                    <Form.Control
+                        placeholder="opis"
+                        name="postalCode"
+                        value={formData.postalCode}
+                        onChange={handleUserInput}
+                    />{' '}
+                </Col>
             </Form.Group>
-            <Form.Group controlId="formAnimalTypes">
-                <Form.Label>Typy zwierząt</Form.Label>
-                <DropdownButton
-                    title={renderSelected() || 'wybierz typy  zwierząt'}
-                >
-                    {data.result.map((type: animalTypeInterface) => (
-                        <Form.Check
-                            key={type.animalTypeId}
-                            type="checkbox"
-                            label={type.type}
-                            value={type.animalTypeId}
-                            checked={formData.offerAnimalTypes.includes(
-                                type.type,
-                            )}
-                            onChange={() =>
-                                handleCheckboxChange(type.animalTypeId)
-                            }
-                        />
-                    ))}
-                </DropdownButton>
+            <Form.Group
+                as={Row}
+                className="align-items-center mb-2"
+                controlId="formAnimalTypes"
+            >
+                <Col sm={2}>
+                    <Form.Label>Typy zwierząt</Form.Label>
+                </Col>
+                <Col sm={10}>
+                    <DropdownButton
+                        title={renderSelected() || 'wybierz typy  zwierząt'}
+                    >
+                        {data.result.map((type: animalTypeInterface) => (
+                            <Form.Check
+                                className="m-2"
+                                key={type.animalTypeId}
+                                type="checkbox"
+                                label={type.type}
+                                value={type.animalTypeId}
+                                checked={formData.offerAnimalTypes.includes(
+                                    type.type,
+                                )}
+                                onChange={() =>
+                                    handleCheckboxChange(type.animalTypeId)
+                                }
+                            />
+                        ))}
+                    </DropdownButton>
+                </Col>
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-4" controlId="File">
+            <Form.Group
+                as={Row}
+                className="align-items-center mb-2"
+                controlId="File"
+            >
                 <Form.Label column sm={2}>
                     Plik
                 </Form.Label>
@@ -266,14 +333,14 @@ function EditOfferForm() {
                         onChange={handleFileChange}
                     />
                     <div>
-                        <p>Podgląd obrazu:</p>
+                        <p className="pt-3"> Podgląd obrazu:</p>
                         <img
                             src={preview ?? undefined}
                             alt="brak obrazu"
                             style={{
                                 maxWidth: '300px',
                                 maxHeight: '100px',
-                                marginTop: '15px',
+                                marginTop: '5px',
                             }}
                         />
                     </div>
