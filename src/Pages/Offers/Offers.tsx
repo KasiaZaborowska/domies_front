@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../Store/Redux/store';
 import './Offers.css';
 import MyOfferCard from './MyOfferCard';
+import { withAuth } from '../../HOC';
 
 function Offers() {
     const dispatch = useDispatch();
@@ -87,6 +88,7 @@ function Offers() {
                                             borderRadius: '50px',
                                             padding: '10px',
                                             display: 'inline-block',
+                                            color: 'black',
                                         }}
                                     >
                                         Dodaj swoją ofertę!
@@ -114,4 +116,4 @@ function Offers() {
     );
 }
 
-export default Offers;
+export default withAuth(Offers);
