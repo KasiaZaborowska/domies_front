@@ -155,9 +155,9 @@ function Header() {
                                                 Register
                                             </NavLink>
                                         </li>
-                                        <li className="nav-item text-white">
+                                        <li className="nav-item">
                                             <NavLink
-                                                className="btn btn-outlined rounded-pill text-white mx-2"
+                                                className="btn btn-outlined rounded-pill mx-2"
                                                 style={{
                                                     border: 'none',
                                                     height: '40px',
