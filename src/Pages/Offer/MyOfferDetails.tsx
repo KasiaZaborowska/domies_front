@@ -40,6 +40,8 @@ function MyOfferDetails() {
                                     borderRadius: '10%',
                                     maxHeight: '60vh',
                                     minWidth: '40vw',
+
+                                    objectFit: 'cover',
                                 }}
                                 className="col-10"
                                 alt="No content"
