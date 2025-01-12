@@ -57,7 +57,7 @@ function SingUp() {
                 <form method="post" onSubmit={handleSubmit}>
                     <h1 className="mt-5">Rejestracja</h1>
                     <div className="mt-5">
-                        <div className="col-sm-6 offset-sm-3 col-xs-12 mt-4">
+                        <div className="mt-4" style={{ minWidth: '40vw' }}>
                             <input
                                 type="text"
                                 className="form-control"
@@ -68,7 +68,7 @@ function SingUp() {
                                 onChange={handleUserInput}
                             />
                         </div>
-                        <div className="col-sm-6 offset-sm-3 col-xs-12 mt-4">
+                        <div className="mt-4">
                             <input
                                 type="text"
                                 className="form-control"
@@ -79,7 +79,7 @@ function SingUp() {
                                 onChange={handleUserInput}
                             />
                         </div>
-                        <div className="col-sm-6 offset-sm-3 col-xs-12 mt-4">
+                        <div className="mt-4">
                             <input
                                 type="text"
                                 className="form-control"
@@ -90,7 +90,7 @@ function SingUp() {
                                 onChange={handleUserInput}
                             />
                         </div>
-                        <div className="col-sm-6 offset-sm-3 col-xs-12 mt-4">
+                        <div className="mt-4">
                             <input
                                 type="password"
                                 className="form-control"
@@ -115,8 +115,14 @@ function SingUp() {
                     <div className="mt-5">
                         <button
                             type="submit"
-                            className="btn btn-success"
+                            className="btn"
                             disabled={loading}
+                            style={{
+                                border: 'none',
+                                height: '40px',
+                                width: '200px',
+                                backgroundColor: '#f4acb7',
+                            }}
                         >
                             Zarejestruj się
                         </button>
