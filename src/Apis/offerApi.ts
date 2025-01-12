@@ -26,9 +26,10 @@ const offerApi = createApi({
             providesTags: ['Offer'],
         }),
         updateOffer: builder.mutation({
-            query: ({ userId, id }) => ({
+            query: ({ data, userId, id }) => ({
                 url: `offer/${id}`,
                 method: 'PATCH',
+                body: data,
                 params: {
                     id,
                     userId,
