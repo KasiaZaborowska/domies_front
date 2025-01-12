@@ -65,8 +65,8 @@ function SingIn() {
             {loading && <MainLoader />}
             <form method="post" onSubmit={handleSubmit}>
                 <h1 className="mt-5">Login</h1>
-                <div className="mt-5">
-                    <div className="col-sm-6 offset-sm-3 col-xs-12 mt-4">
+                <div className="mt-5" style={{ minWidth: '40vw' }}>
+                    <div className="mt-4">
                         <input
                             type="text"
                             className="form-control"
@@ -78,7 +78,7 @@ function SingIn() {
                         />
                     </div>
 
-                    <div className="col-sm-6 offset-sm-3 col-xs-12 mt-4">
+                    <div className="mt-4">
                         <input
                             type="password"
                             className="form-control"
@@ -91,12 +91,17 @@ function SingIn() {
                     </div>
                 </div>
 
-                <div className="mt-2">
+                <div className="mt-4">
                     {error && <p className="text-danger">{error}</p>}
                     <button
                         type="submit"
-                        className="btn btn-success"
-                        style={{ width: '200px' }}
+                        className="btn"
+                        style={{
+                            border: 'none',
+                            height: '40px',
+                            width: '200px',
+                            backgroundColor: '#f4acb7',
+                        }}
                     >
                         Login
                     </button>
