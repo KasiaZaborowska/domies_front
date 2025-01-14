@@ -39,6 +39,8 @@ function SingIn() {
             Password: userInput.Password,
         });
 
+        console.log(response);
+
         if (response.data) {
             console.log('if, data:', response);
             const token = response.data.token;
