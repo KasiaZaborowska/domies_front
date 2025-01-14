@@ -14,11 +14,21 @@ export default function DataTable({ data }: any) {
 
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', width: 130 },
-        { field: 'type', headerName: 'Animal Type', width: 490 },
+        {
+            field: 'type',
+            headerName: 'Typ zwierzęcia',
+            width: 490,
+            flex: 1,
+            renderCell: (params) => (
+                <div style={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>
+                    {params.value}
+                </div>
+            ),
+        },
 
         {
             field: 'actions',
-            headerName: 'Actions',
+            headerName: 'Akcje',
             width: 250,
             align: 'right',
             renderCell: (params) => {
