@@ -63,10 +63,15 @@ function Header() {
                                 </NavLink>
                             </li>
                             <li className="nav-item">
+                                <NavLink className="nav-link" to="/animals">
+                                    Pupile
+                                </NavLink>
+                            </li>
+                            {/* <li className="nav-item">
                                 <NavLink className="nav-link" to="/sth">
                                     something else
                                 </NavLink>
-                            </li>
+                            </li> */}
                             <li className="nav-item dropdown">
                                 <a
                                     className="nav-link dropdown-toggle"
@@ -100,14 +105,14 @@ function Header() {
                                     Authentication
                                 </NavLink>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <NavLink
                                     className="nav-link"
                                     to="/authorization"
                                 >
                                     Authorization
                                 </NavLink>
-                            </li>
+                            </li> */}
                             <div
                                 className="d-flex"
                                 style={{ marginLeft: 'auto' }}
