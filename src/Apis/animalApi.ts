@@ -8,34 +8,35 @@ const animalApi = createApi({
     tagTypes: ['Animal'],
     endpoints: (builder) => ({
         getAnimals: builder.query({
-            query: (userId) => ({
+            query: () => ({
                 url: 'animal',
-                params: {
-                    userId,
+                params: {},
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             }),
             providesTags: ['Animal'],
         }),
         getAnimalById: builder.query({
-            query: ({ userId, id }) => ({
+            query: ({ id }) => ({
                 url: `animal/${id}`,
-                params: {
-                    userId,
+                params: {},
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             }),
             providesTags: ['Animal'],
         }),
         updateAnimal: builder.mutation({
-            query: ({ data, userId, id }) => ({
+            query: ({ data, id }) => ({
                 url: `animal/${id}`,
-                method: 'PATCH',
+                method: 'PUT',
                 body: data,
                 params: {
                     id,
-                    userId,
                 },
                 headers: {
-                    'Accept-Encoding': 'gzip',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             }),
             invalidatesTags: ['Animal'],
@@ -49,7 +50,8 @@ const animalApi = createApi({
                     userId,
                 },
                 headers: {
-                    'Accept-Encoding': 'gzip',
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             }),
             invalidatesTags: ['Animal'],
@@ -58,6 +60,9 @@ const animalApi = createApi({
             query: (id) => ({
                 url: `animal/${id}`,
                 method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
             }),
             invalidatesTags: ['Animal'],
         }),
