@@ -17,7 +17,6 @@ export const userAccountSlice = createSlice({
             state.Email = action.payload.Email;
             state.FirstName = action.payload.FirstName;
             state.LastName = action.payload.LastName;
-            state.Password = action.payload.Password;
             state.Role = action.payload.Role;
         },
     },
