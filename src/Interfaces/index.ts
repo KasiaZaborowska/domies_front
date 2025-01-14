@@ -3,6 +3,7 @@ import animalTypeInterface from './animalTypeInterface';
 import userAccountInterface from './userAccountInterface';
 import apiResponse from './apiResponse';
 import readOfferInterface from './readOfferInterface';
+import animalInterface from './animalInterface';
 
 export type {
     offerInterface,
@@ -10,4 +11,5 @@ export type {
     userAccountInterface,
     apiResponse,
     readOfferInterface,
+    animalInterface,
 };
