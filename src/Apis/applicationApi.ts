@@ -10,7 +10,6 @@ const applicationApi = createApi({
         getApplications: builder.query({
             query: () => ({
                 url: 'application',
-                params: {},
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
@@ -57,7 +56,7 @@ const applicationApi = createApi({
             invalidatesTags: ['Application'],
         }),
         deleteApplication: builder.mutation({
-            query: (id) => ({
+            query: (id: number) => ({
                 url: `application/${id}`,
                 method: 'DELETE',
                 headers: {
