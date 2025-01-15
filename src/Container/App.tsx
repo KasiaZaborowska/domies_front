@@ -18,6 +18,7 @@ import MyOfferDetails from '../Pages/Offer/MyOfferDetails';
 import Offers from '../Pages/Offers/Offers';
 import OfferDetails from '../Components/Page/Offers/OfferDetails';
 import Animals from '../Pages/Animals';
+import Applications from '../Pages/Applications';
 
 function App() {
     const dispatch = useDispatch();
@@ -45,9 +46,14 @@ function App() {
                         path="/offerDetails/:offerId"
                         element={<OfferDetails />}
                     ></Route>
+
                     <Route
                         path="/animmaltypes"
                         element={<AnimalTypes />}
+                    ></Route>
+                    <Route
+                        path="/applications"
+                        element={<Applications />}
                     ></Route>
                     <Route path="/animals" element={<Animals />}></Route>
                     <Route path="/signIn" element={<SingIn />}></Route>

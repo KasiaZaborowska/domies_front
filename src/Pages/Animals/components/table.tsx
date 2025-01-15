@@ -120,6 +120,7 @@ export default function DataTable({ data }: any) {
                     style={{
                         display: 'flex',
                         justifyContent: 'center',
+                        marginLeft: '15px',
                     }}
                 />
                 <InputBase

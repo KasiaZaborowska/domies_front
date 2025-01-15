@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-    Button,
-    Form,
-    Row,
-    Col,
-    DropdownButton,
-    Dropdown,
-} from 'react-bootstrap';
+import { Button, Form, Row, Col, DropdownButton } from 'react-bootstrap';
 import { useAddOfferMutation } from '../../Apis/offerApi';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -24,7 +17,7 @@ function AddOfferForm() {
     const userData: userAccountInterface = useSelector(
         (state: RootState) => state.userAccountStore,
     );
-    console.log(userData.Email);
+    //console.log(userData.Email);
 
     const loggedInUserEmail = userData.Email;
     // const role = userData.Role;
@@ -47,8 +40,6 @@ function AddOfferForm() {
     const { data, isLoading } = useGetAnimalTypesQuery(null);
     const [preview, setPreview] = useState<string | null>(null); // Obsługa podglądu zdjęcia
 
-    const [photo, setPhoto] = useState(null); // wybrany plik
-
     useEffect(() => {
         if (!isLoading) {
             dispatch(setAnimalType(data.result));
@@ -57,7 +48,7 @@ function AddOfferForm() {
     }, [isLoading, data, dispatch]);
 
     const renderSelected = () => {
-        return formData.offerAnimalTypes.join(', ') || 'Wybierz cechy';
+        return formData.offerAnimalTypes.join(', ') || 'Wybierz';
     };
 
     const handleCheckboxChange = (animalTypeId: number) => {

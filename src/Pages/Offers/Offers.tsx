@@ -11,7 +11,6 @@ import MyOfferCard from './MyOfferCard';
 import { withAuth } from '../../HOC';
 
 function Offers() {
-    const dispatch = useDispatch();
     const userData: userAccountInterface = useSelector(
         (state: RootState) => state.userAccountStore,
     );
