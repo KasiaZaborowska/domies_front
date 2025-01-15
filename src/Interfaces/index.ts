@@ -4,6 +4,7 @@ import userAccountInterface from './userAccountInterface';
 import apiResponse from './apiResponse';
 import readOfferInterface from './readOfferInterface';
 import animalInterface from './animalInterface';
+import applicationInterface from './applicationInterface';
 
 export type {
     offerInterface,
@@ -12,4 +13,5 @@ export type {
     apiResponse,
     readOfferInterface,
     animalInterface,
+    applicationInterface,
 };
