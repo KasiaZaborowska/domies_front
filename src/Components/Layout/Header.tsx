@@ -67,6 +67,14 @@ function Header() {
                                     Pupile
                                 </NavLink>
                             </li>
+                            <li className="nav-item">
+                                <NavLink
+                                    className="nav-link"
+                                    to="/applications"
+                                >
+                                    Twoje aplikacje
+                                </NavLink>
+                            </li>
                             {/* <li className="nav-item">
                                 <NavLink className="nav-link" to="/sth">
                                     something else
