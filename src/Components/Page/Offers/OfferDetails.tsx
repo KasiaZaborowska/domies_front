@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetOfferByIdQuery } from '../../../Apis/offerApi';
 import MainLoader from '../../MainLoader';
+import { Link } from 'react-router-dom';
+import AddApplication from '../../../Pages/Applications/components/AddApplication';
 
 function OfferDetails() {
     const { offerId } = useParams(); // offerId match the offerId from App.tsx
@@ -106,18 +108,7 @@ function OfferDetails() {
                     </div>
                     <div className="row pt-4 px-5 d-flex justify-content-between">
                         <div className="col-5">
-                            <button
-                                className="btn form-control"
-                                style={{
-                                    height: '40px',
-                                    padding: '1px',
-                                    fontSize: '20px',
-                                    backgroundColor: '#5e503f',
-                                    color: 'white',
-                                }}
-                            >
-                                Zarezerwuj
-                            </button>
+                            <AddApplication />
                         </div>
 
                         <div className="col-5 ">
