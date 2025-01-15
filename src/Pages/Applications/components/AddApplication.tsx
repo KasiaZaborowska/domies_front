@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import MainLoader from '../../../Components/MainLoader';
@@ -13,10 +13,13 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useGetAnimalsQuery } from '../../../Apis/animalApi';
 
 function AddApplication() {
-    const { data: animals, isLoading } = useGetAnimalsQuery(null);
+    const { data: animals } = useGetAnimalsQuery(null);
     console.log('dataaaa');
     console.log(animals);
-    const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
+    const [dateStart, setDateStart] = React.useState<Dayjs | null>(dayjs());
+    const [dateEnd, setDateEnd] = React.useState<Dayjs | null>(
+        dayjs().add(1, 'day').startOf('day'),
+    );
     const [applicationToAdd] = useAddApplicationMutation();
 
     const [formData, setFormData] = useState<applicationInterface>({
@@ -38,6 +41,13 @@ function AddApplication() {
         const tempData = inputHelper(e, formData);
         setFormData(tempData);
     };
+
+    const renderAnimals = () =>
+        animals.map(
+            (id: number) => animals.find((a: any) => a.id === id)?.petName,
+        );
+    console.log('renderAnimals');
+    console.log(renderAnimals.length);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -63,44 +73,73 @@ function AddApplication() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+    useEffect(() => {
+        if (dateStart && (!dateEnd || dateEnd.isBefore(dateStart))) {
+            setDateEnd(dateStart.add(1, 'day'));
+        }
+    }, [dateStart, dateEnd]);
+
     //console.log('rows:', rows);
     //console.log(animalTypes.result);
     return (
         <>
-            <Modal show={show} onHide={handleClose}>
+            {/* CREATE BUTTON  */}
+            <button
+                className="btn form-control"
+                style={{
+                    height: '40px',
+                    padding: '1px',
+                    fontSize: '20px',
+                    backgroundColor: '#5e503f',
+                    color: 'white',
+                }}
+                onClick={() => setShow((prev) => !prev)}
+            >
+                Zarezerwuj
+            </button>
+
+            <Modal show={show} onHide={handleClose} size={'lg'}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Dodaj nowe zwierze:</Modal.Title>
+                    <Modal.Title>Aplikuj na ofertę:</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
                         <Form.Group className="mb-3" controlId="animalDto">
                             <Form.Label>Okres opieki:</Form.Label>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DemoContainer
-                                    components={['DatePicker', 'DatePicker']}
+                            <div className="container">
+                                <LocalizationProvider
+                                    dateAdapter={AdapterDayjs}
                                 >
-                                    <DatePicker
-                                        label="Data startowa:"
-                                        value={value}
-                                        onChange={(newValue) =>
-                                            setValue(newValue)
-                                        }
-                                    />
-                                    <DatePicker
-                                        label="Data końcowa:"
-                                        value={value}
-                                        onChange={(newValue) =>
-                                            setValue(newValue)
-                                        }
-                                    />
-                                </DemoContainer>
-                            </LocalizationProvider>
+                                    <DemoContainer
+                                        components={[
+                                            'DatePicker',
+                                            'DatePicker',
+                                        ]}
+                                    >
+                                        <DatePicker
+                                            label="Data startowa:"
+                                            value={dateStart}
+                                            onChange={(newValue) =>
+                                                setDateStart(newValue)
+                                            }
+                                            minDate={dayjs()} // Ustawienie minimalnej daty na dzisiejszy dzień
+                                        />
+                                        <DatePicker
+                                            label="Data końcowa:"
+                                            value={dateEnd}
+                                            onChange={(newValue) =>
+                                                setDateEnd(newValue)
+                                            }
+                                            minDate={dayjs()
+                                                .add(1, 'day')
+                                                .startOf('day')}
+                                        />
+                                    </DemoContainer>
+                                </LocalizationProvider>
+                            </div>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="animalDto">
-                            <Form.Label>Imię zwierzęcia:</Form.Label>
+                            <Form.Label>Dla zwierzęcia:</Form.Label>
                             <Form.Control
                                 name="dateStart"
                                 type="text"
@@ -110,7 +149,7 @@ function AddApplication() {
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="animalDto">
-                            <Form.Label>Opis zwierzęcia:</Form.Label>
+                            <Form.Label>Dodatkowy opis:</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={3}
@@ -144,9 +183,6 @@ function AddApplication() {
                     </Form>
                 </Modal.Body>
             </Modal>
-
-            {/* )}
-            </div> */}
         </>
     );
 }
