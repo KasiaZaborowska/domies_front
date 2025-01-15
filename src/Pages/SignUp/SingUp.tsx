@@ -32,7 +32,6 @@ function SingUp() {
             LastName: userInput.LastName,
             Password: userInput.Password,
         });
-
         console.log(response.data);
 
         if (response.data) {
@@ -45,7 +44,6 @@ function SingUp() {
             console.log('error:', response.error.data.message);
             toastNotify(response.error.data.message, 'error');
         }
-
         setLoading(false);
     };
 
