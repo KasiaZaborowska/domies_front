@@ -143,7 +143,7 @@ function Applications() {
         {
             field: 'specificDescription',
             headerName: 'Opis pupila',
-            minWidth: 150,
+            minWidth: 300,
             headerAlign: 'center',
             flex: 1,
             renderCell: (params) => (
@@ -161,7 +161,7 @@ function Applications() {
         {
             field: 'applicationDateAdd',
             headerName: 'Data aplikowania',
-            minWidth: 100,
+            minWidth: 150,
         },
     ];
     const [rows, setRows] = useState([]);
@@ -218,7 +218,7 @@ function Applications() {
     // };
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <MainLoader />;
     }
     //console.log('rows:', rows);
     //console.log(animalTypes.result);
@@ -236,7 +236,7 @@ function Applications() {
                                 <h1 className="text-success">
                                     Twoje aplikacje
                                 </h1>
-                                <div className="d-flex justify-content-end pt-4">
+                                {/* <div className="d-flex justify-content-end pt-4">
                                     <Button
                                         onClick={handleShow}
                                         style={{
@@ -249,7 +249,7 @@ function Applications() {
                                     >
                                         Dodaj nowe zwierzę!
                                     </Button>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
 
