@@ -11,6 +11,7 @@ import { RootState } from '../../Store/Redux/store';
 import inputHelper from '../../Helper/inputHelper';
 import { useGetAnimalTypesQuery } from '../../Apis/animalTypeApi';
 import { setAnimalType } from '../../Store/Redux/animalTypeSlice';
+import MainLoader from '../../Components/MainLoader';
 
 function AddOfferForm() {
     const dispatch = useDispatch();
@@ -213,7 +214,7 @@ function AddOfferForm() {
 
     //console.log(data);
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <MainLoader />;
     }
 
     return (

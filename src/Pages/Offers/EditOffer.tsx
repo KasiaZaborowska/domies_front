@@ -22,6 +22,7 @@ import inputHelper from '../../Helper/inputHelper';
 import { useGetAnimalTypesQuery } from '../../Apis/animalTypeApi';
 import { setAnimalType } from '../../Store/Redux/animalTypeSlice';
 import { useParams } from 'react-router-dom';
+import MainLoader from '../../Components/MainLoader';
 
 function EditOfferForm() {
     const { offerId } = useParams(); // offerId match the offerId from App.tsx
@@ -164,7 +165,7 @@ function EditOfferForm() {
     console.log(preview);
     //console.log(data);
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <MainLoader />;
     }
 
     return (

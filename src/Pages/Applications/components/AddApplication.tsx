@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Col, DropdownButton, Form, Modal, Row } from 'react-bootstrap';
 import MainLoader from '../../../Components/MainLoader';
-import { applicationInterface } from '../../../Interfaces';
+import { animalInterface, applicationInterface } from '../../../Interfaces';
 import inputHelper from '../../../Helper/inputHelper';
 import { useAddApplicationMutation } from '../../../Apis/applicationApi';
 import dayjs, { Dayjs } from 'dayjs';
@@ -11,9 +11,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useGetAnimalsQuery } from '../../../Apis/animalApi';
+import { useParams } from 'react-router-dom';
 
-function AddApplication() {
-    const { data: animals } = useGetAnimalsQuery(null);
+interface Props {
+    offerId: number;
+}
+
+function AddApplication({ offerId }: Props) {
+    const { data: animals, isLoading: isLoadingAnimals } =
+        useGetAnimalsQuery(null);
     console.log('dataaaa');
     console.log(animals);
     const [dateStart, setDateStart] = React.useState<Dayjs | null>(dayjs());
@@ -21,19 +27,20 @@ function AddApplication() {
         dayjs().add(1, 'day').startOf('day'),
     );
     const [applicationToAdd] = useAddApplicationMutation();
+    console.log('offerIdaaaaaaaaaaaaaaa ', offerId);
 
     const [formData, setFormData] = useState<applicationInterface>({
         dateStart: '',
         dateEnd: '',
-        offerId: 0,
+        offerId: offerId,
         toUser: '',
         applicationDateAdd: '',
         animals: [
-            {
-                petName: '',
-                specificDescription: '',
-                animalType: 0,
-            },
+            // {
+            //     petName: '',
+            //     specificDescription: '',
+            //     animalType: 0,
+            // },
         ],
     });
 
@@ -42,22 +49,58 @@ function AddApplication() {
         setFormData(tempData);
     };
 
-    const renderAnimals = () =>
-        animals.map(
-            (id: number) => animals.find((a: any) => a.id === id)?.petName,
-        );
-    console.log('renderAnimals');
-    console.log(renderAnimals.length);
+    // const renderAnimals = () =>
+    //     animals.map(
+    //         (id: number) => animals.find((a: any) => a.id === id)?.petName,
+    //     );
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const renderSelected = () => {
+        return formData.animals.join(', ') || 'Wybierz';
+    };
+
+    const handleCheckboxChange = (animalId: number) => {
+        if (!isLoadingAnimals) {
+            const selectedPetName = animals.result.find(
+                (petName: animalInterface) => petName.id === animalId,
+            )?.petName;
+
+            if (selectedPetName) {
+                setFormData((prev) => {
+                    const isSelected = prev.animals.includes(selectedPetName);
+                    const updatedAnimals = isSelected
+                        ? prev.animals.filter(
+                              (petName) => petName !== selectedPetName,
+                          )
+                        : [...prev.animals, selectedPetName];
+
+                    return { ...prev, animals: updatedAnimals };
+                });
+            } else {
+                return 'wybierz...';
+            }
+        }
+    };
+
+    const handleAddApplication = async (
+        e: React.FormEvent<HTMLFormElement>,
+    ) => {
         e.preventDefault();
         if (!formData) {
             alert('Wszystkie pola są wymagane!');
             return;
         }
 
+        const formDataToSend = new FormData();
+        formDataToSend.append('dateStart', formData.dateStart);
+        formDataToSend.append('dateEnd', formData.dateEnd);
+        formDataToSend.append('offerId', formData.offerId.toString());
+        formData.animals.forEach((animal: animalInterface | any) => {
+            formDataToSend.append('animals[]', animal);
+        });
+
         try {
             console.log('Dane, które wysyłam:', formData);
+            console.log(formDataToSend);
             await applicationToAdd({
                 data: formData,
                 //userId: userData.Email,
@@ -81,6 +124,10 @@ function AddApplication() {
 
     //console.log('rows:', rows);
     //console.log(animalTypes.result);
+    if (isLoadingAnimals) {
+        return <MainLoader />;
+    }
+
     return (
         <>
             {/* CREATE BUTTON  */}
@@ -103,7 +150,7 @@ function AddApplication() {
                     <Modal.Title>Aplikuj na ofertę:</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
+                    <Form onSubmit={handleAddApplication}>
                         <Form.Group className="mb-3" controlId="animalDto">
                             <Form.Label>Okres opieki:</Form.Label>
                             <div className="container">
@@ -140,13 +187,36 @@ function AddApplication() {
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="animalDto">
                             <Form.Label>Dla zwierzęcia:</Form.Label>
-                            <Form.Control
-                                name="dateStart"
-                                type="text"
-                                value={formData.dateStart}
-                                placeholder="Wpisz typ"
-                                onChange={handleUserInput}
-                            />
+                            <Form.Group
+                                as={Row}
+                                className="align-items-center mb-2"
+                                controlId="formAnimalTypes"
+                            >
+                                <div>
+                                    {' '}
+                                    <DropdownButton
+                                        title={renderSelected() || 'Wybierz..'}
+                                    >
+                                        {animals.result.map((animal: any) => (
+                                            <Form.Check
+                                                className="m-2"
+                                                key={animal.id}
+                                                type="checkbox"
+                                                label={animal.petName}
+                                                value={animal.id}
+                                                checked={formData.animals.includes(
+                                                    animal.petName,
+                                                )}
+                                                onChange={() =>
+                                                    handleCheckboxChange(
+                                                        animal.id,
+                                                    )
+                                                }
+                                            />
+                                        ))}
+                                    </DropdownButton>
+                                </div>
+                            </Form.Group>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="animalDto">
                             <Form.Label>Dodatkowy opis:</Form.Label>
@@ -172,11 +242,7 @@ function AddApplication() {
                             >
                                 Zamknij
                             </Button>
-                            <Button
-                                className="m-1"
-                                variant="primary"
-                                //onClick={handleSubmit}
-                            >
+                            <Button variant="primary" type="submit">
                                 Dodaj
                             </Button>
                         </Form.Group>

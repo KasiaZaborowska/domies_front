@@ -9,6 +9,7 @@ import { RootState } from '../../Store/Redux/store';
 import './Offers.css';
 import MyOfferCard from './MyOfferCard';
 import { withAuth } from '../../HOC';
+import MainLoader from '../../Components/MainLoader';
 
 function Offers() {
     const userData: userAccountInterface = useSelector(
@@ -43,7 +44,7 @@ function Offers() {
     const handleShow = () => setShow(true);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <MainLoader />;
     }
 
     return (
@@ -67,7 +68,7 @@ function Offers() {
 
             <div className="">
                 {isLoading ? (
-                    <p>Loading...</p>
+                    <MainLoader />
                 ) : filteredOffers?.length > 0 ? (
                     <>
                         <div
