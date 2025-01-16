@@ -96,11 +96,11 @@ function Animals() {
     const handleShow = () => setShow(true);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <MainLoader />;
     }
 
     if (isLoadingAnimalTypes) {
-        return <div>Loading...</div>;
+        return <MainLoader />;
     }
     //console.log(animalTypes.result);
     return (

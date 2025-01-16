@@ -7,7 +7,9 @@ import AddApplication from '../../../Pages/Applications/components/AddApplicatio
 
 function OfferDetails() {
     const { offerId } = useParams(); // offerId match the offerId from App.tsx
-    console.log(offerId);
+    const offerIdToNumber = Number(offerId);
+    // console.log(typeof offerIdToNumber);
+
     const { data, isLoading } = useGetOfferByIdQuery({ id: offerId });
     const navigate = useNavigate();
     if (isLoading) {
@@ -108,7 +110,7 @@ function OfferDetails() {
                     </div>
                     <div className="row pt-4 px-5 d-flex justify-content-between">
                         <div className="col-5">
-                            <AddApplication />
+                            <AddApplication offerId={offerIdToNumber} />
                         </div>
 
                         <div className="col-5 ">
