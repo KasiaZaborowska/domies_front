@@ -7,11 +7,13 @@ import {
     emptyUserState,
     setLoggedInUser,
 } from '../../Store/Redux/userAccountSlice';
+import { isAdmin, isManagerOrAdmin } from '../../Utils/authUtils';
 let logo = require('../../Assets/Images/main.png');
 
 function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     // login user data
     const userData: userAccountInterface = useSelector(
         (state: RootState) => state.userAccountStore,
@@ -80,31 +82,39 @@ function Header() {
                                     something else
                                 </NavLink>
                             </li> */}
-                            <li className="nav-item dropdown">
-                                <a
-                                    className="nav-link dropdown-toggle"
-                                    href="#"
-                                    id="navbarDropdownMenuLink"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    Admin Panel
-                                </a>
-                                <div
-                                    className="dropdown-menu"
-                                    aria-labelledby="navbarDropdownMenuLink"
-                                >
-                                    <Link
-                                        className="dropdown-item"
-                                        to="/animmaltypes"
+                            {isManagerOrAdmin() && (
+                                <li className="nav-item dropdown">
+                                    <a
+                                        className="nav-link dropdown-toggle"
+                                        href="#"
+                                        id="navbarDropdownMenuLink"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
                                     >
-                                        animmaltypes
-                                    </Link>
-                                    <Link className="dropdown-item" to="##">
-                                        Another action
-                                    </Link>
-                                </div>
-                            </li>
+                                        Panel zarządzania
+                                    </a>
+
+                                    <div
+                                        className="dropdown-menu"
+                                        aria-labelledby="navbarDropdownMenuLink"
+                                    >
+                                        <Link
+                                            className="dropdown-item"
+                                            to="/animmaltypes"
+                                        >
+                                            Typy zwierząt
+                                        </Link>
+                                        {isAdmin() && (
+                                            <Link
+                                                className="dropdown-item"
+                                                to="/users"
+                                            >
+                                                Użytkownicy
+                                            </Link>
+                                        )}
+                                    </div>
+                                </li>
+                            )}
                             <li className="nav-item">
                                 <NavLink
                                     className="nav-link"
