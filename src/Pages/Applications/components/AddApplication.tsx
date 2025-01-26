@@ -2,7 +2,12 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Button, Col, DropdownButton, Form, Modal, Row } from 'react-bootstrap';
 import MainLoader from '../../../Components/MainLoader';
-import { animalInterface, applicationInterface } from '../../../Interfaces';
+import {
+    addApplicationInterface,
+    animalInterface,
+    applicationInterface,
+    userAccountInterface,
+} from '../../../Interfaces';
 import inputHelper from '../../../Helper/inputHelper';
 import { useAddApplicationMutation } from '../../../Apis/applicationApi';
 import dayjs, { Dayjs } from 'dayjs';
@@ -12,6 +17,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useGetAnimalsQuery } from '../../../Apis/animalApi';
 import { useParams } from 'react-router-dom';
+import { type } from 'node:os';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../Store/Redux/store';
 
 interface Props {
     offerId: number;
@@ -29,12 +37,17 @@ function AddApplication({ offerId }: Props) {
     const [applicationToAdd] = useAddApplicationMutation();
     console.log('offerIdaaaaaaaaaaaaaaa ', offerId);
 
-    const [formData, setFormData] = useState<applicationInterface>({
+    const userData: userAccountInterface = useSelector(
+        (state: RootState) => state.userAccountStore,
+    );
+
+    const [formData, setFormData] = useState<addApplicationInterface>({
         dateStart: '',
         dateEnd: '',
         offerId: offerId,
         toUser: '',
         applicationDateAdd: '',
+        note: '',
         animals: [
             // {
             //     petName: '',
@@ -55,23 +68,26 @@ function AddApplication({ offerId }: Props) {
     //     );
 
     const renderSelected = () => {
-        return formData.animals.join(', ') || 'Wybierz';
+        const animalNames = formData.animals.map(
+            (animal: animalInterface) => animal.petName,
+        );
+        return animalNames.join(', ') || 'Wybierz';
     };
 
     const handleCheckboxChange = (animalId: number) => {
         if (!isLoadingAnimals) {
-            const selectedPetName = animals.result.find(
-                (petName: animalInterface) => petName.id === animalId,
-            )?.petName;
+            const selectedAnimal = animals.result.find(
+                (animal: animalInterface) => animal.id === animalId,
+            );
 
-            if (selectedPetName) {
+            if (selectedAnimal) {
                 setFormData((prev) => {
-                    const isSelected = prev.animals.includes(selectedPetName);
+                    const isSelected = prev.animals.includes(selectedAnimal);
                     const updatedAnimals = isSelected
                         ? prev.animals.filter(
-                              (petName) => petName !== selectedPetName,
+                              (animal) => animal.id !== selectedAnimal.id,
                           )
-                        : [...prev.animals, selectedPetName];
+                        : [...prev.animals, selectedAnimal];
 
                     return { ...prev, animals: updatedAnimals };
                 });
@@ -91,19 +107,37 @@ function AddApplication({ offerId }: Props) {
         }
 
         const formDataToSend = new FormData();
-        formDataToSend.append('dateStart', formData.dateStart);
-        formDataToSend.append('dateEnd', formData.dateEnd);
+        console.log(dateStart ? dateStart.toISOString() : '');
+        formDataToSend.append(
+            'dateStart',
+            //ateStart.toString(),
+            dateStart ? dateStart.toISOString() : '',
+        );
+        formDataToSend.append(
+            'dateEnd',
+            //dateEnd.toISOString(),
+            //dateEnd ? dateEnd.format('YYYY-MM-DDTHH:mm:ss') : '',
+            dateEnd ? dateEnd.toISOString() : '',
+        );
         formDataToSend.append('offerId', formData.offerId.toString());
         formData.animals.forEach((animal: animalInterface | any) => {
-            formDataToSend.append('animals[]', animal);
+            console.log('animalssssssssssssssssssss', formData.animals);
+            formDataToSend.append('animals[]', animal.id);
         });
 
+        formDataToSend.append('note', formData.note);
+        console.log('dateStart', dateStart);
         try {
-            console.log('Dane, które wysyłam:', formData);
-            console.log(formDataToSend);
+            console.log('Dane, które wysyłam:', formDataToSend.keys());
+            console.log('FormData contents:');
+            for (let key of formDataToSend.keys()) {
+                const values = formDataToSend.getAll(key);
+                console.log(`${key}: ${values}`);
+                console.log(values);
+            }
             await applicationToAdd({
-                data: formData,
-                //userId: userData.Email,
+                data: formDataToSend,
+                userId: userData.Email,
             }).unwrap();
             window.location.href = '/animals';
         } catch (error) {
@@ -117,6 +151,9 @@ function AddApplication({ offerId }: Props) {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
+        //console.log(dateStart, dateEnd);
+        //console.log(typeof dateStart?.toISOString());
+
         if (dateStart && (!dateEnd || dateEnd.isBefore(dateStart))) {
             setDateEnd(dateStart.add(1, 'day'));
         }
@@ -205,7 +242,7 @@ function AddApplication({ offerId }: Props) {
                                                 label={animal.petName}
                                                 value={animal.id}
                                                 checked={formData.animals.includes(
-                                                    animal.petName,
+                                                    animal,
                                                 )}
                                                 onChange={() =>
                                                     handleCheckboxChange(
@@ -223,10 +260,10 @@ function AddApplication({ offerId }: Props) {
                             <Form.Control
                                 as="textarea"
                                 rows={3}
-                                name="specificDescription"
+                                name="note"
                                 type="text"
-                                value={formData.dateEnd}
-                                placeholder="Wpisz typ"
+                                value={formData.note}
+                                placeholder="Wpisz notatkę dla opiekuna..."
                                 onChange={handleUserInput}
                             />
                         </Form.Group>
@@ -242,7 +279,11 @@ function AddApplication({ offerId }: Props) {
                             >
                                 Zamknij
                             </Button>
-                            <Button variant="primary" type="submit">
+                            <Button
+                                className="m-1"
+                                variant="primary"
+                                type="submit"
+                            >
                                 Dodaj
                             </Button>
                         </Form.Group>
