@@ -42,6 +42,7 @@ function Applications() {
         offerId: 0,
         toUser: '',
         applicationDateAdd: '',
+        note: '',
         animals: [
             {
                 petName: '',
@@ -159,6 +160,14 @@ function Applications() {
             ),
         },
         {
+            field: 'note',
+            headerName: 'Notatka',
+            minWidth: 250,
+            renderCell: (params) => (
+                <div style={{ padding: '5px' }}>{params.value}</div>
+            ),
+        },
+        {
             field: 'applicationDateAdd',
             headerName: 'Data aplikowania',
             minWidth: 150,
@@ -193,13 +202,14 @@ function Applications() {
                         specificDescription: item.animals
                             .map((animal) => animal.specificDescription)
                             .join(', '),
+                        note: item.note,
                     }),
                 );
 
                 setRows(dataInRows); // Ustawiamy dane w stanie
-                console.log('dataInRows');
-                console.log(dataInRows);
-                console.log(data.result[1].animals);
+                // console.log('dataInRows');
+                // console.log(dataInRows);
+                // console.log(data.result[1].animals);
             }
         }
     }, [data, navigate]);
