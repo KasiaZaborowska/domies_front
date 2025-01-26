@@ -5,6 +5,7 @@ import apiResponse from './apiResponse';
 import readOfferInterface from './readOfferInterface';
 import animalInterface from './animalInterface';
 import applicationInterface from './applicationInterface';
+import addApplicationInterface from './addApplicationInterface';
 
 export type {
     offerInterface,
@@ -14,4 +15,5 @@ export type {
     readOfferInterface,
     animalInterface,
     applicationInterface,
+    addApplicationInterface,
 };
