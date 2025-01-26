@@ -11,6 +11,8 @@ import { userAccountReducer } from './userAccountSlice';
 import { offerReducer } from './offerSlice';
 import { animalReducer } from './animalSlice';
 import { applicationReducer } from './applicationSlice';
+import { userReducer } from './userSlice';
+import userApi from '../../Apis/userApi';
 
 const store = configureStore({
     reducer: {
@@ -19,11 +21,13 @@ const store = configureStore({
         offerStore: offerReducer,
         animalStore: animalReducer,
         applicationStore: applicationReducer,
+        userStore: userReducer,
         [offerApi.reducerPath]: offerApi.reducer,
         [animalTypeApi.reducerPath]: animalTypeApi.reducer,
         [accountApi.reducerPath]: accountApi.reducer,
         [animalApi.reducerPath]: animalApi.reducer,
         [applicationApi.reducerPath]: applicationApi.reducer,
+        [userApi.reducerPath]: userApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -31,7 +35,8 @@ const store = configureStore({
             .concat(accountApi.middleware)
             .concat(offerApi.middleware)
             .concat(animalApi.middleware)
-            .concat(applicationApi.middleware),
+            .concat(applicationApi.middleware)
+            .concat(userApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
