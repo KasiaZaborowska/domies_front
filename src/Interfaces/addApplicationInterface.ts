@@ -1,6 +1,6 @@
 import animalInterface from './animalInterface';
 
-export default interface applicationInterface {
+export default interface addApplicationInterface {
     id?: number;
     dateStart: string;
     dateEnd: string;
