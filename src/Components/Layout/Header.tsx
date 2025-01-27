@@ -115,14 +115,14 @@ function Header() {
                                     </div>
                                 </li>
                             )}
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <NavLink
                                     className="nav-link"
                                     to="/authentication"
                                 >
                                     Authentication
                                 </NavLink>
-                            </li>
+                            </li> */}
                             {/* <li className="nav-item">
                                 <NavLink
                                     className="nav-link"
