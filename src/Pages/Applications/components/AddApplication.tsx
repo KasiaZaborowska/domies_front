@@ -106,35 +106,24 @@ function AddApplication({ offerId }: Props) {
             return;
         }
 
-        const formDataToSend = new FormData();
-        console.log(dateStart ? dateStart.toISOString() : '');
-        formDataToSend.append(
-            'dateStart',
-            //ateStart.toString(),
-            dateStart ? dateStart.toISOString() : '',
-        );
-        formDataToSend.append(
-            'dateEnd',
-            //dateEnd.toISOString(),
-            //dateEnd ? dateEnd.format('YYYY-MM-DDTHH:mm:ss') : '',
-            dateEnd ? dateEnd.toISOString() : '',
-        );
-        formDataToSend.append('offerId', formData.offerId.toString());
-        formData.animals.forEach((animal: animalInterface | any) => {
-            console.log('animalssssssssssssssssssss', formData.animals);
-            formDataToSend.append('animals[]', animal.id);
-        });
+        const formDataToSend = {
+            dateStart: dateStart ? dateStart.toISOString() : '',
+            dateEnd: dateEnd ? dateEnd.toISOString() : '',
+            offerId: formData.offerId.toString(),
+            note: formData.note,
+            animals: formData.animals.map(
+                (animal: animalInterface | any) => animal.id,
+            ),
+        };
 
-        formDataToSend.append('note', formData.note);
-        console.log('dateStart', dateStart);
         try {
-            console.log('Dane, które wysyłam:', formDataToSend.keys());
+            console.log('Dane, które wysyłam:', formDataToSend);
             console.log('FormData contents:');
-            for (let key of formDataToSend.keys()) {
-                const values = formDataToSend.getAll(key);
-                console.log(`${key}: ${values}`);
-                console.log(values);
-            }
+            // for (let key of formDataToSend.keys()) {
+            //     const values = formDataToSend.getAll(key);
+            //     console.log(`${key}: ${values}`);
+            //     console.log(values);
+            // }
             await applicationToAdd({
                 data: formDataToSend,
                 userId: userData.Email,
