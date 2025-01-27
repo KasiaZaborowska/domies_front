@@ -89,7 +89,7 @@ function Users() {
         {
             field: 'firstName',
             headerName: 'Imię',
-            minWidth: 200,
+            minWidth: 250,
             renderCell: (params) => (
                 <div style={{ padding: '5px' }}>{params.value}</div>
             ),
@@ -97,7 +97,7 @@ function Users() {
         {
             field: 'lastName',
             headerName: 'Nazwisko',
-            minWidth: 200,
+            minWidth: 250,
             renderCell: (params) => (
                 <div style={{ padding: '5px' }}>{params.value}</div>
             ),
@@ -105,7 +105,7 @@ function Users() {
         {
             field: 'roleName',
             headerName: 'Rola',
-            minWidth: 150,
+            minWidth: 200,
             renderCell: (params) => (
                 <div style={{ padding: '5px' }}>{params.value}</div>
             ),
@@ -113,7 +113,7 @@ function Users() {
         {
             field: 'dateAdd',
             headerName: 'Data dodania',
-            minWidth: 150,
+            minWidth: 250,
         },
     ];
     const [rows, setRows] = useState([]);
@@ -172,9 +172,7 @@ function Users() {
                     <div>
                         <div className="p-3">
                             <div className="d-flex align-items-center justify-content-between mx-5 px-4">
-                                <h1 className="text-success">
-                                    Twoje aplikacje
-                                </h1>
+                                <h1 className="text-success">Użytkownicy</h1>
                                 <div className="d-flex justify-content-end pt-4">
                                     <Button
                                         onClick={handleShow}
@@ -238,7 +236,7 @@ function Users() {
                                         />
                                     </Form.Group>
                                     <Form.Group className="mb-3">
-                                        <Form.Label>NAzwisko:</Form.Label>
+                                        <Form.Label>Nazwisko:</Form.Label>
                                         <Form.Control
                                             name="dateStart"
                                             type="text"
