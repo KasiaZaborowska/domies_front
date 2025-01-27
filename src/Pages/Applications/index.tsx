@@ -27,7 +27,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 function Applications() {
     const { data, isLoading } = useGetApplicationsQuery(null);
-    const { data: animals } = useGetAnimalsQuery(null);
+    const { data: animals, isLoading: isLoadingAnimals } =
+        useGetAnimalsQuery(null);
     console.log('dataaaa');
     console.log(data);
     console.log(animals);
@@ -174,12 +175,12 @@ function Applications() {
         },
     ];
     const [rows, setRows] = useState([]);
-    if (!isLoading) {
-        console.log(data.result);
-    }
+    // if (!isLoading) {
+    //     console.log(data.result);
+    // }
 
     useEffect(() => {
-        if (!isLoading) {
+        if (!isLoading && !isLoadingAnimals) {
             if (data.result && Array.isArray(data.result)) {
                 console.log('Data:', data.result);
                 const dataInRows = data.result.map(
