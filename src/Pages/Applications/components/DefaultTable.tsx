@@ -6,7 +6,7 @@ import { useState } from 'react';
 import PetsIcon from '@mui/icons-material/Pets';
 import DeleteButtonWithModal from './HandleDelete';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { SerializedError } from '@reduxjs/toolkit';
+import { autoBatchEnhancer, SerializedError } from '@reduxjs/toolkit';
 
 interface DataTableProps {
     columns: GridColDef[];
@@ -59,11 +59,12 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
         field: 'actions',
         headerName: 'Akcje',
         width: 200,
-        sortable: false,
+        //sortable: false,
+        align: 'right',
         renderCell: (params) => {
-            console.log('params');
-            console.log(params);
-            console.log(typeof params.row.id);
+            // console.log('params');
+            // console.log(params);
+            // console.log(typeof params.row.id);
             return (
                 <div
                     style={{
@@ -72,16 +73,6 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
                         margin: '10px 0px',
                     }}
                 >
-                    {/* <Button
-                    variant="contained"
-                    color="error"
-                    className="btn btn-danger mx-2"
-                    //onClick={() => onEdit(params.row)}
-                    onClick={() => onDelete(params.row)}
-                >
-                    <i className="bi bi-trash-fill"></i>
-                </Button> */}
-
                     <DeleteButtonWithModal
                         id={params.row.id}
                         deleteFunction={onDelete}
@@ -178,7 +169,12 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
             <DataGrid
                 rows={filteredRows}
                 columns={[...processedColumns, actionColumn]}
-                style={{ wordWrap: 'break-word', fontSize: '16px' }}
+                style={{
+                    wordWrap: 'break-word',
+                    fontSize: '16px',
+                    // alignItems: 'right',
+                    // alignContent: 'right',
+                }}
                 getRowHeight={() => 'auto'}
                 // getRowHeight={(params) =>
                 //     expandedRows[params.id] ? 'auto' : null
@@ -248,7 +244,12 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
                 }}
                 pageSizeOptions={[5, 10]}
                 //checkboxSelection
-                sx={{ border: 0 }}
+                sx={{
+                    border: 0,
+                    '& .MuiDataGrid-virtualScrollerContent': {
+                        justifyContent: 'flex-end', // Przesunięcie kolumn do prawej
+                    },
+                }}
             />
         </Paper>
     );
