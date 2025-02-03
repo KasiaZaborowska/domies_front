@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import './banner.css';
-function Banner() {
+
+interface BannerProps {
+    searchString: string;
+    setSearchString: (value: string) => void;
+}
+function Banner({ searchString, setSearchString }: BannerProps) {
     return (
         <div className="custom-banner">
             <div
                 className="m-auto d-flex align-items-center"
                 style={{
                     width: '500px',
-                    height: '65vh',
+                    height: '55vh',
                 }}
             >
                 <div
@@ -21,7 +26,9 @@ function Banner() {
                             width: '100%',
                             padding: '20px 20px',
                         }}
-                        placeholder="Search"
+                        placeholder="Wyszukaj po mieście..."
+                        value={searchString}
+                        onChange={(e) => setSearchString(e.target.value)}
                     />
                     <span style={{ position: 'relative', left: '-43px' }}>
                         <i className="bi bi-search"></i>
