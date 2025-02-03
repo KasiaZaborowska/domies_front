@@ -6,6 +6,8 @@ import readOfferInterface from './readOfferInterface';
 import animalInterface from './animalInterface';
 import applicationInterface from './applicationInterface';
 import addApplicationInterface from './addApplicationInterface';
+import offerByIdInterface from './offerByIdInterface';
+import applicationTableInterface from './applicationInterface copy';
 
 export type {
     offerInterface,
@@ -16,4 +18,6 @@ export type {
     animalInterface,
     applicationInterface,
     addApplicationInterface,
+    offerByIdInterface,
+    applicationTableInterface,
 };
