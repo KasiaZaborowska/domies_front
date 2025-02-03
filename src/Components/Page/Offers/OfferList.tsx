@@ -1,27 +1,46 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { readOfferInterface } from '../../../Interfaces';
+import { offerInterface, readOfferInterface } from '../../../Interfaces';
 import OfferCardMainPage from './OfferCardMainPage';
+import './OfferList.css';
 
-function OfferList() {
-    const [offers, setOffers] = useState<readOfferInterface[]>([]);
+interface OfferListProps {
+    offers: readOfferInterface[];
+    searchString: string;
+    selectedTypes: string[];
+}
+function OfferList({ offers, searchString, selectedTypes }: OfferListProps) {
+    const filteredOffers = offers.filter((offer) => {
+        const matchesCity = offer.city
+            .toLowerCase()
+            .includes(searchString.toLowerCase());
 
-    useEffect(() => {
-        fetch('https://localhost:7098/api/offer')
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                setOffers(data.result);
-            });
-    }, []);
+        console.log(offer.offerAnimalTypes);
+        console.log(typeof offer.offerAnimalTypes); //wwwwwwwwwwwwwwwwwwwwwwwww
+
+        const offerTypes = offer.offerAnimalTypes.map((t: any) =>
+            t.trim().toLowerCase(),
+        );
+
+        console.log(typeof offerTypes); // wwwwwwwwwwwwwwwwwwwwwwwww
+        console.log(offerTypes);
+        const matchesType =
+            selectedTypes.length === 0 ||
+            selectedTypes.some((selectedType) =>
+                offerTypes.includes(selectedType.toLowerCase()),
+            );
+        return matchesCity && matchesType;
+    });
 
     return (
-        <div className="container row">
-            {offers.length > 0 &&
-                offers.map((offer, index) => (
-                    <OfferCardMainPage offer={offer} key={index} />
-                ))}
-        </div>
+        <>
+            <div className="container row">
+                {filteredOffers.length > 0 &&
+                    filteredOffers.map((offer, index) => (
+                        <OfferCardMainPage offer={offer} key={index} />
+                    ))}
+            </div>
+        </>
     );
 }
 
