@@ -20,6 +20,7 @@ import OfferDetails from '../Components/Page/Offers/OfferDetails';
 import Animals from '../Pages/Animals';
 import Applications from '../Pages/Applications';
 import Users from '../Pages/Users';
+import EmailVerify from '../Pages/Verify/Verify';
 
 function App() {
     const dispatch = useDispatch();
@@ -47,6 +48,7 @@ function App() {
                         path="/offerDetails/:offerId"
                         element={<OfferDetails />}
                     ></Route>
+                    <Route path="/verify" element={<EmailVerify />}></Route>
 
                     <Route
                         path="/animmaltypes"
