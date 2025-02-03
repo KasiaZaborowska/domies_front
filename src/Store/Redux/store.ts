@@ -13,6 +13,8 @@ import { animalReducer } from './animalSlice';
 import { applicationReducer } from './applicationSlice';
 import { userReducer } from './userSlice';
 import userApi from '../../Apis/userApi';
+import { opinionReducer } from './opinionSlice';
+import opinionApi from '../../Apis/opinionApi';
 
 const store = configureStore({
     reducer: {
@@ -22,12 +24,14 @@ const store = configureStore({
         animalStore: animalReducer,
         applicationStore: applicationReducer,
         userStore: userReducer,
+        opinionStore: opinionReducer,
         [offerApi.reducerPath]: offerApi.reducer,
         [animalTypeApi.reducerPath]: animalTypeApi.reducer,
         [accountApi.reducerPath]: accountApi.reducer,
         [animalApi.reducerPath]: animalApi.reducer,
         [applicationApi.reducerPath]: applicationApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
+        [opinionApi.reducerPath]: opinionApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -36,6 +40,7 @@ const store = configureStore({
             .concat(offerApi.middleware)
             .concat(animalApi.middleware)
             .concat(applicationApi.middleware)
+            .concat(opinionApi.middleware)
             .concat(userApi.middleware),
 });
 
