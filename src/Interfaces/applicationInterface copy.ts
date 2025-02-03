@@ -1,7 +1,6 @@
 import animalInterface from './animalInterface';
-import opinionInterface from './opinionInterface';
 
-export default interface applicationInterface {
+export default interface applicationTableInterface {
     id?: number;
     dateStart: string;
     dateEnd: string;
@@ -9,6 +8,5 @@ export default interface applicationInterface {
     toUser?: string;
     applicationDateAdd: string;
     note: string;
-    animals: animalInterface[];
-    opinions?: opinionInterface[];
+    petName: animalInterface[];
 }
