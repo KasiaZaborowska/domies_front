@@ -69,7 +69,7 @@ function OfferCardMainPage(props: Props) {
                                 backgroundColor: '#ab947e',
                             }}
                         >
-                            {props.offer.offerAnimalTypes}
+                            {props.offer.offerAnimalTypes.join(', ')}
                         </p>
                     </div>
 
