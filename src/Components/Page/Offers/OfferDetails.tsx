@@ -9,6 +9,9 @@ import opinionInterface from '../../../Interfaces/opinionInterface';
 import { InputBase, Paper } from '@mui/material';
 import CommentIcon from '@mui/icons-material/Comment';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { isAuthBoolean } from '../../../Utils/authUtils';
+import Rating from '@mui/material/Rating';
+import Stack from '@mui/material/Stack';
 
 function OfferDetails() {
     const { offerId } = useParams(); // offerId match the offerId from App.tsx
@@ -67,13 +70,28 @@ function OfferDetails() {
         );
     }
 
+    const HalfRating = (value: number) => {
+        return (
+            <Stack spacing={1}>
+                <Rating
+                    name="half-rating-read"
+                    value={value}
+                    precision={0.5}
+                    readOnly
+                />
+            </Stack>
+        );
+    };
+
     const columns: GridColDef[] = [
         {
             field: 'rating',
             headerName: 'Ocena',
             minWidth: 250,
             renderCell: (params) => (
-                <div style={{ padding: '25px' }}>{params.value}</div>
+                <div style={{ padding: '25px' }}>
+                    {HalfRating(params.value)}
+                </div>
             ),
         },
         {
@@ -220,7 +238,25 @@ function OfferDetails() {
                     </div>
                     <div className="row pt-4 px-5 d-flex justify-content-between">
                         <div className="col-5">
-                            <AddApplication offerId={offerIdToNumber} />
+                            {(isAuthBoolean() && (
+                                <AddApplication offerId={offerIdToNumber} />
+                            )) || (
+                                <button
+                                    className="btn form-control"
+                                    style={{
+                                        height: '40px',
+                                        padding: '1px',
+                                        fontSize: '20px',
+                                        backgroundColor: '#5e503f',
+                                        color: 'white',
+                                    }}
+                                    onClick={() => {
+                                        navigate('/signIn');
+                                    }}
+                                >
+                                    Zaloguj się aby zarezerwować!
+                                </button>
+                            )}
                         </div>
 
                         <div className="col-5 ">
