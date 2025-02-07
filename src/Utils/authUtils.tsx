@@ -1,4 +1,5 @@
 import jwt_decode from 'jwt-decode';
+import { redirect, RedirectFunction, useNavigate } from 'react-router-dom';
 
 const getRole = (): string | undefined => {
     const accessToken = localStorage.getItem('token');
@@ -28,4 +29,20 @@ export const isManager = (): boolean => {
 export const isManagerOrAdmin = (): boolean => {
     console.log(getRole());
     return getRole() === 'manager' || getRole() === 'admin';
+};
+
+export const isAuthBoolean = (): boolean => {
+    const accessToken = localStorage.getItem('token');
+    if (!accessToken) {
+        return false;
+    }
+    return true;
+};
+
+export const isAuth = (): Response | null => {
+    const accessToken = localStorage.getItem('token');
+    if (!accessToken) {
+        return redirect('/signIn');
+    }
+    return null;
 };
