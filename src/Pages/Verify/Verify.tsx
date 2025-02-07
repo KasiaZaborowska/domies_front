@@ -1,15 +1,35 @@
 import { Button } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 function EmailVerify() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const [message, setMessage] = useState('Weryfikacja w toku...');
 
     const token = searchParams.get('token');
     console.log(token);
 
-    useEffect(() => {});
+    useEffect(() => {
+        async function verifyEmail() {
+            if (!token) {
+                setMessage('Nieprawidłowy link weryfikacyjny.');
+                return;
+            }
+
+            const response = await fetch(
+                `https://localhost:7098/api/account/verify?token=${token}`,
+                {
+                    method: 'POST',
+                },
+            );
+            const data = await response.json();
+            setMessage(data.message);
+            // setMessage('Niepoprawny lub wygasły token!'),
+        }
+        verifyEmail();
+        console.log(message);
+    }, [token]);
 
     return (
         <div className="h-svh text-center pt-5 mt-5">
