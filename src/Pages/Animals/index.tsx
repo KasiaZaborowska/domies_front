@@ -16,8 +16,8 @@ function Animals() {
     const { data: animalTypes, isLoading: isLoadingAnimalTypes } =
         useGetAnimalTypesQuery(null);
 
-    console.log('dataaaaaaa');
-    console.log(data);
+    //console.log('dataaaaaaa');
+    //console.log(data);
 
     const [offferToAdd] = useAddAnimalMutation();
 
@@ -27,6 +27,8 @@ function Animals() {
         animalType: 0,
     });
     //console.log(formData);
+    const [errors, setErrors] = useState<string>('');
+    const [validated, setValidated] = useState(false);
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const tempData = inputHelper(e, formData);
@@ -56,14 +58,14 @@ function Animals() {
         const selectedType = animalTypes?.result.find(
             (type: any) => type.animalTypeId === selectedTypeId,
         );
-        console.log(' abc selectedTypeId ', selectedTypeId);
+        //console.log(' abc selectedTypeId ', selectedTypeId);
         if (selectedType) {
             // Aktualizuj `formData.type` na podstawie znalezionego obiektu
             setFormData((prevFormData) => ({
                 ...prevFormData,
                 animalType: selectedTypeId, // Przypisz nazwę typu do formData.type
             }));
-            console.log('Przypisano typ:', selectedType.type);
+            //console.log('Przypisano typ:', selectedType.type);
             //console.log('Przypisano formData:', formData);
         } else {
             console.log('Nie znaleziono typu o podanym ID');
@@ -72,12 +74,19 @@ function Animals() {
     //console.log('Przypisano formData2:', formData);
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!formData) {
-            alert('Wszystkie pola są wymagane!');
-            return;
+        // e.preventDefault();
+        const form = e.currentTarget as HTMLFormElement;
+        if (form.checkValidity() === false) {
+            e.preventDefault();
+            e.stopPropagation();
         }
-
+        // if (!formData) {
+        //     alert('Wszystkie pola są wymagane!');
+        //     return;
+        // }
+        if (!form.checkValidity()) {
+            return; // Jeśli formularz jest niepoprawny, przerywamy obsługę
+        }
         try {
             console.log('Dane, które wysyłam:', formData);
             await offferToAdd({
@@ -85,14 +94,31 @@ function Animals() {
                 //userId: userData.Email,
             }).unwrap();
             window.location.href = '/animals';
-        } catch (error) {
-            console.log('Błąd');
-            console.error('Błąd przy dodawaniu:', error);
+        } catch (error: any) {
+            //console.log('Błąd');
+            console.error('Błąd przy dodawaniu:', error.data.errors);
+            setErrors(error.data.errors);
         }
+        setValidated(true);
     };
 
+    function getErrorMessage(key: any) {
+        console.log('aaaaaaaaaaaaaaaaaaaaaaaa');
+        console.log(errors.hasOwnProperty(key) ? errors[key][0] : '');
+        console.log(typeof (errors.hasOwnProperty(key) ? errors[key][0] : ''));
+        return errors.hasOwnProperty(key) ? errors[key][0] : '';
+    }
+
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        setErrors('');
+        setFormData({
+            petName: '',
+            specificDescription: '',
+            animalType: 0,
+        });
+    };
     const handleShow = () => setShow(true);
 
     if (isLoading) {
@@ -137,22 +163,30 @@ function Animals() {
                                 <Modal.Title>Dodaj nowe zwierze:</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <Form>
+                                <Form
+                                    noValidate
+                                    validated={validated}
+                                    //onSubmit={handleSubmit}
+                                >
                                     <Form.Group
                                         className="mb-3"
-                                        onSubmit={handleSubmit}
+                                        //onSubmit={handleSubmit}
                                         controlId="animalDto"
                                     >
                                         <Form.Label>
                                             Imię zwierzęcia:
                                         </Form.Label>
                                         <Form.Control
+                                            required
                                             name="petName"
                                             type="text"
                                             value={formData.petName}
                                             placeholder="Wpisz typ"
                                             onChange={handleUserInput}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            {getErrorMessage('PetName')}
+                                        </Form.Control.Feedback>
                                     </Form.Group>
                                     <Form.Group
                                         className="mb-3"
@@ -170,6 +204,7 @@ function Animals() {
                                             value={formData.specificDescription}
                                             placeholder="Wpisz typ"
                                             onChange={handleUserInput}
+                                            required
                                         />
                                     </Form.Group>
                                     <Form.Group
