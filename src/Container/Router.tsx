@@ -14,58 +14,68 @@ import {
     AuthenticationTest,
     AuthenticationTestAdmin,
 } from '../Pages/AuthTest';
+import App from './App';
+import { isAuth } from '../Utils/authUtils';
 
 export const router = createBrowserRouter([
-    // {
-    //     path: '/',
-    //     element: <Home />,
-    // },
-    // {
-    //     path: '/myOfferDetails/:offerId',
-    //     element: <MyOfferDetails />,
-    // },
-    // {
-    //     path: '/offerDetails/:offerId',
-    //     element: <OfferDetails />,
-    // },
-    // {
-    //     path: '/animmaltypes',
-    //     element: <AnimalTypes />,
-    // },
-    // {
-    //     path: '/applications',
-    //     element: <Applications />,
-    // },
-    // {
-    //     path: '/animals',
-    //     element: <Animals />,
-    // },
-    // {
-    //     path: '/signIn',
-    //     element: <SingIn />,
-    // },
-    // {
-    //     path: '/signUp',
-    //     element: <SingUp />,
-    // },
-    // {
-    //     path: '/offers',
-    //     element: <Offers />,
-    // },
-    // {
-    //     path: '/authentication',
-    //     element: <AuthenticationTest />,
-    // },
-    // {
-    //     path: '/authorization',
-    //     element: <AuthenticationTestAdmin />,
-    // },
-    // {
-    //     path: '/accessDenied',
-    //     element: <AccessDenied />,
-    // },
-    // {
-    //     path: '*',
-    //     element: <NotFound />,
-    // },
+    {
+        path: '/',
+        element: <App />,
+        children: [
+            {
+                index: true,
+                element: <Home />,
+            },
+            {
+                path: '/myOfferDetails/:offerId',
+                element: <MyOfferDetails />,
+                loader: isAuth,
+            },
+            {
+                path: '/offerDetails/:offerId',
+                element: <OfferDetails />,
+            },
+            {
+                path: '/animmaltypes',
+                element: <AnimalTypes />,
+            },
+            {
+                path: '/applications',
+                element: <Applications />,
+            },
+            {
+                path: '/animals',
+                element: <Animals />,
+                loader: isAuth,
+            },
+            {
+                path: '/signIn',
+                element: <SingIn />,
+            },
+            {
+                path: '/signUp',
+                element: <SingUp />,
+            },
+            {
+                path: '/offers',
+                element: <Offers />,
+            },
+            {
+                path: '/authentication',
+                element: <AuthenticationTest />,
+            },
+            {
+                path: '/authorization',
+                element: <AuthenticationTestAdmin />,
+            },
+            {
+                path: '/accessDenied',
+                element: <AccessDenied />,
+            },
+            {
+                path: '*',
+                element: <NotFound />,
+            },
+        ],
+    },
 ]);

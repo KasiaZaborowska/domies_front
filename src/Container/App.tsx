@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Header, Footer } from '../Components/Layout';
 import { Home, NotFound } from '../Pages';
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, RouterProvider, Routes } from 'react-router-dom';
 import AnimalTypes from '../Pages/AnimalTypes';
 import SingIn from '../Pages/SignIn/SingIn';
 import SingUp from '../Pages/SignUp/SingUp';
@@ -21,6 +21,8 @@ import Animals from '../Pages/Animals';
 import Applications from '../Pages/Applications';
 import Users from '../Pages/Users';
 import EmailVerify from '../Pages/Verify/Verify';
+import { router } from './Router';
+import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
     const dispatch = useDispatch();
@@ -35,10 +37,13 @@ function App() {
         }
     });
     return (
-        <div className="">
-            <Header />
-            <div>
-                <Routes>
+        <>
+            <ToastContainer />
+            <div className="">
+                <Header />
+                <div>
+                    <Outlet />
+                    {/* <Routes>
                     <Route path="/" element={<Home />}></Route>
                     <Route
                         path="/myOfferDetails/:offerId"
@@ -78,9 +83,10 @@ function App() {
                     ></Route>
 
                     <Route path="*" element={<NotFound />}></Route>
-                </Routes>
+                </Routes> */}
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 
