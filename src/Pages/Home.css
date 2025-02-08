@@ -1,0 +1,18 @@
+.custom_ToggleButton {
+    margin-inline: 20px;
+    color: black;
+    display: flex;
+    align-items: center;
+    border: 2px solid rgba(237, 193, 222, 0.558);
+    border-radius: 10px !important;
+    background-color: rgb(237, 193, 222);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover dla nieaktywnego przycisku */
+.custom_ToggleButton:hover {
+    background-color: #b6abb7 !important;
+    border: 2px solid rgb(101, 101, 101) !important;
+    border-radius: 10px;
+}
