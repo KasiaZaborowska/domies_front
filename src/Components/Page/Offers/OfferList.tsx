@@ -15,15 +15,10 @@ function OfferList({ offers, searchString, selectedTypes }: OfferListProps) {
             .toLowerCase()
             .includes(searchString.toLowerCase());
 
-        console.log(offer.offerAnimalTypes);
-        console.log(typeof offer.offerAnimalTypes); //wwwwwwwwwwwwwwwwwwwwwwwww
-
         const offerTypes = offer.offerAnimalTypes.map((t: any) =>
             t.trim().toLowerCase(),
         );
 
-        console.log(typeof offerTypes); // wwwwwwwwwwwwwwwwwwwwwwwww
-        console.log(offerTypes);
         const matchesType =
             selectedTypes.length === 0 ||
             selectedTypes.some((selectedType) =>
