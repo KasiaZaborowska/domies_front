@@ -1,0 +1,25 @@
+.custom_Row {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.custom_Col {
+    margin-right: 10vh;
+}
+
+.custom_Container {
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    margin-inline: 10px;
+    min-width: 80vw;
+    /* font-size: medium; */
+}
+
+.custom_span {
+    /* font-weight: bolder !important; */
+    font-size: larger !important;
+}
