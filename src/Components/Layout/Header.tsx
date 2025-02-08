@@ -77,6 +77,11 @@ function Header() {
                                     Twoje aplikacje
                                 </NavLink>
                             </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/support">
+                                    O nas
+                                </NavLink>
+                            </li>
                             {/* <li className="nav-item">
                                 <NavLink className="nav-link" to="/sth">
                                     something else
