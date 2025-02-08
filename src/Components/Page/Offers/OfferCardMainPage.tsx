@@ -1,14 +1,35 @@
 import React, { useState } from 'react';
-import { readOfferInterface } from '../../../Interfaces';
+import { offerByIdInterface, readOfferInterface } from '../../../Interfaces';
 import { Link } from 'react-router-dom';
 import { Form, Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 
 interface Props {
-    offer: readOfferInterface;
+    offer: offerByIdInterface;
 }
 
 function OfferCardMainPage(props: Props) {
+    const getAverageRating = (offer: offerByIdInterface) => {
+        if (!offer.applications || offer.applications.length === 0)
+            return 'Brak ocen';
+
+        const allRatings = offer.applications.flatMap((app) =>
+            (app.opinions ?? []).map((o) => o.rating ?? 0),
+        );
+        console.log('allRatings');
+        console.log(allRatings);
+
+        if (allRatings.length === 0) return 'Brak ocen';
+
+        const totalRatings = allRatings.reduce(
+            (sum: number, rating) => sum + rating,
+            0,
+        );
+        const avg = totalRatings / allRatings.length;
+
+        return avg.toFixed(1);
+    };
+
     return (
         <div className="col-md-4 col-10 p-3">
             <div
@@ -46,7 +67,7 @@ function OfferCardMainPage(props: Props) {
                             backgroundColor: '#f1dede',
                         }}
                     >
-                        &nbsp; oceny
+                        &nbsp; {getAverageRating(props.offer)}
                     </i>
 
                     <div className="text-center">
