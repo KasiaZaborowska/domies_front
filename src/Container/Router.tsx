@@ -16,6 +16,7 @@ import {
 } from '../Pages/AuthTest';
 import App from './App';
 import { isAuth } from '../Utils/authUtils';
+import SupportPage from '../Pages/Support/Support';
 
 export const router = createBrowserRouter([
     {
@@ -71,6 +72,10 @@ export const router = createBrowserRouter([
             {
                 path: '/accessDenied',
                 element: <AccessDenied />,
+            },
+            {
+                path: '/support',
+                element: <SupportPage />,
             },
             {
                 path: '*',
