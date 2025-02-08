@@ -16,4 +16,5 @@ export default interface offerByIdInterface {
     offerAnimalTypes: string[];
     file?: File | null;
     applications?: applicationInterface[];
+    photo: string;
 }
