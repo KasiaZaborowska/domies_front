@@ -103,8 +103,6 @@ function Animals() {
     };
 
     function getErrorMessage(key: any) {
-        console.log('aaaaaaaaaaaaaaaaaaaaaaaa');
-        console.log(errors.hasOwnProperty(key) ? errors[key][0] : '');
         console.log(typeof (errors.hasOwnProperty(key) ? errors[key][0] : ''));
         return errors.hasOwnProperty(key) ? errors[key][0] : '';
     }
@@ -206,6 +204,11 @@ function Animals() {
                                             onChange={handleUserInput}
                                             required
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            {getErrorMessage(
+                                                'SpecificDescription',
+                                            )}
+                                        </Form.Control.Feedback>
                                     </Form.Group>
                                     <Form.Group
                                         className="mb-3"
@@ -241,6 +244,9 @@ function Animals() {
                                                 ),
                                             )}
                                         </DropdownButton>
+                                        <Form.Control.Feedback type="invalid">
+                                            {getErrorMessage('AnimalType')}
+                                        </Form.Control.Feedback>
                                     </Form.Group>
                                     <Form.Group
                                         className="d-flex justify-content-end"
