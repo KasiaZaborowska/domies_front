@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetOfferByIdQuery } from '../../../Apis/offerApi';
 import MainLoader from '../../MainLoader';
-import { Link } from 'react-router-dom';
 import AddApplication from '../../../Pages/Applications/components/AddApplication';
-import { applicationInterface, offerByIdInterface } from '../../../Interfaces';
+import { applicationInterface } from '../../../Interfaces';
 import opinionInterface from '../../../Interfaces/opinionInterface';
 import { InputBase, Paper } from '@mui/material';
 import CommentIcon from '@mui/icons-material/Comment';
@@ -16,7 +15,6 @@ import Stack from '@mui/material/Stack';
 function OfferDetails() {
     const { offerId } = useParams(); // offerId match the offerId from App.tsx
     const offerIdToNumber = Number(offerId);
-    // console.log(typeof offerIdToNumber);
 
     const { data, isLoading } = useGetOfferByIdQuery({ id: offerId });
     const navigate = useNavigate();
@@ -24,9 +22,6 @@ function OfferDetails() {
 
     const [rows, setRows] = useState<opinionInterface[]>();
     const [filteredRows, setFilteredRows] = useState<opinionInterface[]>();
-    console.log('useGetOfferByIdQuery');
-    console.log(data);
-    // console.log(data.result.applications);
 
     useEffect(() => {
         if (isLoading) return;
