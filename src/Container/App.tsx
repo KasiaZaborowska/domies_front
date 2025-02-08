@@ -1,28 +1,11 @@
 import React, { useEffect } from 'react';
-import { Header, Footer } from '../Components/Layout';
-import { Home, NotFound } from '../Pages';
-import { Outlet, Route, RouterProvider, Routes } from 'react-router-dom';
-import AnimalTypes from '../Pages/AnimalTypes';
-import SingIn from '../Pages/SignIn/SingIn';
-import SingUp from '../Pages/SignUp/SingUp';
+import { Header } from '../Components/Layout';
+import { Outlet } from 'react-router-dom';
 import { userAccountInterface } from '../Interfaces';
 import { setLoggedInUser } from '../Store/Redux/userAccountSlice';
 import { useDispatch } from 'react-redux';
 import jwt_decode from 'jwt-decode';
-import {
-    AccessDenied,
-    AuthenticationTest,
-    AuthenticationTestAdmin,
-} from '../Pages/AuthTest';
-import MyOfferDetails from '../Pages/Offer/MyOfferDetails';
-import Offers from '../Pages/Offers/Offers';
-import OfferDetails from '../Components/Page/Offers/OfferDetails';
-import Animals from '../Pages/Animals';
-import Applications from '../Pages/Applications';
-import Users from '../Pages/Users';
-import EmailVerify from '../Pages/Verify/Verify';
-import { router } from './Router';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
     const dispatch = useDispatch();
@@ -43,47 +26,6 @@ function App() {
                 <Header />
                 <div>
                     <Outlet />
-                    {/* <Routes>
-                    <Route path="/" element={<Home />}></Route>
-                    <Route
-                        path="/myOfferDetails/:offerId"
-                        element={<MyOfferDetails />}
-                    ></Route>
-                    <Route
-                        path="/offerDetails/:offerId"
-                        element={<OfferDetails />}
-                    ></Route>
-                    <Route path="/verify" element={<EmailVerify />}></Route>
-
-                    <Route
-                        path="/animmaltypes"
-                        element={<AnimalTypes />}
-                    ></Route>
-                    <Route
-                        path="/applications"
-                        element={<Applications />}
-                    ></Route>
-                    <Route path="/animals" element={<Animals />}></Route>
-                    <Route path="/users" element={<Users />}></Route>
-                    <Route path="/signIn" element={<SingIn />}></Route>
-                    <Route path="/signUp" element={<SingUp />}></Route>
-                    <Route path="/offers" element={<Offers />}></Route>
-
-                    <Route
-                        path="/authentication"
-                        element={<AuthenticationTest />}
-                    ></Route>
-                    <Route
-                        path="/authorization"
-                        element={<AuthenticationTestAdmin />}
-                    ></Route>
-                    <Route
-                        path="/accessDenied"
-                        element={<AccessDenied />}
-                    ></Route>
-
-                    <Route path="*" element={<NotFound />}></Route>
-                </Routes> */}
                 </div>
             </div>
         </>
