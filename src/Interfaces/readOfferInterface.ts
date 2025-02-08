@@ -1,4 +1,5 @@
 import animalTypeInterface from './animalTypeInterface';
+import applicationInterface from './applicationInterface';
 
 export default interface readOfferInterface {
     id?: number;
@@ -15,4 +16,5 @@ export default interface readOfferInterface {
     offerAnimalTypes: string[];
     file?: File | null;
     photo: string;
+    applications?: applicationInterface[];
 }
