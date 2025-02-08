@@ -46,6 +46,7 @@ function DeleteButtonWithModal({
                     show={showDeleteModal}
                     onHide={() => setShowDeleteModal(false)}
                     centered
+                    dialogClassName="custom-modal"
                 >
                     <Modal.Header closeButton>
                         <Modal.Title>Confirm Delete</Modal.Title>
