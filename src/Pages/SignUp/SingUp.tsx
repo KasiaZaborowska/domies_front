@@ -17,6 +17,8 @@ function SingUp() {
         LastName: '',
         Password: '',
     });
+    const [errors, setErrors] = useState<string>('');
+    const [validated, setValidated] = useState(false);
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const tempData = inputHelper(e, userInput);
@@ -24,35 +26,59 @@ function SingUp() {
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+        const form = e.currentTarget as HTMLFormElement;
+        if (form.checkValidity() === false) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        if (!form.checkValidity()) {
+            return; // Jeśli formularz jest niepoprawny, przerywamy obsługę
+        }
         setLoading(true);
-        const response: apiResponse = await registerUser({
-            Email: userInput.Email,
-            FirstName: userInput.FirstName,
-            LastName: userInput.LastName,
-            Password: userInput.Password,
-        });
-        console.log(response.data);
+        try {
+            const response: apiResponse = await registerUser({
+                Email: userInput.Email,
+                FirstName: userInput.FirstName,
+                LastName: userInput.LastName,
+                Password: userInput.Password,
+            });
+            console.log(response.data);
 
-        if (response.data) {
-            console.log('if, data:', response.data);
-            toastNotify(
-                'Rejestracja zakończona sukcesem! Zaloguj się aby kontynuować.',
-            );
-            navigate('/signIn');
-        } else if (response.error) {
-            console.log('error:', response.error.data.message);
-            toastNotify(response.error.data.message, 'error');
+            if (response.data) {
+                console.log('if, data:', response.data);
+                toastNotify(
+                    'Rejestracja zakończona sukcesem! Potwierdź swój adres email aby móc się zalogować.',
+                );
+                navigate('/signIn');
+            }
+            // else if (response.error) {
+            //     console.log('error:', response.error.data.message);
+            //     toastNotify(response.error.data.message, 'error');
+            //     setErrors(response.error.data.message);
+            // }
+        } catch (error: any) {
+            //console.log('Błąd');
+            console.error('Błąd przy dodawaniu:', error.response.errors);
+            setErrors(error.response.errors);
         }
         setLoading(false);
+        setValidated(true);
     };
-
+    function getErrorMessage(key: any) {
+        console.log(errors.hasOwnProperty(key) ? errors[key][0] : '');
+        console.log(errors);
+        return errors.hasOwnProperty(key) ? errors[key][0] : '';
+    }
     return (
         <div>
             {' '}
             <div className="container text-center">
                 {loading && <MainLoader />}
-                <form method="post" onSubmit={handleSubmit}>
+                <form
+                    method="post"
+                    onSubmit={handleSubmit}
+                    noValidate={validated}
+                >
                     <h1 className="mt-5">Rejestracja</h1>
                     <div className="mt-5">
                         <div className="mt-4" style={{ minWidth: '40vw' }}>
@@ -65,6 +91,9 @@ function SingUp() {
                                 value={userInput.Email}
                                 onChange={handleUserInput}
                             />
+                            <div className="invalid-feedback">
+                                {getErrorMessage('Email')}
+                            </div>
                         </div>
                         <div className="mt-4">
                             <input
@@ -76,6 +105,9 @@ function SingUp() {
                                 value={userInput.FirstName}
                                 onChange={handleUserInput}
                             />
+                            <div className="invalid-feedback">
+                                {getErrorMessage('FirstName')}
+                            </div>
                         </div>
                         <div className="mt-4">
                             <input
@@ -87,6 +119,9 @@ function SingUp() {
                                 value={userInput.LastName}
                                 onChange={handleUserInput}
                             />
+                            <div className="invalid-feedback">
+                                {getErrorMessage('LastName')}
+                            </div>
                         </div>
                         <div className="mt-4">
                             <input
@@ -98,6 +133,9 @@ function SingUp() {
                                 value={userInput.Password}
                                 onChange={handleUserInput}
                             />
+                            <div className="invalid-feedback">
+                                {getErrorMessage('Password')}
+                            </div>
                         </div>
                         {/* <div className="col-sm-6 offset-sm-3 col-xs-12 mt-4">
                             <select
