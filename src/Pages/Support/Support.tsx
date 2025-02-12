@@ -34,7 +34,11 @@ function SupportPage() {
             </Container>
             <Container>
                 <Row className="custom_Row">
-                    <Col sm={5} className="align-self-start custom_Col">
+                    <Col
+                        sm={5}
+                        className="align-self-start custom_Col "
+                        style={{ textAlign: 'justify' }}
+                    >
                         Platforma Domies została założone w 2025 roku. Wiemy z
                         własnego doświadczenia, że brakuje Nam
                         narzędzia/aplikacji internetowej, która umożliwiłaby
@@ -65,22 +69,36 @@ function SupportPage() {
                             alt="aaaa"
                             //className="w-100 mt-5 image-box"
                         /> */}
-                        {/* <img
-                                src="../../Assets/Images/support1.jpg"
-                                alt="girl with dog"
-                            ></img> */}
                     </Col>
                     <Col sm={5}>
-                        <img src="./support2.jpg" alt="girl with dog"></img>
+                        <img
+                            style={{
+                                width: '100%',
+                                height: 'auto',
+                                borderRadius: '5%',
+                                objectFit: 'cover',
+                            }}
+                            src="/Images/support1.jpg"
+                            alt="girl with dog1"
+                        />
                     </Col>
                 </Row>
-            </Container>{' '}
+            </Container>
             <Container>
                 <Row className="custom_Row">
                     <Col sm={5}>
-                        <img src="./support2.jpg" alt="girl with dog"></img>
+                        <img
+                            style={{
+                                width: '100%',
+                                height: 'auto',
+                                borderRadius: '5%',
+                                objectFit: 'cover',
+                            }}
+                            src="/Images/support2.jpg"
+                            alt="girl with dog"
+                        ></img>
                     </Col>
-                    <Col sm={5} className="align-self-start custom_Col">
+                    <Col sm={5} className="align-self-justify custom_Col">
                         Gwarantujemy, że Twój ukochany zwierzak będzie
                         traktowany przez opiekunów jak najlepiej.Twój pupil ma
                         konkretne potrzeby? Uwielbia długie spacery i kocha
@@ -105,9 +123,9 @@ function SupportPage() {
                             //className="w-100 mt-5 image-box"
                         /> */}
                         {/* <img
-                                src="../../Assets/Images/support1.jpg"
-                                alt="girl with dog"
-                            ></img> */}
+                            src="/Images/support1.jpg"
+                            alt="girl with dog"
+                        ></img> */}
                     </Col>
                 </Row>
             </Container>
