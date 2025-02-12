@@ -50,7 +50,7 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
         console.log('ID: ', id);
         if (id !== null && id !== undefined) {
             try {
-                console.log(`Usuwam pupila o ID: ${id}`);
+                //console.log(`Usuwam pupila o ID: ${id}`);
                 await deleteType(id);
                 setShowDeleteModal(false);
                 window.location.href = '/animals';
