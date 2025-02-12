@@ -1,0 +1,15 @@
+.custom-modal {
+    display: flex !important;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 50%;
+    max-width: 600px;
+    min-height: 70vh;
+}
+
+.custom-modal .modal-dialog {
+    width: 50%;
+    max-width: 500px;
+}
