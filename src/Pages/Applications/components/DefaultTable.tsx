@@ -62,6 +62,7 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
         //sortable: false,
         align: 'right',
         renderCell: (params) => {
+            const data = params.row.originalData;
             // console.log('params');
             // console.log(params);
             // console.log(typeof params.row.id);
@@ -73,20 +74,18 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
                         margin: '10px 0px',
                     }}
                 >
+                    <Button
+                        variant="contained"
+                        color="success"
+                        //onClick={() => showDeleteModal(true)}
+                        onClick={() => onEdit?.(data)}
+                    >
+                        <i className="bi bi-pencil-fill"></i>
+                    </Button>
                     <DeleteButtonWithModal
                         id={params.row.id}
                         deleteFunction={onDelete}
                     />
-
-                    <Button
-                        variant="contained"
-                        color="success"
-
-                        //onClick={() => showDeleteModal(true)}
-                        //onClick={() => onDelete(params.row)}
-                    >
-                        <i className="bi bi-pencil-fill"></i>
-                    </Button>
                 </div>
             );
         },
@@ -141,7 +140,7 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
                 borderRadius: '15px',
                 boxShadow: '0px 6px 12px rgba(0,0,0,0.4)',
                 padding: '10px',
-                margin: '10px',
+                margin: '10px, auto',
                 overflow: 'auto',
             }}
         >
@@ -172,7 +171,9 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
                 style={{
                     wordWrap: 'break-word',
                     fontSize: '16px',
-                    // alignItems: 'right',
+                    margin: '10px',
+                    padding: '10px',
+                    // : 'right',
                     // alignContent: 'right',
                 }}
                 getRowHeight={() => 'auto'}
