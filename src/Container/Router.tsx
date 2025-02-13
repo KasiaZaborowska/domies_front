@@ -17,6 +17,7 @@ import {
 import App from './App';
 import { isAuth } from '../Utils/authUtils';
 import SupportPage from '../Pages/Support/Support';
+import EmailVerify from '../Pages/Verify/Verify';
 
 export const router = createBrowserRouter([
     {
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
             {
                 path: '/signUp',
                 element: <SingUp />,
+            },
+            {
+                path: '/verify',
+                element: <EmailVerify />,
             },
             {
                 path: '/offers',
