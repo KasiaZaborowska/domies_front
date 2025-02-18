@@ -20,6 +20,7 @@ import { useParams } from 'react-router-dom';
 import { type } from 'node:os';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../Store/Redux/store';
+import { useGetOfferByIdQuery } from '../../../Apis/offerApi';
 
 interface Props {
     offerId: number;
@@ -56,16 +57,18 @@ function AddApplication({ offerId }: Props) {
             // },
         ],
     });
+    const {
+        data: animalTypesAccepted,
+        isLoading: isLoadingAnimalTypesAccepted,
+    } = useGetOfferByIdQuery({
+        id: offerId,
+    });
+    console.log(animalTypesAccepted);
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const tempData = inputHelper(e, formData);
         setFormData(tempData);
     };
-
-    // const renderAnimals = () =>
-    //     animals.map(
-    //         (id: number) => animals.find((a: any) => a.id === id)?.petName,
-    //     );
 
     const renderSelected = () => {
         const animalNames = formData.animals.map(
@@ -119,16 +122,11 @@ function AddApplication({ offerId }: Props) {
         try {
             console.log('Dane, które wysyłam:', formDataToSend);
             console.log('FormData contents:');
-            // for (let key of formDataToSend.keys()) {
-            //     const values = formDataToSend.getAll(key);
-            //     console.log(`${key}: ${values}`);
-            //     console.log(values);
-            // }
             await applicationToAdd({
                 data: formDataToSend,
                 userId: userData.Email,
             }).unwrap();
-            window.location.href = '/animals';
+            window.location.href = '/applications';
         } catch (error) {
             console.log('Błąd');
             console.error('Błąd przy dodawaniu:', error);
@@ -138,18 +136,41 @@ function AddApplication({ offerId }: Props) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    // const [tableAnimalsFromOffer, setTableAnimalsFromOffer] =
+    //     useState<string[]>();
+    // console.log('tableAnimalsFromOffer');
+    // console.log(tableAnimalsFromOffer);
+
+    const [filtredtableAnimalsFromOffer, setFilteredTableAnimalsFromOffer] =
+        useState<string[]>([]);
 
     useEffect(() => {
-        //console.log(dateStart, dateEnd);
-        //console.log(typeof dateStart?.toISOString());
-
         if (dateStart && (!dateEnd || dateEnd.isBefore(dateStart))) {
             setDateEnd(dateStart.add(1, 'day'));
         }
     }, [dateStart, dateEnd]);
 
-    //console.log('rows:', rows);
-    //console.log(animalTypes.result);
+    useEffect(() => {
+        console.log('aaaaaaaaaaaaaaaaa');
+        if (!isLoadingAnimalTypesAccepted) {
+            console.log(animalTypesAccepted.result.offerAnimalTypes);
+            const tableAnimalTypes: string[] =
+                animalTypesAccepted.result.offerAnimalTypes.split(', ');
+            console.log('tableAnimalTypes');
+            console.log(tableAnimalTypes);
+            // setTableAnimalsFromOffer(tableAnimalTypes);
+
+            const filtredAnimals = animals.result.filter((animal: any) =>
+                tableAnimalTypes?.includes(animal.type),
+            );
+            console.log('filtredAnimals');
+            console.log(filtredAnimals);
+            setFilteredTableAnimalsFromOffer(filtredAnimals);
+        }
+    }, [isLoadingAnimalTypesAccepted, isLoadingAnimals]);
+
+    console.log('filtredtableAnimalsFromOffer');
+    console.log(filtredtableAnimalsFromOffer);
     if (isLoadingAnimals) {
         return <MainLoader />;
     }
@@ -223,23 +244,41 @@ function AddApplication({ offerId }: Props) {
                                     <DropdownButton
                                         title={renderSelected() || 'Wybierz..'}
                                     >
-                                        {animals.result.map((animal: any) => (
-                                            <Form.Check
-                                                className="m-2"
-                                                key={animal.id}
-                                                type="checkbox"
-                                                label={animal.petName}
-                                                value={animal.id}
-                                                checked={formData.animals.includes(
-                                                    animal,
-                                                )}
-                                                onChange={() =>
-                                                    handleCheckboxChange(
-                                                        animal.id,
-                                                    )
-                                                }
-                                            />
-                                        ))}
+                                        {filtredtableAnimalsFromOffer.length >
+                                        0 ? (
+                                            filtredtableAnimalsFromOffer.map(
+                                                (animal: any) => (
+                                                    <Form.Check
+                                                        className="m-2"
+                                                        key={animal.id}
+                                                        type="checkbox"
+                                                        label={animal.petName}
+                                                        value={animal.id}
+                                                        checked={formData.animals.includes(
+                                                            animal,
+                                                        )}
+                                                        onChange={() =>
+                                                            handleCheckboxChange(
+                                                                animal.id,
+                                                            )
+                                                        }
+                                                    />
+                                                ),
+                                            )
+                                        ) : (
+                                            <Form.Text
+                                                style={{
+                                                    padding: '15px',
+                                                    fontWeight: 'bold',
+                                                    backgroundColor:
+                                                        'lightgrey',
+                                                    borderRadius: '10px',
+                                                }}
+                                            >
+                                                Brak dostępnych typów zwierząt
+                                                do tej oferty!
+                                            </Form.Text>
+                                        )}
                                     </DropdownButton>
                                 </div>
                             </Form.Group>
