@@ -11,6 +11,7 @@ import { autoBatchEnhancer, SerializedError } from '@reduxjs/toolkit';
 interface DataTableProps {
     columns: GridColDef[];
     rows: any[];
+    renderCustomActions?: (row: any) => any;
     onEdit?: (row: any) => void;
     onDelete: (
         row: any,
@@ -23,6 +24,7 @@ interface DataTableProps {
 const DefaultDataTable: React.FC<DataTableProps> = ({
     columns,
     rows,
+    renderCustomActions,
     onEdit,
     onDelete,
     icon,
@@ -59,13 +61,16 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
         field: 'actions',
         headerName: 'Akcje',
         width: 200,
-        //sortable: false,
         align: 'right',
         renderCell: (params) => {
-            const data = params.row.originalData;
+            const dataRow = params.row;
             // console.log('params');
             // console.log(params);
-            // console.log(typeof params.row.id);
+
+            console.log('params.row');
+            console.log(params.row);
+            console.log('params.row.id');
+            console.log(params.row.id);
             return (
                 <div
                     style={{
@@ -74,11 +79,12 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
                         margin: '10px 0px',
                     }}
                 >
+                    {renderCustomActions && renderCustomActions(dataRow)}
                     <Button
                         variant="contained"
                         color="success"
-                        //onClick={() => showDeleteModal(true)}
-                        onClick={() => onEdit?.(data)}
+                        id={params.row.id}
+                        onClick={() => onEdit?.(dataRow)}
                     >
                         <i className="bi bi-pencil-fill"></i>
                     </Button>
