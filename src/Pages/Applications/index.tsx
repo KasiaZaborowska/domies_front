@@ -24,18 +24,18 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Application from './components/Application';
+import AddOpinion from './components/AddOpinion';
 
 function Applications() {
     const { data, isLoading } = useGetApplicationsQuery(null);
     const { data: animals, isLoading: isLoadingAnimals } =
         useGetAnimalsQuery(null);
-    console.log('dataaaa');
-    console.log(data);
-    console.log(animals);
+    // console.log('dataaaa');
+    // console.log(data);
+    // console.log(animals);
     const navigate = useNavigate();
     const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
-
-    const [applicationToAdd] = useAddApplicationMutation();
 
     const [formData, setFormData] = useState<applicationInterface>({
         dateStart: '',
@@ -55,47 +55,10 @@ function Applications() {
 
     const [deleteApplication] = useDeleteApplicationMutation();
 
-    // const handleDelete = async (id: number) => {
-    //     console.log('ID: ', id);
-    //     if (id !== null && id !== undefined) {
-    //         try {
-    //             // console.log(`Usuwam pupila o ID: ${id}`);
-    //             await deleteApplication(id);
-    //             //setShowDeleteModal(false);
-    //             window.location.href = '/applications';
-    //         } catch (error) {
-    //             console.error('Błąd podczas usuwania:', error);
-    //         }
-    //     } else {
-    //         console.error('Brak ID do usunięcia.');
-    //     }
-    // };
-    // const dataToDelete: applicationInterface = data.result;
-
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const tempData = inputHelper(e, formData);
         setFormData(tempData);
     };
-
-    // const handleSubmit = async (e: React.FormEvent) => {
-    //     e.preventDefault();
-    //     if (!formData) {
-    //         alert('Wszystkie pola są wymagane!');
-    //         return;
-    //     }
-
-    //     try {
-    //         console.log('Dane, które wysyłam:', formData);
-    //         await offferToAdd({
-    //             data: formData,
-    //             //userId: userData.Email,
-    //         }).unwrap();
-    //         window.location.href = '/animals';
-    //     } catch (error) {
-    //         console.log('Błąd');
-    //         console.error('Błąd przy dodawaniu:', error);
-    //     }
-    // };
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -173,11 +136,80 @@ function Applications() {
             headerName: 'Data aplikowania',
             minWidth: 150,
         },
+        // {
+        //     field: 'opinion',
+        //     headerName: 'opinion',
+        //     minWidth: 250,
+        //     renderCell: (params) => (
+        //         <div style={{ padding: '5px' }}>{params.value}</div>
+        //     ),
+        // },
     ];
     const [rows, setRows] = useState([]);
-    // if (!isLoading) {
-    //     console.log(data.result);
-    // }
+    const [offerId, setOfferId] = useState<number>();
+    const [selectedRow, setSelectedRow] = useState<any | null>(null); // Przechowuje wybrany wiersz
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Stan do otwierania/zamykania modala
+    // const [opinion, setOpinion] = useState('');
+    // const [isOpinionModalOpen, setIsModalOpen] = useState<boolean>(false);
+    // const [selectedRow, setSelectedRow] = useState<any | null>(null); // Przechowuje wybrany wiersz
+    const [isOpinionModalOpen, setOpinionIsModalOpen] =
+        useState<boolean>(false); // Stan do otwierania/zamykania modala
+
+    console.log(rows);
+
+    const handleEdit = async (row: applicationInterface) => {
+        if (row && row.id) {
+            setSelectedRow(row);
+            console.log('row');
+            console.log(row);
+            const offerId = row.offerId;
+            setOfferId(offerId);
+            setIsModalOpen(true);
+        } else {
+            console.error('Brak ID w wierszu do usunięcia:', row);
+        }
+    };
+
+    const addOpinionHandler = (row: applicationInterface) => {
+        setSelectedRow(row);
+        setOpinionIsModalOpen(true);
+    };
+
+    const renderCustomActions = (row: applicationInterface) => {
+        if (!row || !row.id) {
+            console.error('brak id');
+            return;
+        }
+
+        // setSelectedRow(row);
+        // console.log('moj modal');
+        return (
+            <>
+                <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() => addOpinionHandler(row)}
+                >
+                    <i className="bi bi-pencil-fill">opinion</i>
+                </Button>
+            </>
+        );
+    };
+    // const handleEditClick = (data: any) => {
+    //     setSelectedRow(data);
+    //     setIsModalOpen(true);
+    // };
+
+    // const handleCloseModal = () => {
+    //     setIsModalOpen(false);
+    //     setOpinion('');
+    // };
+
+    // const handleSaveOpinion = () => {
+    //     // Tutaj wywołujesz mutację lub funkcję, która zapisze opinię.
+    //     console.log('Dodano opinię: ', opinion);
+    //     setIsModalOpen(false);
+    // };
 
     useEffect(() => {
         if (!isLoading && !isLoadingAnimals) {
@@ -208,31 +240,15 @@ function Applications() {
                 );
 
                 setRows(dataInRows); // Ustawiamy dane w stanie
-                // console.log('dataInRows');
-                // console.log(dataInRows);
-                // console.log(data.result[1].animals);
+                console.log('dataInRows');
+                console.log(dataInRows);
             }
         }
     }, [data, navigate]);
 
-    // const handleDelete = async (row: any) => {
-    //     if (row && row.id) {
-    //         DeleteButtonWithModal({
-    //             id: row.id,
-    //             deleteFunction: async (id: number) =>
-    //                 await deleteApplication({ id }),
-    //         });
-    //     } else {
-    //         console.error('Brak ID w wierszu do usunięcia:', row);
-    //     }
-    //     // DeleteButtonWithModal(data.result.id, deleteApplication);
-    // };
-
     if (isLoading) {
         return <MainLoader />;
     }
-    //console.log('rows:', rows);
-    //console.log(animalTypes.result);
     return (
         <>
             <div className="h-dvh">
@@ -247,20 +263,6 @@ function Applications() {
                                 <h1 className="text-success">
                                     Twoje aplikacje
                                 </h1>
-                                {/* <div className="d-flex justify-content-end pt-4">
-                                    <Button
-                                        onClick={handleShow}
-                                        style={{
-                                            backgroundColor: 'pink',
-                                            borderColor: 'pink',
-                                            borderRadius: '50px',
-                                            padding: '10px',
-                                            color: 'black',
-                                        }}
-                                    >
-                                        Dodaj nowe zwierzę!
-                                    </Button>
-                                </div> */}
                             </div>
                         </div>
 
@@ -279,102 +281,25 @@ function Applications() {
                                         }}
                                     />
                                 }
-                                //onEdit={handleEdit}
+                                renderCustomActions={renderCustomActions}
+                                onEdit={handleEdit}
                                 onDelete={deleteApplication}
                             />
                         </div>
-                        <Modal show={show} onHide={handleClose}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Dodaj nowe zwierze:</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <Form>
-                                    <Form.Group
-                                        className="mb-3"
-                                        controlId="animalDto"
-                                    >
-                                        <Form.Label>Okres opieki:</Form.Label>
-                                        <LocalizationProvider
-                                            dateAdapter={AdapterDayjs}
-                                        >
-                                            <DemoContainer
-                                                components={[
-                                                    'DatePicker',
-                                                    'DatePicker',
-                                                ]}
-                                            >
-                                                <DatePicker
-                                                    label="Data startowa:"
-                                                    value={value}
-                                                    onChange={(newValue) =>
-                                                        setValue(newValue)
-                                                    }
-                                                />
-                                                <DatePicker
-                                                    label="Data końcowa:"
-                                                    value={value}
-                                                    onChange={(newValue) =>
-                                                        setValue(newValue)
-                                                    }
-                                                />
-                                            </DemoContainer>
-                                        </LocalizationProvider>
-                                    </Form.Group>
-                                    <Form.Group
-                                        className="mb-3"
-                                        controlId="animalDto"
-                                    >
-                                        <Form.Label>
-                                            Imię zwierzęcia:
-                                        </Form.Label>
-                                        <Form.Control
-                                            name="dateStart"
-                                            type="text"
-                                            value={formData.dateStart}
-                                            placeholder="Wpisz typ"
-                                            onChange={handleUserInput}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group
-                                        className="mb-3"
-                                        controlId="animalDto"
-                                    >
-                                        <Form.Label>
-                                            Opis zwierzęcia:
-                                        </Form.Label>
-                                        <Form.Control
-                                            as="textarea"
-                                            rows={3}
-                                            name="specificDescription"
-                                            type="text"
-                                            value={formData.dateEnd}
-                                            placeholder="Wpisz typ"
-                                            onChange={handleUserInput}
-                                        />
-                                    </Form.Group>
+                        {offerId && (
+                            <Application
+                                application={selectedRow}
+                                offerId={offerId}
+                                show={isModalOpen}
+                                setShow={setIsModalOpen}
+                            />
+                        )}
 
-                                    <Form.Group
-                                        className="d-flex justify-content-end"
-                                        controlId="formBasicEmail"
-                                    >
-                                        <Button
-                                            className="m-1"
-                                            variant="secondary"
-                                            onClick={handleClose}
-                                        >
-                                            Zamknij
-                                        </Button>
-                                        <Button
-                                            className="m-1"
-                                            variant="primary"
-                                            //onClick={handleSubmit}
-                                        >
-                                            Dodaj
-                                        </Button>
-                                    </Form.Group>
-                                </Form>
-                            </Modal.Body>
-                        </Modal>
+                        <AddOpinion
+                            application={selectedRow}
+                            show={isOpinionModalOpen}
+                            setShow={setOpinionIsModalOpen}
+                        />
                     </div>
                 )}
             </div>
