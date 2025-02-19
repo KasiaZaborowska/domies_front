@@ -15,9 +15,11 @@ import {
     AuthenticationTestAdmin,
 } from '../Pages/AuthTest';
 import App from './App';
-import { isAuth } from '../Utils/authUtils';
+import { isAdmin, isAuth, isManagerOrAdmin } from '../Utils/authUtils';
 import SupportPage from '../Pages/Support/Support';
 import EmailVerify from '../Pages/Verify/Verify';
+import Users from '../Pages/Users';
+import TermsAndConditions from '../Pages/TermsAndConditions/TermsAndConditions';
 
 export const router = createBrowserRouter([
     {
@@ -40,10 +42,17 @@ export const router = createBrowserRouter([
             {
                 path: '/animmaltypes',
                 element: <AnimalTypes />,
+                // loader: isManagerOrAdmin,
+            },
+            {
+                path: '/users',
+                element: <Users />,
+                // loader: isAdmin,
             },
             {
                 path: '/applications',
                 element: <Applications />,
+                loader: isAuth,
             },
             {
                 path: '/animals',
@@ -81,6 +90,14 @@ export const router = createBrowserRouter([
             {
                 path: '/support',
                 element: <SupportPage />,
+            },
+            {
+                path: '/termsAndConditions',
+                element: <TermsAndConditions />,
+            },
+            {
+                path: '/401',
+                element: <NotFound />,
             },
             {
                 path: '*',
