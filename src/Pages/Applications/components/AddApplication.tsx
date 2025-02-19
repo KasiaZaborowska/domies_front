@@ -16,8 +16,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useGetAnimalsQuery } from '../../../Apis/animalApi';
-import { useParams } from 'react-router-dom';
-import { type } from 'node:os';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../Store/Redux/store';
 import { useGetOfferByIdQuery } from '../../../Apis/offerApi';
@@ -37,6 +35,9 @@ function AddApplication({ offerId }: Props) {
     );
     const [applicationToAdd] = useAddApplicationMutation();
     console.log('offerIdaaaaaaaaaaaaaaa ', offerId);
+
+    const [validated, setValidated] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>('');
 
     const userData: userAccountInterface = useSelector(
         (state: RootState) => state.userAccountStore,
@@ -104,10 +105,11 @@ function AddApplication({ offerId }: Props) {
         e: React.FormEvent<HTMLFormElement>,
     ) => {
         e.preventDefault();
-        if (!formData) {
-            alert('Wszystkie pola są wymagane!');
-            return;
+        const form = e.currentTarget;
+        if (form.checkValidity() === false) {
+            e.stopPropagation();
         }
+        setValidated(true);
 
         const formDataToSend = {
             dateStart: dateStart ? dateStart.toISOString() : '',
@@ -127,9 +129,11 @@ function AddApplication({ offerId }: Props) {
                 userId: userData.Email,
             }).unwrap();
             window.location.href = '/applications';
-        } catch (error) {
+        } catch (error: any) {
             console.log('Błąd');
             console.error('Błąd przy dodawaniu:', error);
+            console.error('Błąd przy dodawaniu:', error.data.errors.Animals[0]);
+            setErrorMessage(error.data.errors.Animals[0] || 'Wystąpił błąd.');
         }
     };
 
@@ -197,7 +201,11 @@ function AddApplication({ offerId }: Props) {
                     <Modal.Title>Aplikuj na ofertę:</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={handleAddApplication}>
+                    <Form
+                        noValidate
+                        validated={validated}
+                        onSubmit={handleAddApplication}
+                    >
                         <Form.Group className="mb-3" controlId="animalDto">
                             <Form.Label>Okres opieki:</Form.Label>
                             <div className="container">
@@ -281,6 +289,11 @@ function AddApplication({ offerId }: Props) {
                                         )}
                                     </DropdownButton>
                                 </div>
+                                {errorMessage && (
+                                    <p className="text-danger">
+                                        {errorMessage}
+                                    </p>
+                                )}
                             </Form.Group>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="animalDto">
@@ -295,7 +308,25 @@ function AddApplication({ offerId }: Props) {
                                 onChange={handleUserInput}
                             />
                         </Form.Group>
-
+                        <Form.Group className="mb-3">
+                            <Form.Check
+                                required
+                                label={
+                                    <span>
+                                        Akceptuję{' '}
+                                        <a
+                                            href="/termsAndConditions"
+                                            style={{ color: '#4a4f7c' }}
+                                        >
+                                            regulamin
+                                        </a>{' '}
+                                        strony internetowej
+                                    </span>
+                                }
+                                feedback="Musisz wyrazić zgodę przed aplikowaniem."
+                                feedbackType="invalid"
+                            />
+                        </Form.Group>
                         <Form.Group
                             className="d-flex justify-content-end"
                             controlId="formBasicEmail"
