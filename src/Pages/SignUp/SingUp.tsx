@@ -6,6 +6,7 @@ import { apiResponse } from '../../Interfaces';
 import toastNotify from '../../Helper/toastNotify';
 import { useNavigate } from 'react-router-dom';
 import MainLoader from '../../Components/MainLoader';
+import { Form } from 'react-bootstrap';
 
 function SingUp() {
     const [registerUser] = useRegisterUserMutation();
@@ -17,7 +18,7 @@ function SingUp() {
         LastName: '',
         Password: '',
     });
-    const [errors, setErrors] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState<string[]>([]);
     const [validated, setValidated] = useState(false);
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,13 +27,13 @@ function SingUp() {
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        const form = e.currentTarget as HTMLFormElement;
+        e.preventDefault();
+
+        const form = e.currentTarget;
+
         if (form.checkValidity() === false) {
-            e.preventDefault();
             e.stopPropagation();
-        }
-        if (!form.checkValidity()) {
-            return; // Jeśli formularz jest niepoprawny, przerywamy obsługę
+            setValidated(true);
         }
         setLoading(true);
         try {
@@ -41,49 +42,42 @@ function SingUp() {
                 FirstName: userInput.FirstName,
                 LastName: userInput.LastName,
                 Password: userInput.Password,
-            });
-            console.log(response.data);
+            }).unwrap();
 
             if (response.data) {
-                console.log('if, data:', response.data);
                 toastNotify(
                     'Rejestracja zakończona sukcesem! Potwierdź swój adres email aby móc się zalogować.',
                 );
                 navigate('/signIn');
             }
-            // else if (response.error) {
-            //     console.log('error:', response.error.data.message);
-            //     toastNotify(response.error.data.message, 'error');
-            //     setErrors(response.error.data.message);
-            // }
         } catch (error: any) {
-            //console.log('Błąd');
-            console.error('Błąd przy dodawaniu:', error.response.errors);
-            setErrors(error.response.errors);
+            if (error?.data?.errors) {
+                setErrorMessage(error.data.errors);
+            } else {
+                setErrorMessage(['Wystąpił nieznany błąd.']);
+            }
         }
         setLoading(false);
         setValidated(true);
     };
     function getErrorMessage(key: any) {
-        console.log(errors.hasOwnProperty(key) ? errors[key][0] : '');
-        console.log(errors);
-        return errors.hasOwnProperty(key) ? errors[key][0] : '';
+        return errorMessage.hasOwnProperty(key) ? errorMessage[key][0] : '';
     }
     return (
         <div>
-            {' '}
             <div className="container text-center">
                 {loading && <MainLoader />}
-                <form
+                <Form
                     method="post"
                     onSubmit={handleSubmit}
-                    noValidate={validated}
+                    noValidate
+                    validated={validated}
                 >
                     <h1 className="mt-5">Rejestracja</h1>
                     <div className="mt-5">
                         <div className="mt-4" style={{ minWidth: '40vw' }}>
                             <input
-                                type="text"
+                                type="email"
                                 className="form-control"
                                 placeholder="Podaj Email"
                                 required
@@ -129,6 +123,7 @@ function SingUp() {
                                 className="form-control"
                                 placeholder="Podaj Hasło"
                                 required
+                                minLength={8}
                                 name="Password"
                                 value={userInput.Password}
                                 onChange={handleUserInput}
@@ -137,16 +132,6 @@ function SingUp() {
                                 {getErrorMessage('Password')}
                             </div>
                         </div>
-                        {/* <div className="col-sm-6 offset-sm-3 col-xs-12 mt-4">
-                            <select
-                                className="form-control form-select"
-                                required
-                            >
-                                <option value="">--Select Role--</option>
-                                <option value="customer">Customer</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div> */}
                     </div>
                     <div className="mt-5">
                         <button
@@ -163,7 +148,7 @@ function SingUp() {
                             Zarejestruj się
                         </button>
                     </div>
-                </form>
+                </Form>
             </div>
         </div>
     );
