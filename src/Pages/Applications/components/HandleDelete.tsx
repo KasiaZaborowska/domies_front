@@ -23,10 +23,8 @@ function DeleteButtonWithModal({
         console.log('ID: ', id);
         if (id) {
             try {
-                console.log(typeof id);
                 await deleteFunction(id);
                 setShowDeleteModal(false);
-                //window.location.reload();
             } catch (error) {
                 console.error('Błąd podczas usuwania:', error);
             }
