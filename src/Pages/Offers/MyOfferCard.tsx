@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { readOfferInterface } from '../../Interfaces';
+import { offerByIdInterface, readOfferInterface } from '../../Interfaces';
 import { Link } from 'react-router-dom';
 import { useDeleteOfferMutation } from '../../Apis/offerApi';
 import { Form, Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-
+import GradeIcon from '@mui/icons-material/Grade';
 interface Props {
     offer: readOfferInterface;
 }
@@ -26,6 +26,27 @@ function MyOfferCard(props: Props) {
         } else {
             console.error('Brak ID do usunięcia.');
         }
+    };
+
+    const getAverageRating = (offer: offerByIdInterface) => {
+        if (!offer.applications || offer.applications.length === 0)
+            return 'Brak ocen';
+
+        const allRatings = offer.applications.flatMap((app) =>
+            (app.opinions ?? []).map((o) => o.rating ?? 0),
+        );
+        console.log('allRatings');
+        console.log(allRatings);
+
+        if (allRatings.length === 0) return 'Brak ocen';
+
+        const totalRatings = allRatings.reduce(
+            (sum: number, rating) => sum + rating,
+            0,
+        );
+        const avg = totalRatings / allRatings.length;
+
+        return avg.toFixed(1);
     };
 
     return (
@@ -53,7 +74,7 @@ function MyOfferCard(props: Props) {
                     </div>
 
                     <i
-                        className="bi bi-star btn"
+                        // className="bi bi-star btn"
                         style={{
                             position: 'absolute',
                             top: '15px',
@@ -63,9 +84,20 @@ function MyOfferCard(props: Props) {
                             outline: 'none !important',
                             cursor: 'pointer',
                             backgroundColor: '#f1dede',
+                            alignItems: 'center',
+                            justifyContent: 'center',
                         }}
                     >
-                        &nbsp; oceny
+                        <GradeIcon
+                            fontSize="medium"
+                            style={{
+                                alignContent: 'center',
+                                marginBottom: '5px',
+                                marginRight: '5px',
+                                color: 'black',
+                            }}
+                        />
+                        {getAverageRating(props.offer)}
                     </i>
 
                     <i
