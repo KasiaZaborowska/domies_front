@@ -247,100 +247,117 @@ function Application({ offerId, show, setShow, application }: Props) {
                                 : handleAddApplication
                         }
                     >
-                        <Form.Group className="mb-3" controlId="animalDto">
-                            <Form.Label>Okres opieki:</Form.Label>
-                            <div className="container">
-                                <LocalizationProvider
-                                    dateAdapter={AdapterDayjs}
+                        {application ? (
+                            <></>
+                        ) : (
+                            <>
+                                <Form.Group
+                                    className="mb-3"
+                                    controlId="animalDto"
                                 >
-                                    <DemoContainer
-                                        components={[
-                                            'DatePicker',
-                                            'DatePicker',
-                                        ]}
-                                    >
-                                        <DatePicker
-                                            label="Data startowa:"
-                                            value={dateStart}
-                                            onChange={(newValue) =>
-                                                setDateStart(newValue)
-                                            }
-                                            minDate={dayjs()} // Ustawienie minimalnej daty na dzisiejszy dzień
-                                        />
-                                        <DatePicker
-                                            label="Data końcowa:"
-                                            value={
-                                                application
-                                                    ? dayjs(application.dateEnd)
-                                                    : dateEnd
-                                            }
-                                            onChange={(newValue) =>
-                                                setDateEnd(newValue)
-                                            }
-                                            minDate={dayjs()
-                                                .add(1, 'day')
-                                                .startOf('day')}
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                            </div>
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="animalDto">
-                            <Form.Label>Dla zwierzęcia:</Form.Label>
-                            <Form.Group
-                                as={Row}
-                                className="align-items-center mb-2"
-                                controlId="formAnimalTypes"
-                            >
-                                <div>
-                                    {' '}
-                                    <DropdownButton
-                                        title={renderSelected() || 'Wybierz..'}
-                                    >
-                                        {filtredtableAnimalsFromOffer.length >
-                                        0 ? (
-                                            filtredtableAnimalsFromOffer.map(
-                                                (animal: any) => (
-                                                    <Form.Check
-                                                        className="m-2"
-                                                        key={animal.id}
-                                                        type="checkbox"
-                                                        label={animal.petName}
-                                                        value={animal.id}
-                                                        checked={formData.animals.includes(
-                                                            animal,
-                                                        )}
-                                                        onChange={() =>
-                                                            handleCheckboxChange(
-                                                                animal.id,
-                                                            )
-                                                        }
-                                                    />
-                                                ),
-                                            )
-                                        ) : (
-                                            <Form.Text
-                                                style={{
-                                                    padding: '15px',
-                                                    fontWeight: 'bold',
-                                                    backgroundColor:
-                                                        'lightgrey',
-                                                    borderRadius: '10px',
-                                                }}
+                                    <Form.Label>Okres opieki:</Form.Label>
+                                    <div className="container">
+                                        <LocalizationProvider
+                                            dateAdapter={AdapterDayjs}
+                                        >
+                                            <DemoContainer
+                                                components={[
+                                                    'DatePicker',
+                                                    'DatePicker',
+                                                ]}
                                             >
-                                                Brak dostępnych typów zwierząt
-                                                do tej oferty!
-                                            </Form.Text>
+                                                <DatePicker
+                                                    label="Data startowa:"
+                                                    value={dateStart}
+                                                    onChange={(newValue) =>
+                                                        setDateStart(newValue)
+                                                    }
+                                                    minDate={dayjs()} // Ustawienie minimalnej daty na dzisiejszy dzień
+                                                />
+                                                <DatePicker
+                                                    label="Data końcowa:"
+                                                    value={dateEnd}
+                                                    onChange={(newValue) =>
+                                                        setDateEnd(newValue)
+                                                    }
+                                                    minDate={dayjs()
+                                                        .add(1, 'day')
+                                                        .startOf('day')}
+                                                />
+                                            </DemoContainer>
+                                        </LocalizationProvider>
+                                    </div>
+                                </Form.Group>
+                                <Form.Group
+                                    className="mb-3"
+                                    controlId="animalDto"
+                                >
+                                    <Form.Label>Dla zwierzęcia:</Form.Label>
+                                    <Form.Group
+                                        as={Row}
+                                        className="align-items-center mb-2"
+                                        controlId="formAnimalTypes"
+                                    >
+                                        <div>
+                                            {' '}
+                                            <DropdownButton
+                                                title={
+                                                    renderSelected() ||
+                                                    'Wybierz..'
+                                                }
+                                            >
+                                                {filtredtableAnimalsFromOffer.length >
+                                                0 ? (
+                                                    filtredtableAnimalsFromOffer.map(
+                                                        (animal: any) => (
+                                                            <Form.Check
+                                                                className="m-2"
+                                                                key={animal.id}
+                                                                type="checkbox"
+                                                                label={
+                                                                    animal.petName
+                                                                }
+                                                                value={
+                                                                    animal.id
+                                                                }
+                                                                checked={formData.animals.includes(
+                                                                    animal,
+                                                                )}
+                                                                onChange={() =>
+                                                                    handleCheckboxChange(
+                                                                        animal.id,
+                                                                    )
+                                                                }
+                                                            />
+                                                        ),
+                                                    )
+                                                ) : (
+                                                    <Form.Text
+                                                        style={{
+                                                            padding: '15px',
+                                                            fontWeight: 'bold',
+                                                            backgroundColor:
+                                                                'lightgrey',
+                                                            borderRadius:
+                                                                '10px',
+                                                        }}
+                                                    >
+                                                        Brak dostępnych typów
+                                                        zwierząt do tej oferty!
+                                                    </Form.Text>
+                                                )}
+                                            </DropdownButton>
+                                        </div>
+                                        {errorMessage && (
+                                            <p className="text-danger">
+                                                {errorMessage}
+                                            </p>
                                         )}
-                                    </DropdownButton>
-                                </div>
-                                {errorMessage && (
-                                    <p className="text-danger">
-                                        {errorMessage}
-                                    </p>
-                                )}
-                            </Form.Group>
-                        </Form.Group>
+                                    </Form.Group>
+                                </Form.Group>
+                            </>
+                        )}
+
                         <Form.Group className="mb-3" controlId="animalDto">
                             <Form.Label>Dodatkowy opis:</Form.Label>
                             <Form.Control
@@ -348,7 +365,7 @@ function Application({ offerId, show, setShow, application }: Props) {
                                 rows={3}
                                 name="note"
                                 type="text"
-                                value={
+                                defaultValue={
                                     application
                                         ? application.note
                                         : formData.note
