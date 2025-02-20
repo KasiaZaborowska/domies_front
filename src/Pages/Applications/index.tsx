@@ -26,6 +26,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Application from './components/Application';
 import AddOpinion from './components/AddOpinion';
+import GradeIcon from '@mui/icons-material/Grade';
 
 function Applications() {
     const { data, isLoading } = useGetApplicationsQuery(null);
@@ -188,28 +189,27 @@ function Applications() {
                 <Button
                     variant="contained"
                     color="success"
+                    style={{
+                        backgroundColor: 'darkgrey',
+                        marginRight: '10px',
+                        // borderRadius: '30px',
+                    }}
                     onClick={() => addOpinionHandler(row)}
                 >
-                    <i className="bi bi-pencil-fill">opinion</i>
+                    <GradeIcon
+                        fontSize="medium"
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            // marginLeft: '15px',
+                            border: '1px black',
+                            color: 'gold',
+                        }}
+                    />
                 </Button>
             </>
         );
     };
-    // const handleEditClick = (data: any) => {
-    //     setSelectedRow(data);
-    //     setIsModalOpen(true);
-    // };
-
-    // const handleCloseModal = () => {
-    //     setIsModalOpen(false);
-    //     setOpinion('');
-    // };
-
-    // const handleSaveOpinion = () => {
-    //     // Tutaj wywołujesz mutację lub funkcję, która zapisze opinię.
-    //     console.log('Dodano opinię: ', opinion);
-    //     setIsModalOpen(false);
-    // };
 
     useEffect(() => {
         if (!isLoading && !isLoadingAnimals) {
