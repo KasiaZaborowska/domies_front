@@ -21,6 +21,7 @@ import { RootState } from '../../../Store/Redux/store';
 import { useGetOfferByIdQuery } from '../../../Apis/offerApi';
 import { useAddOpinionMutation } from '../../../Apis/opinionApi';
 import opinionInterface from '../../../Interfaces/opinionInterface';
+import { Rating, Stack } from '@mui/material';
 
 interface Props {
     show: boolean;
@@ -30,6 +31,7 @@ interface Props {
 
 function AddOpinion({ show, setShow, application }: Props) {
     const [opinionToAdd] = useAddOpinionMutation();
+    const [ratingValue, setRatingValue] = useState<number | null>(2);
 
     const [validated, setValidated] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
@@ -61,49 +63,14 @@ function AddOpinion({ show, setShow, application }: Props) {
             e.stopPropagation();
         }
         setValidated(true);
-
+        console.log(formData.rating);
+        console.log(formData.comment);
         const formDataToSend = {
-            // dateStart: dateStart ? dateStart.toISOString() : '',
-            // dateEnd: dateEnd ? dateEnd.toISOString() : '',
-            // offerId: formData.offerId.toString(),
-            // note: formData.note,
-            // animals: formData.animals.map(
-            //     (animal: animalInterface | any) => animal.id,
-            // ),
-        };
-
-        try {
-            console.log('Dane, które wysyłam:', formDataToSend);
-            console.log('FormData contents:');
-            await opinionToAdd({
-                data: formDataToSend,
-                userId: userData.Email,
-            }).unwrap();
-            window.location.href = '/applications';
-        } catch (error: any) {
-            console.log('Błąd');
-            console.error('Błąd przy dodawaniu:', error);
-            console.error('Błąd przy dodawaniu:', error.data.errors.Animals[0]);
-            setErrorMessage(error.data.errors.Animals[0] || 'Wystąpił błąd.');
-        }
-    };
-
-    const handleEditApplication = async (
-        e: React.FormEvent<HTMLFormElement>,
-    ) => {
-        e.preventDefault();
-        const form = e.currentTarget;
-        if (form.checkValidity() === false) {
-            e.stopPropagation();
-        }
-        setValidated(true);
-
-        const formDataToSend = {
-            rating: formData.rating,
+            rating: ratingValue,
             comment: formData.comment,
-            applicationId: formData.applicationId.toString(),
-            userEmail: formData.userEmail,
-            opinionDateAdd: formData.opinionDateAdd,
+            applicationId: application?.id,
+            userEmail: application?.toUser,
+            // opinionDateAdd: formData.opinionDateAdd,
         };
 
         try {
@@ -148,60 +115,25 @@ function AddOpinion({ show, setShow, application }: Props) {
                         onSubmit={handleAddOpinion}
                     >
                         <Form.Group className="mb-3" controlId="animalDto">
-                            <Form.Label>Okres opieki:</Form.Label>
+                            <Form.Label>Ocena:</Form.Label>
                             <div className="container">
-                                {/* <LocalizationProvider
-                                    dateAdapter={AdapterDayjs}
-                                >
-                                    <DemoContainer
-                                        components={[
-                                            'DatePicker',
-                                            'DatePicker',
-                                        ]}
-                                    >
-                                        <DatePicker
-                                            label="Data startowa:"
-                                            value={dateStart}
-                                            onChange={(newValue) =>
-                                                setDateStart(newValue)
-                                            }
-                                            minDate={dayjs()} // Ustawienie minimalnej daty na dzisiejszy dzień
-                                        />
-                                        <DatePicker
-                                            label="Data końcowa:"
-                                            value={
-                                                application
-                                                    ? dayjs(application.dateEnd)
-                                                    : dateEnd
-                                            }
-                                            onChange={(newValue) =>
-                                                setDateEnd(newValue)
-                                            }
-                                            minDate={dayjs()
-                                                .add(1, 'day')
-                                                .startOf('day')}
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider> */}
+                                <Stack spacing={1}>
+                                    <Rating
+                                        name="half-rating"
+                                        value={ratingValue}
+                                        precision={1}
+                                        onChange={(event, newRatingValue) => {
+                                            setRatingValue(newRatingValue); // Aktualizacja wartości
+                                        }}
+                                        sx={{ fontSize: '50px' }}
+                                    />
+                                    <p>Wybrana ocena: {ratingValue}</p>{' '}
+                                    {/* Wyświetlanie wartości */}
+                                </Stack>
                             </div>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="animalDto">
-                            <Form.Label>Dla zwierzęcia:</Form.Label>
-                            <Form.Group
-                                as={Row}
-                                className="align-items-center mb-2"
-                                controlId="formAnimalTypes"
-                            >
-                                <div></div>
-                                {errorMessage && (
-                                    <p className="text-danger">
-                                        {errorMessage}
-                                    </p>
-                                )}
-                            </Form.Group>
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="animalDto">
-                            <Form.Label>Dodatkowy comment:</Form.Label>
+                            <Form.Label>Opinia/komentarz:</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={3}
@@ -213,29 +145,7 @@ function AddOpinion({ show, setShow, application }: Props) {
                                 onChange={handleUserInput}
                             />
                         </Form.Group>
-                        {application ? (
-                            <></>
-                        ) : (
-                            <Form.Group className="mb-3">
-                                <Form.Check
-                                    required
-                                    label={
-                                        <span>
-                                            Akceptuję
-                                            <a
-                                                href="/termsAndConditions"
-                                                style={{ color: '#4a4f7c' }}
-                                            >
-                                                regulamin
-                                            </a>
-                                            strony internetowej
-                                        </span>
-                                    }
-                                    feedback="Musisz wyrazić zgodę przed aplikowaniem."
-                                    feedbackType="invalid"
-                                />
-                            </Form.Group>
-                        )}
+
                         <Form.Group
                             className="d-flex justify-content-end"
                             controlId="formBasicEmail"
