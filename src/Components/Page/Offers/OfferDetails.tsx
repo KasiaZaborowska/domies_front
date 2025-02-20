@@ -104,7 +104,7 @@ function OfferDetails() {
         //     renderCell: (params) => (
         //         <div style={{ padding: '5px' }}>{params.value}</div>
         //     ),
-        // },
+        // }
         {
             field: 'userEmail',
             headerName: 'UserEmail',
