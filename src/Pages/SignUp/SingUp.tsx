@@ -7,6 +7,8 @@ import toastNotify from '../../Helper/toastNotify';
 import { useNavigate } from 'react-router-dom';
 import MainLoader from '../../Components/MainLoader';
 import { Form } from 'react-bootstrap';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
 
 function SingUp() {
     const [registerUser] = useRegisterUserMutation();
@@ -16,8 +18,10 @@ function SingUp() {
         Email: '',
         FirstName: '',
         LastName: '',
+        PhoneNumber: '',
         Password: '',
     });
+    // const [value, setValue] = useState<string | undefined>();
     const [errorMessage, setErrorMessage] = useState<string[]>([]);
     const [validated, setValidated] = useState(false);
 
@@ -37,13 +41,16 @@ function SingUp() {
         }
         setLoading(true);
         try {
+            console.log(userInput.FirstName);
+            console.log(userInput.PhoneNumber);
+            // console.log(response);
             const response: apiResponse = await registerUser({
                 Email: userInput.Email,
                 FirstName: userInput.FirstName,
                 LastName: userInput.LastName,
+                PhoneNumber: userInput.PhoneNumber,
                 Password: userInput.Password,
             }).unwrap();
-
             if (response.data) {
                 toastNotify(
                     'Rejestracja zakończona sukcesem! Potwierdź swój adres email aby móc się zalogować.',
@@ -115,6 +122,70 @@ function SingUp() {
                             />
                             <div className="invalid-feedback">
                                 {getErrorMessage('LastName')}
+                            </div>
+                        </div>{' '}
+                        <div className="mt-4">
+                            {/* <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Podaj numer telefonu"
+                                required
+                                name="phoneNumber"
+                                value={userInput.LastName}
+                                onChange={handleUserInput}
+                            /> */}
+                            <div
+                                className="mt-4"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    border: '1px solid #ccc',
+                                    borderRadius: '5px',
+                                    // padding: '8px',
+                                }}
+                            >
+                                <span
+                                    style={{
+                                        fontSize: '1.2em',
+                                        marginInline: '8px',
+                                        marginBottom: '8px',
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            width: '20px',
+                                            height: '20px',
+                                            objectFit: 'cover',
+                                        }}
+                                        src="/Images/poland_icon.webp"
+                                        alt="PLN"
+                                    />
+                                </span>
+                                <span
+                                    style={{
+                                        fontWeight: 'bold',
+                                        marginRight: '5px',
+                                    }}
+                                >
+                                    +48
+                                </span>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="PhoneNumber"
+                                    value={userInput.PhoneNumber}
+                                    onChange={handleUserInput}
+                                    required
+                                    placeholder="Podaj numer telefonu"
+                                    style={{
+                                        border: 'none',
+                                        outline: 'none',
+                                        flex: 1,
+                                    }}
+                                />
+                            </div>
+                            <div className="invalid-feedback">
+                                {getErrorMessage('PhoneNumber')}
                             </div>
                         </div>
                         <div className="mt-4">
