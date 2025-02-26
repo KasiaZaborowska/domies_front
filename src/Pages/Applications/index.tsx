@@ -42,7 +42,7 @@ function Applications() {
         dateStart: '',
         dateEnd: '',
         offerId: 0,
-        toUser: '',
+        applicant: '',
         applicationDateAdd: '',
         note: '',
         animals: [
@@ -91,7 +91,7 @@ function Applications() {
             ),
         },
         {
-            field: 'toUser',
+            field: 'applicant',
             headerName: 'Użytkownik',
             minWidth: 200,
             renderCell: (params) => (
@@ -225,7 +225,7 @@ function Applications() {
                             'pl-PL',
                         ),
                         offerId: item.offerId,
-                        toUser: item.toUser,
+                        applicant: item.applicant,
                         applicationDateAdd: new Date(
                             item.applicationDateAdd,
                         ).toLocaleDateString('pl-PL'),

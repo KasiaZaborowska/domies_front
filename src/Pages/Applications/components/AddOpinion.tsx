@@ -69,7 +69,7 @@ function AddOpinion({ show, setShow, application }: Props) {
             rating: ratingValue,
             comment: formData.comment,
             applicationId: application?.id,
-            userEmail: application?.toUser,
+            userEmail: application?.applicant,
             // opinionDateAdd: formData.opinionDateAdd,
         };
 

@@ -9,7 +9,7 @@ import {
     applicationInterface,
     applicationTableInterface,
 } from '../../Interfaces';
-import DefaultDataTable from '../Applications/components/DefaultTable';
+// import DefaultDataTable from '../Applications/components/DefaultTable';
 import EmailIcon from '@mui/icons-material/Email';
 import { InputBase, Paper } from '@mui/material';
 
@@ -36,7 +36,7 @@ function MyOfferDetails() {
                 dateStart: application.dateStart.split('T')[0],
                 //owner: animal.owner,
                 dateEnd: application.dateEnd.split('T')[0],
-                toUser: application.toUser,
+                applicant: application.applicant,
                 note: application.note,
                 petName: application.animals
                     .map((animal) => animal.petName)
@@ -62,7 +62,7 @@ function MyOfferDetails() {
                     dateStart: application.dateStart,
                     //owner: animal.owner,
                     dateEnd: application.dateEnd,
-                    toUser: application.toUser,
+                    applicant: application.applicant,
                     note: application.note,
                     petName: application.animals
                         .map((animal) => animal.petName)
@@ -101,7 +101,7 @@ function MyOfferDetails() {
             ),
         },
         {
-            field: 'toUser',
+            field: 'applicant',
             headerName: 'Użytkownik',
             minWidth: 200,
             renderCell: (params) => (
@@ -171,12 +171,12 @@ function MyOfferDetails() {
         const filteredRows = rows.filter((row: applicationTableInterface) => {
             const dateStart = row.dateStart ? row.dateStart.toLowerCase() : ''; // Sprawdź, czy name jest zdefiniowane
             const dateEnd = row.dateEnd ? row.dateEnd.toLowerCase() : '';
-            const toUser = row.toUser ? row.toUser.toLowerCase() : '';
+            const applicant = row.applicant ? row.applicant.toLowerCase() : '';
             const note = row.note ? row.note.toLowerCase() : '';
             return (
                 dateStart.includes(searchValue) ||
                 dateEnd.includes(searchValue) ||
-                toUser.includes(searchValue) ||
+                applicant.includes(searchValue) ||
                 note.includes(searchValue)
             );
         });
@@ -246,12 +246,17 @@ function MyOfferDetails() {
                                     {data.result.offerAnimalTypes}
                                 </span>
                             </span>
+                            <h3 style={{ marginTop: '20px' }}>O ofercie</h3>
                             <p style={{ fontSize: '20px' }} className="py-3">
-                                {data.result.description}
+                                {data.result.offerDescription}
                             </p>
                             <hr />
+                            <h3 style={{ marginTop: '20px' }}>O mnie</h3>
+                            <p style={{ fontSize: '20px' }} className="py-3">
+                                {data.result.petSitterDescription}
+                            </p>
                             <span className="h3">
-                                Koszt usługi: {data.result.price}zł
+                                Koszt usługi: {data.result.price}zł /24h
                             </span>
                             <hr />
                             <div className="row pt-4">
@@ -259,7 +264,7 @@ function MyOfferDetails() {
                                     style={{ fontSize: '20px' }}
                                     className="pt-2"
                                 >
-                                    Adres:
+                                    <h3 style={{ marginTop: '20px' }}>Adres</h3>
                                 </span>
                                 <span
                                     style={{ fontSize: '20px' }}
@@ -280,17 +285,17 @@ function MyOfferDetails() {
                                         style={{ fontSize: '20px' }}
                                         className="pt-2"
                                     >
-                                        Twój opiekun to: {data.result.name}
+                                        <h3 style={{ marginTop: '20px' }}>
+                                            Twój opiekun to
+                                        </h3>
+                                        {data.result.name}
                                         <br />
-                                        Kontakt:
-                                        <br />
+                                        <h3 style={{ marginTop: '20px' }}>
+                                            Kontakt
+                                        </h3>
                                         {data.result.host}
                                     </span>
                                 </div>
-                                {/* <p style={{ fontSize: '20px' }} className="py-3">
-                            aaa
-                            {data.result.applications}
-                        </p> */}
                             </div>
                             <div className="row pt-4 px-5 d-flex justify-content-between">
                                 <div className="col-5">
@@ -344,8 +349,10 @@ function MyOfferDetails() {
                                     </Modal>
                                 </div>
                             </div>
-
-                            <div className="containerApplicationsForPages pt-5">
+                            <h3 style={{ marginTop: '50px' }}>
+                                Aplikacje do Twojej oferty
+                            </h3>
+                            <div className="containerApplicationsForPages pt-3">
                                 <Paper
                                     sx={{
                                         height: '100%',
