@@ -18,17 +18,15 @@ function AddOfferForm() {
     const userData: userAccountInterface = useSelector(
         (state: RootState) => state.userAccountStore,
     );
-    //console.log(userData.Email);
-
     const loggedInUserEmail = userData.Email;
-    // const role = userData.Role;
 
     const [offferToAdd] = useAddOfferMutation();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState<offerInterface>({
         name: '',
         host: loggedInUserEmail,
-        description: '',
+        offerDescription: '',
+        petSitterDescription: '',
         country: '',
         city: '',
         street: '',
@@ -138,7 +136,11 @@ function AddOfferForm() {
         const formDataToSend = new FormData();
         formDataToSend.append('name', formData.name);
         formDataToSend.append('host', loggedInUserEmail);
-        formDataToSend.append('description', formData.description);
+        formDataToSend.append('offerDescription', formData.offerDescription);
+        formDataToSend.append(
+            'petSitterDescription',
+            formData.petSitterDescription,
+        );
         formDataToSend.append('country', formData.country);
         formDataToSend.append('city', formData.city);
         formDataToSend.append('street', formData.street);
@@ -238,15 +240,30 @@ function AddOfferForm() {
             </Form.Group>
             <Form.Group as={Row} className="mb-2" controlId="">
                 <Col sm={2}>
-                    <Form.Label>Opis</Form.Label>
+                    <Form.Label>Opis oferty</Form.Label>
                 </Col>
                 <Col sm={10}>
                     <Form.Control
                         as="textarea"
                         rows={3}
-                        placeholder="opis"
-                        name="description"
-                        value={formData.description}
+                        placeholder="opis oferty"
+                        name="offerDescription"
+                        value={formData.offerDescription}
+                        onChange={handleUserInput}
+                    />
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-2" controlId="">
+                <Col sm={2}>
+                    <Form.Label>Opis opiekuna/O mnie</Form.Label>
+                </Col>
+                <Col sm={10}>
+                    <Form.Control
+                        as="textarea"
+                        rows={3}
+                        placeholder="opis opiekuna"
+                        name="petSitterDescription"
+                        value={formData.petSitterDescription}
                         onChange={handleUserInput}
                     />
                 </Col>
@@ -366,7 +383,6 @@ function AddOfferForm() {
                     </DropdownButton>
                 </Col>
             </Form.Group>
-
             <Form.Group as={Row} className="mb-4" controlId="File">
                 <Form.Label column sm={2}>
                     Plik
@@ -392,7 +408,6 @@ function AddOfferForm() {
                     </div>
                 </Col>
             </Form.Group>
-
             <Button variant="primary" type="submit">
                 Dodaj ofertę
             </Button>

@@ -48,7 +48,8 @@ function EditOfferForm() {
     const [formData, setFormData] = useState<offerInterface>({
         name: dataOffer.result.name,
         host: loggedInUserEmail,
-        description: dataOffer.result.description,
+        offerDescription: dataOffer.result.offerDescription,
+        petSitterDescription: dataOffer.result.petSitterDescription,
         country: dataOffer.result.country,
         city: dataOffer.result.city,
         street: dataOffer.result.street,
@@ -115,7 +116,11 @@ function EditOfferForm() {
         const formDataToSend = new FormData();
         formDataToSend.append('name', formData.name);
         formDataToSend.append('host', loggedInUserEmail);
-        formDataToSend.append('description', formData.description);
+        formDataToSend.append('offerDescription', formData.offerDescription);
+        formDataToSend.append(
+            'petSitterDescription',
+            formData.petSitterDescription,
+        );
         formDataToSend.append('country', formData.country);
         formDataToSend.append('city', formData.city);
         formDataToSend.append('street', formData.street);
@@ -189,15 +194,15 @@ function EditOfferForm() {
             </Form.Group>
             <Form.Group as={Row} className="mb-2" controlId="">
                 <Col sm={2}>
-                    <Form.Label>Opis</Form.Label>
+                    <Form.Label>Opis oferty</Form.Label>
                 </Col>
                 <Col sm={10}>
                     <Form.Control
                         as="textarea"
                         rows={3}
-                        placeholder="opis"
-                        name="description"
-                        value={formData.description}
+                        placeholder="opis oferty"
+                        name="offerDescription"
+                        value={formData.offerDescription}
                         onChange={handleUserInput}
                     />
                 </Col>
