@@ -33,7 +33,7 @@ function AddUser({ offerId }: Props) {
         dateStart: '',
         dateEnd: '',
         offerId: offerId,
-        toUser: '',
+        applicant: '',
         applicationDateAdd: '',
         note: '',
         animals: [
