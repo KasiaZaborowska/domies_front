@@ -6,7 +6,7 @@ export default interface applicationInterface {
     dateStart: string;
     dateEnd: string;
     offerId: number;
-    toUser?: string;
+    applicant?: string;
     applicationDateAdd: string;
     note: string;
     animals: animalInterface[];

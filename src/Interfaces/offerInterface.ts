@@ -3,7 +3,8 @@ import animalTypeInterface from './animalTypeInterface';
 export default interface offerInterface {
     id?: number;
     name: string;
-    description: string;
+    offerDescription: string;
+    petSitterDescription: string;
     host: string;
     addressId?: number;
     dateAdd?: string;

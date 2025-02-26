@@ -4,7 +4,8 @@ import applicationInterface from './applicationInterface';
 export default interface readOfferInterface {
     id?: number;
     name: string;
-    description: string;
+    offerDescription: string;
+    petSitterDescription: string;
     host: string;
     addressId?: number;
     dateAdd?: string;
