@@ -16,7 +16,10 @@ function OfferDetails() {
     const { offerId } = useParams(); // offerId match the offerId from App.tsx
     const offerIdToNumber = Number(offerId);
 
-    const { data, isLoading } = useGetOfferByIdQuery({ id: offerId });
+    const { data, isLoading, error } = useGetOfferByIdQuery({ id: offerId });
+    console.log('Dane z API:', data);
+    console.log('Błąd:', error);
+    console.log('Ładowanie:', isLoading);
     const navigate = useNavigate();
     const [filterText, setFilterText] = useState('');
 
@@ -29,7 +32,7 @@ function OfferDetails() {
         const allOpinions = data.result.applications.flatMap(
             (app: applicationInterface) => app.opinions,
         );
-
+        console.log('allOpinions');
         console.log(allOpinions);
         const dataToSet = allOpinions.map((opinion: opinionInterface) => ({
             id: opinion.id,
@@ -107,7 +110,7 @@ function OfferDetails() {
         // }
         {
             field: 'userEmail',
-            headerName: 'UserEmail',
+            headerName: 'Email',
             minWidth: 250,
             renderCell: (params) => (
                 <div style={{ padding: '25px' }}>{params.value}</div>
@@ -115,7 +118,7 @@ function OfferDetails() {
         },
         {
             field: 'opinionDateAdd',
-            headerName: 'opinionDateAdd',
+            headerName: 'Data dodania opinii',
             minWidth: 250,
             renderCell: (params) => (
                 <div style={{ padding: '25px' }}>{params.value}</div>
@@ -199,17 +202,22 @@ function OfferDetails() {
                             {data.result.offerAnimalTypes}
                         </span>
                     </span>
+                    <h3 style={{ marginTop: '20px' }}>O ofercie</h3>
                     <p style={{ fontSize: '20px' }} className="py-3">
-                        {data.result.description}
+                        {data.result.offerDescription}
                     </p>
                     <hr />
+                    <h3 style={{ marginTop: '20px' }}>O mnie</h3>
+                    <p style={{ fontSize: '20px' }} className="py-3">
+                        {data.result.petSitterDescription}
+                    </p>
                     <span className="h3">
                         Koszt usługi: {data.result.price}zł /24h
                     </span>
                     <hr />
                     <div className="row pt-4">
                         <span style={{ fontSize: '20px' }} className="pt-2">
-                            Adres:
+                            <h3 style={{ marginTop: '20px' }}>Adres</h3>
                         </span>
                         <span style={{ fontSize: '20px' }} className="pb-4">
                             {data.result.country}, {data.result.city},
@@ -223,10 +231,12 @@ function OfferDetails() {
                             }}
                         >
                             <span style={{ fontSize: '20px' }} className="pt-2">
-                                Twój opiekun to: {data.result.name}
+                                <h3 style={{ marginTop: '20px' }}>
+                                    Twój opiekun to
+                                </h3>
+                                {data.result.name}
                                 <br />
-                                Kontakt:
-                                <br />
+                                <h3 style={{ marginTop: '20px' }}>Kontakt</h3>
                                 {data.result.host}
                             </span>
                         </div>
@@ -271,7 +281,8 @@ function OfferDetails() {
                         </div>
                     </div>
                     <div>
-                        <div className="containerApplicationsForPages pt-5">
+                        <h3 style={{ marginTop: '50px' }}>Opinie</h3>
+                        <div className="containerApplicationsForPages pt-3">
                             <Paper
                                 sx={{
                                     height: '100%',
