@@ -158,6 +158,7 @@ function AddOfferForm() {
         if (formData.file) {
             formDataToSend.append('file', formData.file); // Dodajemy plik
         }
+        console.log(formData.file);
 
         try {
             const response: offerInterface = await offferToAdd({
@@ -176,21 +177,21 @@ function AddOfferForm() {
                 //     file: formData.file,
                 // },
             }).unwrap();
-            setTimeout(() => {
-                // Odświeżenie strony
-                window.location.reload();
-            }, 60000); // 60 000 ms = 1 minuta
+            // setTimeout(() => {
+            //     // Odświeżenie strony
+            //     window.location.reload();
+            // }, 60000); // 60 000 ms = 1 minuta
             console.log('Dane, które dodaje:', response, 'and ', response.name);
-            setTimeout(() => {
-                // Odświeżenie strony
-                window.location.reload();
-            }, 60000); // 60 000 ms = 1 minuta
+            // setTimeout(() => {
+            //     // Odświeżenie strony
+            //     window.location.reload();
+            // }, 60000); // 60 000 ms = 1 minuta
 
             alert('dodane!');
-            setTimeout(() => {
-                // Odświeżenie strony
-                window.location.reload();
-            }, 60000); // 60 000 ms = 1 minuta
+            // setTimeout(() => {
+            //     // Odświeżenie strony
+            //     window.location.reload();
+            // }, 60000); // 60 000 ms = 1 minuta
             // setFormData(formData);
         } catch (error) {
             console.log('Błąd');
@@ -206,7 +207,7 @@ function AddOfferForm() {
         if (photo) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setPreview(reader.result as string); // ustawienie prewizualizacji wybranego obrazu
+                setPreview(reader.result as string); // prewizualizacja wybranego obrazu
             };
             reader.readAsDataURL(photo);
             setFormData((prev) => ({ ...prev, file: photo })); // Przypisanie pliku do formData
