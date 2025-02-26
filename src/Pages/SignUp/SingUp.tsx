@@ -7,8 +7,6 @@ import toastNotify from '../../Helper/toastNotify';
 import { useNavigate } from 'react-router-dom';
 import MainLoader from '../../Components/MainLoader';
 import { Form } from 'react-bootstrap';
-import 'react-phone-number-input/style.css';
-import PhoneInput from 'react-phone-number-input';
 
 function SingUp() {
     const [registerUser] = useRegisterUserMutation();
