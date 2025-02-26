@@ -229,7 +229,18 @@ function Application({ offerId, show, setShow, application }: Props) {
 
     return (
         <>
-            <Modal show={show} onHide={handleClose} size={'lg'}>
+            <Modal
+                show={show}
+                onHide={handleClose}
+                size={'lg'}
+                style={{
+                    width: '50%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: '25vw',
+                    marginTop: '10vw',
+                }}
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>
                         {application
@@ -383,13 +394,13 @@ function Application({ offerId, show, setShow, application }: Props) {
                                     required
                                     label={
                                         <span>
-                                            Akceptuję
+                                            Akceptuję{' '}
                                             <a
                                                 href="/termsAndConditions"
                                                 style={{ color: '#4a4f7c' }}
                                             >
                                                 regulamin
-                                            </a>
+                                            </a>{' '}
                                             strony internetowej
                                         </span>
                                     }
