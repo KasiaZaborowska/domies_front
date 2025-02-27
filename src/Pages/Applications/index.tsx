@@ -17,13 +17,7 @@ import { GridColDef } from '@mui/x-data-grid';
 import { useGetAnimalsQuery } from '../../Apis/animalApi';
 import EmailIcon from '@mui/icons-material/Email';
 import './Applications.css';
-import DeleteButtonWithModal from './components/HandleDelete';
-
 import dayjs, { Dayjs } from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Application from './components/Application';
 import AddOpinion from './components/AddOpinion';
 import GradeIcon from '@mui/icons-material/Grade';
@@ -33,10 +27,10 @@ function Applications() {
     const { data: animals, isLoading: isLoadingAnimals } =
         useGetAnimalsQuery(null);
     // console.log('dataaaa');
-    // console.log(data);
+    console.log(data);
     // console.log(animals);
     const navigate = useNavigate();
-    const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
+    // const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
 
     const [formData, setFormData] = useState<applicationInterface>({
         dateStart: '',
@@ -56,14 +50,14 @@ function Applications() {
 
     const [deleteApplication] = useDeleteApplicationMutation();
 
-    const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const tempData = inputHelper(e, formData);
-        setFormData(tempData);
-    };
+    // const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const tempData = inputHelper(e, formData);
+    //     setFormData(tempData);
+    // };
 
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    // const handleClose = () => setShow(false);
+    // const handleShow = () => setShow(true);
 
     const columns: GridColDef[] = [
         {
@@ -150,11 +144,9 @@ function Applications() {
     const [offerId, setOfferId] = useState<number>();
     const [selectedRow, setSelectedRow] = useState<any | null>(null); // Przechowuje wybrany wiersz
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Stan do otwierania/zamykania modala
-    // const [opinion, setOpinion] = useState('');
-    // const [isOpinionModalOpen, setIsModalOpen] = useState<boolean>(false);
-    // const [selectedRow, setSelectedRow] = useState<any | null>(null); // Przechowuje wybrany wiersz
+
     const [isOpinionModalOpen, setOpinionIsModalOpen] =
-        useState<boolean>(false); // Stan do otwierania/zamykania modala
+        useState<boolean>(false);
 
     console.log(rows);
 
@@ -181,9 +173,6 @@ function Applications() {
             console.error('brak id');
             return;
         }
-
-        // setSelectedRow(row);
-        // console.log('moj modal');
         return (
             <>
                 <Button
@@ -195,6 +184,7 @@ function Applications() {
                         // borderRadius: '30px',
                     }}
                     onClick={() => addOpinionHandler(row)}
+                    disabled={row.opinions && row.opinions.length > 0}
                 >
                     <GradeIcon
                         fontSize="medium"
@@ -214,7 +204,7 @@ function Applications() {
     useEffect(() => {
         if (!isLoading && !isLoadingAnimals) {
             if (data.result && Array.isArray(data.result)) {
-                console.log('Data:', data.result);
+                //console.log('Data:', data.result);
                 const dataInRows = data.result.map(
                     (item: applicationInterface) => ({
                         id: item.id,
@@ -236,6 +226,7 @@ function Applications() {
                             .map((animal) => animal.specificDescription)
                             .join(', '),
                         note: item.note,
+                        opinions: item.opinions,
                     }),
                 );
 
