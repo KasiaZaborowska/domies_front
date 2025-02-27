@@ -61,7 +61,7 @@ function Offers() {
                         <Modal.Title>Dodaj nową ofertę:</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <AddOfferForm />
+                        <AddOfferForm onSuccess={handleClose} />
                     </Modal.Body>
                 </Modal>
             </div>
@@ -109,7 +109,35 @@ function Offers() {
                         </div>
                     </>
                 ) : (
-                    <p>Brak ofert.</p>
+                    <>
+                        {' '}
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <div className="container row">
+                                <div className="d-flex justify-content-end pt-4">
+                                    <Button
+                                        variant="primary"
+                                        onClick={handleShow}
+                                        style={{
+                                            backgroundColor: 'pink',
+                                            borderColor: 'pink',
+                                            borderRadius: '50px',
+                                            padding: '10px',
+                                            display: 'inline-block',
+                                            color: 'black',
+                                        }}
+                                    >
+                                        Dodaj swoją ofertę!
+                                    </Button>
+                                </div>
+                                <p>Brak ofert.</p>{' '}
+                            </div>
+                        </div>
+                    </>
                 )}
             </div>
         </div>

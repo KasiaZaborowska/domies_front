@@ -13,7 +13,11 @@ import { useGetAnimalTypesQuery } from '../../Apis/animalTypeApi';
 import { setAnimalType } from '../../Store/Redux/animalTypeSlice';
 import MainLoader from '../../Components/MainLoader';
 
-function AddOfferForm() {
+interface AddOfferFormProps {
+    onSuccess: () => void;
+}
+
+function AddOfferForm({ onSuccess }: AddOfferFormProps) {
     const dispatch = useDispatch();
     const userData: userAccountInterface = useSelector(
         (state: RootState) => state.userAccountStore,
@@ -186,7 +190,7 @@ function AddOfferForm() {
             //     // Odświeżenie strony
             //     window.location.reload();
             // }, 60000); // 60 000 ms = 1 minuta
-
+            onSuccess();
             alert('dodane!');
             // setTimeout(() => {
             //     // Odświeżenie strony
