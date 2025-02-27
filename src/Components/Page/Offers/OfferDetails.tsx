@@ -57,6 +57,10 @@ function OfferDetails() {
         );
     }, [isLoading]);
 
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toISOString().split('T')[0]; // YYYY-MM-DD
+    };
+
     if (isLoading) {
         return (
             <div
@@ -120,9 +124,12 @@ function OfferDetails() {
             field: 'opinionDateAdd',
             headerName: 'Data dodania opinii',
             minWidth: 250,
-            renderCell: (params) => (
-                <div style={{ padding: '25px' }}>{params.value}</div>
-            ),
+            renderCell: (params) => {
+                const formattedDate = params.value
+                    ? formatDate(params.value)
+                    : '';
+                return <div style={{ padding: '25px' }}>{formattedDate}</div>;
+            },
         },
     ];
 
