@@ -12,10 +12,15 @@ import {
 // import DefaultDataTable from '../Applications/components/DefaultTable';
 import EmailIcon from '@mui/icons-material/Email';
 import { InputBase, Paper } from '@mui/material';
+import Facilities from './Facilities';
+import {
+    useAcceptApplicationMutation,
+    useRejectApplicationMutation,
+} from '../../Apis/applicationApi';
 
 function MyOfferDetails() {
     const { offerId } = useParams(); // offerId match the offerId from App.tsx
-    const { data, isLoading } = useGetOfferByIdQuery({ id: offerId });
+    const { data, isLoading, refetch } = useGetOfferByIdQuery({ id: offerId });
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -26,6 +31,51 @@ function MyOfferDetails() {
     const [rows, setRows] = useState<applicationTableInterface[]>();
     const [filteredRows, setFilteredRows] =
         useState<applicationTableInterface[]>();
+    console.log(data);
+
+    // Application Status
+    const [applicationStatusState, setApplicationStatus] = useState<
+        applicationInterface[]
+    >([]);
+
+    const [acceptApplication] = useAcceptApplicationMutation();
+    const [rejectApplication] = useRejectApplicationMutation();
+
+    const updateStatus = (id: number, status: string) => {
+        setApplicationStatus((prevState) =>
+            prevState.map((applicationStatusState) =>
+                applicationStatusState.id === id
+                    ? { ...applicationStatusState, applicationStatus: status }
+                    : applicationStatusState,
+            ),
+        );
+    };
+
+    const handleAccept = async (id: number) => {
+        try {
+            const response = await acceptApplication({ id }).unwrap();
+
+            if (response?.data) {
+                updateStatus(id, 'Accepted'); // Zmiana statusu w stanie
+            }
+            await refetch();
+        } catch (error) {
+            console.error('Błąd przy akceptacji', error);
+        }
+    };
+
+    const handleReject = async (id: number) => {
+        try {
+            const response = await rejectApplication({ id }).unwrap();
+
+            if (response?.data) {
+                updateStatus(id, 'Rejected'); // Zmiana statusu w stanie
+            }
+            await refetch();
+        } catch (error) {
+            console.error('Błąd przy odrzuceniu', error);
+        }
+    };
 
     useEffect(() => {
         if (isLoading) return;
@@ -34,10 +84,11 @@ function MyOfferDetails() {
             (application: applicationInterface) => ({
                 id: application.id,
                 dateStart: application.dateStart.split('T')[0],
-                //owner: animal.owner,
                 dateEnd: application.dateEnd.split('T')[0],
                 applicant: application.applicant,
                 note: application.note,
+                applicationDateAdd: application.applicationDateAdd,
+                applicationStatus: application.applicationStatus,
                 petName: application.animals
                     .map((animal) => animal.petName)
                     .join(', '),
@@ -70,7 +121,11 @@ function MyOfferDetails() {
                 }),
             ),
         );
-    }, [isLoading]);
+    }, [isLoading, applicationStatusState, data]);
+
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toISOString().split('T')[0]; // YYYY-MM-DD
+    };
 
     if (isLoading) {
         return (
@@ -158,6 +213,46 @@ function MyOfferDetails() {
             field: 'applicationDateAdd',
             headerName: 'Data aplikowania',
             minWidth: 150,
+            renderCell: (params) => {
+                const formattedDate = params.value
+                    ? formatDate(params.value)
+                    : '';
+                return <div style={{ padding: '15px' }}>{formattedDate}</div>;
+            },
+        },
+        {
+            field: 'applicationStatus',
+            headerName: 'Status',
+            minWidth: 250,
+            renderCell: (params) => (
+                <div style={{ padding: '15px' }}>
+                    {params.value}
+                    <div style={{ marginTop: '10px' }}>
+                        <button
+                            style={{ marginRight: '10px', borderRadius: '5px' }}
+                            onClick={() => handleAccept(params.row.id)}
+                            disabled={
+                                params.row.applicationStatus ===
+                                    'Zaakceptowana' ||
+                                params.row.applicationStatus === 'Odrzucona'
+                            }
+                        >
+                            Akceptuj
+                        </button>
+                        <button
+                            style={{ marginRight: '10px', borderRadius: '5px' }}
+                            onClick={() => handleReject(params.row.id)}
+                            disabled={
+                                params.row.applicationStatus ===
+                                    'Zaakceptowana' ||
+                                params.row.applicationStatus === 'Odrzucona'
+                            }
+                        >
+                            Odrzuć
+                        </button>
+                    </div>
+                </div>
+            ),
         },
     ];
 
@@ -183,13 +278,16 @@ function MyOfferDetails() {
 
         setFilteredRows(filteredRows); // Aktualizacja wyświetlanych wierszy
     };
-    // if (!isLoading) {
-    //     console.log(data.result);
-    // }
+    if (!isLoading) {
+        console.log('data');
+        console.log(data.result);
+    }
+
+    // Metoda do aktualizacji statusu
 
     return (
         <>
-            {isLoading ? (
+            {isLoading || !data.result ? (
                 <div className="flex justify-center items-center w-full h-full pt-5">
                     <MainLoader />
                 </div>
@@ -255,6 +353,14 @@ function MyOfferDetails() {
                             <p style={{ fontSize: '20px' }} className="py-3">
                                 {data.result.petSitterDescription}
                             </p>
+                            <hr />
+                            <h3 style={{ marginTop: '20px' }}>Udogodnienia</h3>
+                            <div style={{ fontSize: '20px' }} className="py-3">
+                                <Facilities
+                                    data={data.result}
+                                    isLoading={isLoading}
+                                />
+                            </div>
                             <span className="h3">
                                 Koszt usługi: {data.result.price}zł /24h
                             </span>
