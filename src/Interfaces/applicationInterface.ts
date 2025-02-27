@@ -9,6 +9,7 @@ export default interface applicationInterface {
     applicant?: string;
     applicationDateAdd: string;
     note: string;
+    applicationStatus?: string;
     animals: animalInterface[];
     opinions?: opinionInterface[];
 }
