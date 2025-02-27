@@ -1,27 +1,18 @@
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
 import { Button, Form, Modal, Row } from 'react-bootstrap';
-import MainLoader from '../../../Components/MainLoader';
 import {
-    addApplicationInterface,
-    animalInterface,
     applicationInterface,
     userAccountInterface,
 } from '../../../Interfaces';
 import inputHelper from '../../../Helper/inputHelper';
-import { useAddApplicationMutation } from '../../../Apis/applicationApi';
-import dayjs, { Dayjs } from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useGetAnimalsQuery } from '../../../Apis/animalApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../Store/Redux/store';
-import { useGetOfferByIdQuery } from '../../../Apis/offerApi';
 import { useAddOpinionMutation } from '../../../Apis/opinionApi';
 import opinionInterface from '../../../Interfaces/opinionInterface';
 import { Rating, Stack } from '@mui/material';
+import Alert from 'react-bootstrap/Alert';
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 
 interface Props {
     show: boolean;
@@ -89,7 +80,18 @@ function AddOpinion({ show, setShow, application }: Props) {
         }
     };
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setFormData({
+            // id?: '',
+            rating: 0,
+            comment: '',
+            applicationId: 0,
+            userEmail: '',
+            opinionDateAdd: '',
+        });
+
+        setShow(false);
+    };
 
     // if (isLoadingAnimals) {
     //     return <MainLoader />;
@@ -144,6 +146,19 @@ function AddOpinion({ show, setShow, application }: Props) {
                                 placeholder="Wpisz notatkę dla opiekuna..."
                                 onChange={handleUserInput}
                             />
+                            <br />
+                            <Alert dismissible>
+                                <Alert.Heading className="d-flex align-content-center">
+                                    <ReportGmailerrorredIcon
+                                        fontSize="medium"
+                                        className="mt-1 me-2"
+                                    />
+                                    Uwaga
+                                </Alert.Heading>
+                                <hr />
+                                Do każdej aplikacji można wystawić tylko jedną
+                                opinię.
+                            </Alert>
                         </Form.Group>
 
                         <Form.Group
