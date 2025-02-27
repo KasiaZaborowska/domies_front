@@ -40,6 +40,34 @@ const applicationApi = createApi({
             }),
             invalidatesTags: ['Application'],
         }),
+        acceptApplication: builder.mutation({
+            query: ({ id }) => ({
+                url: `application/accept/${id}`,
+                method: 'PUT',
+                //body: data,
+                params: {
+                    id,
+                },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            }),
+            invalidatesTags: ['Application'],
+        }),
+        rejectApplication: builder.mutation({
+            query: ({ id }) => ({
+                url: `application/reject/${id}`,
+                method: 'PUT',
+                //body: data,
+                params: {
+                    id,
+                },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            }),
+            invalidatesTags: ['Application'],
+        }),
         addApplication: builder.mutation({
             query: ({ data, userId }) => ({
                 url: `application`,
@@ -71,6 +99,8 @@ const applicationApi = createApi({
 export const {
     useGetApplicationsQuery,
     useGetApplicationByIdQuery,
+    useAcceptApplicationMutation,
+    useRejectApplicationMutation,
     useUpdateApplicationMutation,
     useAddApplicationMutation,
     useDeleteApplicationMutation,
