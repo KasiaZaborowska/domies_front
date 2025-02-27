@@ -67,6 +67,7 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
             console.log('params.row');
             console.log(params.row);
             console.log(params.row.id);
+            console.log(dataRow);
             return (
                 <div
                     style={{
@@ -75,7 +76,8 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
                         margin: '10px 0px',
                     }}
                 >
-                    {renderCustomActions && renderCustomActions(dataRow)}
+                    {renderCustomActions && renderCustomActions(params.row)}
+
                     <Button
                         variant="contained"
                         color="success"
