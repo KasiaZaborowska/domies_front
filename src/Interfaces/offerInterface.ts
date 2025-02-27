@@ -1,4 +1,5 @@
 import animalTypeInterface from './animalTypeInterface';
+import facilityInterface from './facilityInterface';
 
 export default interface offerInterface {
     id?: number;
@@ -15,4 +16,5 @@ export default interface offerInterface {
     price: number;
     offerAnimalTypes: string[];
     file?: File | null;
+    facilities?: facilityInterface[];
 }
