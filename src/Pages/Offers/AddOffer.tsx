@@ -168,35 +168,10 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
             const response: offerInterface = await offferToAdd({
                 data: formDataToSend,
                 userId: loggedInUserEmail,
-                // data: {
-                //     title: formData.title,
-                //     host: loggedInUserEmail,
-                //     description: formData.description,
-                //     country: formData.country,
-                //     city: formData.city,
-                //     street: formData.street,
-                //     postalCode: formData.postalCode,
-                //     price: formData.price,
-                //     offerAnimalTypes: formData.offerAnimalTypes.join(', '),
-                //     file: formData.file,
-                // },
             }).unwrap();
-            // setTimeout(() => {
-            //     // Odświeżenie strony
-            //     window.location.reload();
-            // }, 60000); // 60 000 ms = 1 minuta
             console.log('Dane, które dodaje:', response, 'and ', response.name);
-            // setTimeout(() => {
-            //     // Odświeżenie strony
-            //     window.location.reload();
-            // }, 60000); // 60 000 ms = 1 minuta
             onSuccess();
             alert('dodane!');
-            // setTimeout(() => {
-            //     // Odświeżenie strony
-            //     window.location.reload();
-            // }, 60000); // 60 000 ms = 1 minuta
-            // setFormData(formData);
         } catch (error) {
             console.log('Błąd');
             console.error('Błąd przy dodawaniu:', error);
