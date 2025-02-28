@@ -8,13 +8,7 @@ interface BannerProps {
 function Banner({ searchString, setSearchString }: BannerProps) {
     return (
         <div className="custom-banner">
-            <div
-                className="m-auto d-flex align-items-center"
-                style={{
-                    width: '500px',
-                    height: '55vh',
-                }}
-            >
+            <div className="d-flex div_inside_banner">
                 <div
                     className="d-flex align-items-center"
                     style={{ width: '100%' }}
@@ -30,7 +24,7 @@ function Banner({ searchString, setSearchString }: BannerProps) {
                         value={searchString}
                         onChange={(e) => setSearchString(e.target.value)}
                     />
-                    <span style={{ position: 'relative', left: '-43px' }}>
+                    <span className="search-icon">
                         <i className="bi bi-search"></i>
                     </span>
                 </div>

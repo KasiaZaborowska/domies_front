@@ -6,4 +6,56 @@
     width: 100%;
     height: 35vh;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-icon {
+    position: relative;
+    left: -43px;
+    font-size: 20px;
+}
+
+.div_inside_banner {
+    margin-top: 15vh;
+}
+
+@media (min-width: 200px) {
+    .custom-banner .form-control {
+        width: 60vw !important;
+        max-height: 6vh;
+        padding: 15px 10px;
+    }
+    .custom-banner .d-flex {
+        display: flex;
+        justify-content: center; /* Wyśrodkowuje elementy poziomo */
+        align-items: center; /* Wyśrodkowuje elementy pionowo */
+        width: 100%;
+    }
+
+    .custom-banner i {
+        font-size: 20px; /* Dostosowanie ikony wyszukiwania */
+    }
+}
+
+@media (min-width: 800px) {
+    .custom-banner .d-flex {
+        display: flex;
+        justify-content: center; /* Wyśrodkowuje elementy poziomo */
+        align-items: center; /* Wyśrodkowuje elementy pionowo */
+        width: 100%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .custom-banner .form-control {
+        width: 60vw;
+    }
+    .custom-banner .d-flex {
+        display: flex;
+        justify-content: center; /* Wyśrodkowuje elementy poziomo */
+        align-items: center; /* Wyśrodkowuje elementy pionowo */
+        width: 100%;
+    }
 }
