@@ -15,6 +15,8 @@ import { userReducer } from './userSlice';
 import userApi from '../../Apis/userApi';
 import { opinionReducer } from './opinionSlice';
 import opinionApi from '../../Apis/opinionApi';
+import { facilityReducer } from './facilitySlice';
+import facilityApi from '../../Apis/facilityApi';
 
 const store = configureStore({
     reducer: {
@@ -25,6 +27,7 @@ const store = configureStore({
         applicationStore: applicationReducer,
         userStore: userReducer,
         opinionStore: opinionReducer,
+        facilityStore: facilityReducer,
         [offerApi.reducerPath]: offerApi.reducer,
         [animalTypeApi.reducerPath]: animalTypeApi.reducer,
         [accountApi.reducerPath]: accountApi.reducer,
@@ -32,6 +35,7 @@ const store = configureStore({
         [applicationApi.reducerPath]: applicationApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [opinionApi.reducerPath]: opinionApi.reducer,
+        [facilityApi.reducerPath]: facilityApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -41,6 +45,7 @@ const store = configureStore({
             .concat(animalApi.middleware)
             .concat(applicationApi.middleware)
             .concat(opinionApi.middleware)
+            .concat(facilityApi.middleware)
             .concat(userApi.middleware),
 });
 
