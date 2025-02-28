@@ -1,0 +1,60 @@
+.responsive_box {
+    /* height: 16px; */
+
+    border-radius: 8px;
+    /* background-color: #7fffd4; */
+    width: 90vw; /* Szerokość w procentach ekranu */
+    max-width: 1000px; /* Maksymalna szerokość */
+    min-width: 200px; /* Minimalna szerokość (opcjonalnie) */
+    border-radius: 8px;
+    background-color: #ded7cb;
+    border: 3px solid #beb9b0;
+    box-shadow: 0 4px 38px #beb9b0;
+    padding: 20px; /* Zapewnia lepsze proporcje */
+    transition: all 0.3s ease-in-out; /* Płynne przejścia */
+    align-items: start;
+    font-size: 28px;
+}
+
+.responsive_box img {
+    display: block; /* Pozwala na margin auto */
+    margin: 1vh auto; /* Wyśrodkowanie poziome */
+}
+
+.title {
+    font-size: 36px; /* Standardowy rozmiar dla h3 */
+}
+.text {
+    font-size: 28px; /* Standardowy rozmiar dla h3 */
+}
+.responsive_button {
+    font-size: 20px; /* Standardowy rozmiar dla h3 */
+}
+
+@media (min-width: 800px) {
+    .responsive_box {
+        /* background-color: dodgerblue; */
+    }
+}
+
+@media (min-width: 1200px) {
+    .responsive_box {
+        /* background-color: rgb(150, 90, 206); */
+        width: 90vw; /* Szerokość w procentach ekranu */
+        max-width: 1900px; /* Maksymalna szerokość */
+        min-width: 200px; /* Minimalna szerokość (opcjonalnie) */
+        border-radius: 8px;
+        padding: 20px; /* Zapewnia lepsze proporcje */
+        transition: all 0.3s ease-in-out; /* Płynne przejścia */
+    }
+}
+
+@media (min-width: 300px) {
+    .responsive_box {
+        font-size: 14px; /* Mniejszy tekst na telefonach */
+    }
+
+    .responsive_box h3 {
+        font-size: 18px; /* Mniejszy rozmiar dla h3 na telefonach */
+    }
+}

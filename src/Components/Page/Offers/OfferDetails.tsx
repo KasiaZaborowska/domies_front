@@ -11,6 +11,8 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { isAuthBoolean } from '../../../Utils/authUtils';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
+import OfferDetailsStyle from '../../../Pages/OfferDetailsStyle';
+import Facilities from '../../../Pages/Offer/Facilities';
 
 function OfferDetails() {
     const { offerId } = useParams(); // offerId match the offerId from App.tsx
@@ -161,22 +163,19 @@ function OfferDetails() {
     return (
         <div className="container">
             <div className="">
-                <div className="p-4" style={{ background: '#edede9' }}>
-                    <div className="">
-                        <div className="d-flex p-2 justify-content-center">
-                            <img
-                                src={data.result.photo}
-                                //width="100%"
-                                style={{
-                                    borderRadius: '10%',
-                                    maxHeight: '60vh',
-                                    minWidth: '40vw',
-                                }}
-                                className="col-10"
-                                alt="No content"
-                            ></img>
-                        </div>
-                    </div>
+                <OfferDetailsStyle>
+                    <img
+                        src={data.result.photo}
+                        //width="100%"
+                        style={{
+                            borderRadius: '10%',
+                            maxHeight: '60vh',
+                            minWidth: '40vw',
+                            objectFit: 'cover',
+                        }}
+                        className="col-10 img-fluid"
+                        alt="No content"
+                    ></img>
                     <h2
                         className="pt-4 pb-3"
                         style={{
@@ -217,7 +216,12 @@ function OfferDetails() {
                     <h3 style={{ marginTop: '20px' }}>O mnie</h3>
                     <p style={{ fontSize: '20px' }} className="py-3">
                         {data.result.petSitterDescription}
-                    </p>
+                    </p>{' '}
+                    <hr />
+                    <h3 style={{ marginTop: '20px' }}>Udogodnienia</h3>
+                    <div style={{ fontSize: '20px' }} className="py-3">
+                        <Facilities data={data.result} isLoading={isLoading} />
+                    </div>
                     <span className="h3">
                         Koszt usługi: {data.result.price}zł /24h
                     </span>
@@ -254,11 +258,10 @@ function OfferDetails() {
                                 <AddApplication offerId={offerIdToNumber} />
                             )) || (
                                 <button
-                                    className="btn form-control"
+                                    className="btn form-control responsive_button"
                                     style={{
                                         height: '40px',
                                         padding: '1px',
-                                        fontSize: '20px',
                                         backgroundColor: '#5e503f',
                                         color: 'white',
                                     }}
@@ -273,12 +276,11 @@ function OfferDetails() {
 
                         <div className="col-5 ">
                             <button
-                                className="btn btn-secondary form-control"
+                                className="btn btn-secondary form-control responsive_button"
                                 onClick={() => navigate(-1)}
                                 style={{
                                     height: '40px',
                                     padding: '1px',
-                                    fontSize: '20px',
                                     backgroundColor: '#e9e6e2',
                                     color: '#2b2628',
                                 }}
@@ -417,7 +419,7 @@ function OfferDetails() {
                             </Paper>
                         </div>
                     </div>
-                </div>
+                </OfferDetailsStyle>
             </div>
         </div>
     );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetOfferByIdQuery } from '../../Apis/offerApi';
 import MainLoader from '../../Components/MainLoader';
-import { Modal } from 'react-bootstrap';
+import { Container, Modal, Row } from 'react-bootstrap';
 import EditOfferForm from '../Offers/EditOffer';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import {
@@ -17,6 +17,7 @@ import {
     useAcceptApplicationMutation,
     useRejectApplicationMutation,
 } from '../../Apis/applicationApi';
+import OfferDetailsStyle from '../OfferDetailsStyle';
 
 function MyOfferDetails() {
     const { offerId } = useParams(); // offerId match the offerId from App.tsx
@@ -292,309 +293,347 @@ function MyOfferDetails() {
                     <MainLoader />
                 </div>
             ) : (
-                <div className="container">
-                    <div className="">
-                        <div className="p-4" style={{ background: '#edede9' }}>
-                            <div className="">
-                                <div className="d-flex p-2 justify-content-center">
-                                    <img
-                                        src={data.result.photo}
-                                        //width="100%"
-                                        style={{
-                                            borderRadius: '10%',
-                                            maxHeight: '60vh',
-                                            minWidth: '40vw',
+                <>
+                    <div className="container">
+                        <div className="">
+                            <OfferDetailsStyle>
+                                {/* <Row className="justify-content-md-center"> */}
 
-                                            objectFit: 'cover',
+                                <img
+                                    src={data.result.photo}
+                                    //width="100%"
+                                    style={{
+                                        borderRadius: '10%',
+                                        maxHeight: '60vh',
+                                        minWidth: '40vw',
+
+                                        objectFit: 'cover',
+                                    }}
+                                    className="col-10 img-fluid"
+                                    alt="No content"
+                                ></img>
+
+                                {/* </Row> */}
+                                <h2
+                                    className="pt-4 pb-3"
+                                    style={{
+                                        color: 'black',
+                                    }}
+                                >
+                                    {data.result.name}
+                                </h2>
+                                <span>
+                                    <span
+                                        className="badge pt-2"
+                                        style={{
+                                            height: '40px',
+                                            fontSize: '20px',
+                                            backgroundColor: '#5e503f',
                                         }}
-                                        className="col-10"
-                                        alt="No content"
-                                    ></img>
-                                </div>
-                            </div>
-                            <h2
-                                className="pt-4 pb-3"
-                                style={{
-                                    color: 'black',
-                                }}
-                            >
-                                {data.result.name}
-                            </h2>
-                            <span>
-                                <span
-                                    className="badge pt-2"
-                                    style={{
-                                        height: '40px',
-                                        fontSize: '20px',
-                                        backgroundColor: '#5e503f',
-                                    }}
-                                >
-                                    Typy akceptowanych zwierząt:
+                                    >
+                                        Typy akceptowanych zwierząt:
+                                    </span>
                                 </span>
-                            </span>
-                            <span>
-                                <span
-                                    className="badge pt-2"
-                                    style={{
-                                        height: '40px',
-                                        fontSize: '20px',
-                                        color: '#5e503f',
-                                    }}
-                                >
-                                    {data.result.offerAnimalTypes}
+                                <span>
+                                    <span
+                                        className="badge pt-2"
+                                        style={{
+                                            height: '40px',
+                                            fontSize: '20px',
+                                            color: '#5e503f',
+                                        }}
+                                    >
+                                        {data.result.offerAnimalTypes}
+                                    </span>
                                 </span>
-                            </span>
-                            <h3 style={{ marginTop: '20px' }}>O ofercie</h3>
-                            <p style={{ fontSize: '20px' }} className="py-3">
-                                {data.result.offerDescription}
-                            </p>
-                            <hr />
-                            <h3 style={{ marginTop: '20px' }}>O mnie</h3>
-                            <p style={{ fontSize: '20px' }} className="py-3">
-                                {data.result.petSitterDescription}
-                            </p>
-                            <hr />
-                            <h3 style={{ marginTop: '20px' }}>Udogodnienia</h3>
-                            <div style={{ fontSize: '20px' }} className="py-3">
-                                <Facilities
-                                    data={data.result}
-                                    isLoading={isLoading}
-                                />
-                            </div>
-                            <span className="h3">
-                                Koszt usługi: {data.result.price}zł /24h
-                            </span>
-                            <hr />
-                            <div className="row pt-4">
-                                <span
+                                <h3 style={{ marginTop: '20px' }}>O ofercie</h3>
+                                <p
                                     style={{ fontSize: '20px' }}
-                                    className="pt-2"
-                                >
-                                    <h3 style={{ marginTop: '20px' }}>Adres</h3>
-                                </span>
-                                <span
-                                    style={{ fontSize: '20px' }}
-                                    className="pb-4"
-                                >
-                                    {data.result.country}, {data.result.city},
-                                    {data.result.street},{' '}
-                                    {data.result.postalCode}
-                                </span>
-                                <div
                                     className="py-3"
-                                    style={{
-                                        border: '1px solid lightgrey',
-                                        borderRadius: '12px',
-                                    }}
                                 >
+                                    {data.result.offerDescription}
+                                </p>
+                                <hr />
+                                <h3 style={{ marginTop: '20px' }}>O mnie</h3>
+                                <p
+                                    style={{ fontSize: '20px' }}
+                                    className="py-3"
+                                >
+                                    {data.result.petSitterDescription}
+                                </p>
+                                <hr />
+                                <h3 style={{ marginTop: '20px' }}>
+                                    Udogodnienia
+                                </h3>
+                                <div
+                                    style={{ fontSize: '20px' }}
+                                    className="py-3"
+                                >
+                                    <Facilities
+                                        data={data.result}
+                                        isLoading={isLoading}
+                                    />
+                                </div>
+                                <span className="h3">
+                                    Koszt usługi: {data.result.price}zł /24h
+                                </span>
+                                <hr />
+                                <div className="row pt-4">
                                     <span
                                         style={{ fontSize: '20px' }}
                                         className="pt-2"
                                     >
                                         <h3 style={{ marginTop: '20px' }}>
-                                            Twój opiekun to
+                                            Adres
                                         </h3>
-                                        {data.result.name}
-                                        <br />
-                                        <h3 style={{ marginTop: '20px' }}>
-                                            Kontakt
-                                        </h3>
-                                        {data.result.host}
                                     </span>
-                                </div>
-                            </div>
-                            <div className="row pt-4 px-5 d-flex justify-content-between">
-                                <div className="col-5">
-                                    <button
-                                        onClick={handleShow}
-                                        className="btn form-control"
-                                        style={{
-                                            height: '40px',
-                                            padding: '1px',
-                                            fontSize: '20px',
-                                            backgroundColor: '#5e503f',
-                                            color: 'white',
-                                        }}
+                                    <span
+                                        style={{ fontSize: '20px' }}
+                                        className="pb-4"
                                     >
-                                        Edytuj
-                                    </button>
-                                </div>
-
-                                <div className="col-5 ">
-                                    <button
-                                        className="btn btn-secondary form-control"
-                                        onClick={() => navigate(-1)}
-                                        style={{
-                                            height: '40px',
-                                            padding: '1px',
-                                            fontSize: '20px',
-                                            backgroundColor: '#e9e6e2',
-                                            color: '#2b2628',
-                                        }}
-                                    >
-                                        Powrót
-                                    </button>
-                                </div>
-
-                                <div>
-                                    <Modal
-                                        show={show}
-                                        onHide={handleClose}
-                                        dialogClassName="modal-dialog"
-                                        size="lg"
-                                        centered
-                                    >
-                                        <Modal.Header closeButton>
-                                            <Modal.Title>
-                                                Edytuj ofertę:
-                                            </Modal.Title>
-                                        </Modal.Header>
-                                        <Modal.Body>
-                                            <EditOfferForm />
-                                        </Modal.Body>
-                                    </Modal>
-                                </div>
-                            </div>
-                            <h3 style={{ marginTop: '50px' }}>
-                                Aplikacje do Twojej oferty
-                            </h3>
-                            <div className="containerApplicationsForPages pt-3">
-                                <Paper
-                                    sx={{
-                                        height: '100%',
-                                        width: '100%',
-                                        borderRadius: '15px',
-                                        boxShadow:
-                                            '0px 6px 12px rgba(0,0,0,0.3)',
-                                        padding: '10px',
-                                        margin: '10px',
-                                        overflow: 'auto',
-                                    }}
-                                    style={{ background: '#fbfbf8db' }}
-                                >
+                                        {data.result.country},{' '}
+                                        {data.result.city},{data.result.street},{' '}
+                                        {data.result.postalCode}
+                                    </span>
                                     <div
+                                        className="py-3"
                                         style={{
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                            marginBottom: '10px',
+                                            border: '1px solid lightgrey',
+                                            borderRadius: '12px',
                                         }}
                                     >
-                                        <EmailIcon
-                                            fontSize="large"
+                                        <span
+                                            style={{ fontSize: '20px' }}
+                                            className="pt-2"
+                                        >
+                                            <h3
+                                                style={{
+                                                    marginTop: '20px',
+                                                }}
+                                            >
+                                                Twój opiekun to
+                                            </h3>
+                                            {data.result.name}
+                                            <br />
+                                            <h3
+                                                style={{
+                                                    marginTop: '20px',
+                                                }}
+                                            >
+                                                Kontakt
+                                            </h3>
+                                            {data.result.host}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="row pt-4 px-5 d-flex justify-content-between">
+                                    <div className="col-5">
+                                        <button
+                                            onClick={handleShow}
+                                            className="btn form-control"
+                                            style={{
+                                                height: '40px',
+                                                padding: '1px',
+                                                fontSize: '20px',
+                                                backgroundColor: '#5e503f',
+                                                color: 'white',
+                                            }}
+                                        >
+                                            Edytuj
+                                        </button>
+                                    </div>
+
+                                    <div className="col-5 ">
+                                        <button
+                                            className="btn btn-secondary form-control"
+                                            onClick={() => navigate(-1)}
+                                            style={{
+                                                height: '40px',
+                                                padding: '1px',
+                                                fontSize: '20px',
+                                                backgroundColor: '#e9e6e2',
+                                                color: '#2b2628',
+                                            }}
+                                        >
+                                            Powrót
+                                        </button>
+                                    </div>
+
+                                    <div>
+                                        <Modal
+                                            show={show}
+                                            onHide={handleClose}
+                                            dialogClassName="modal-dialog"
+                                            size="lg"
+                                            centered
+                                        >
+                                            <Modal.Header closeButton>
+                                                <Modal.Title>
+                                                    Edytuj ofertę:
+                                                </Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body>
+                                                <EditOfferForm />
+                                            </Modal.Body>
+                                        </Modal>
+                                    </div>
+                                </div>
+                                <h3 style={{ marginTop: '50px' }}>
+                                    Aplikacje do Twojej oferty
+                                </h3>
+                                <div className="containerApplicationsForPages pt-3">
+                                    <Paper
+                                        sx={{
+                                            width: '100%', // Ustawia szerokość na 100% ekranu
+                                            maxWidth: '1200px', // Maksymalna szerokość
+                                            margin: 'auto', // Centruje komponent
+                                            padding: '20px', // Padding
+                                            height: 'auto', // Automatyczna wysokość, możesz dostosować
+                                            boxSizing: 'border-box',
+                                            '@media (min-width: 600px)': {
+                                                padding: '10px', // Zmniejsza padding na małych ekranach
+                                                maxWidth: '89vw', // Ustawia mniejszą szerokość na małych ekranach
+                                            },
+                                            '@media (min-width: 400px)': {
+                                                padding: '5px', // Zmniejsza padding jeszcze bardziej
+                                                maxWidth: '89vw', // Mniejsza szerokość na bardzo małych ekranach
+                                            },
+                                        }}
+                                        style={{ background: '#fbfbf8db' }}
+                                    >
+                                        <div
                                             style={{
                                                 display: 'flex',
-                                                justifyContent: 'center',
-                                                marginLeft: '15px',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                                marginBottom: '10px',
                                             }}
-                                        />
-                                        <InputBase
-                                            value={filterText}
-                                            onChange={handleSearchChange}
-                                            placeholder="Szukaj..."
-                                            style={{
-                                                width: '150px',
-                                                padding: '10px',
-                                                borderRadius: '15px',
-                                                backgroundColor: '#F5F5F5',
+                                        >
+                                            <EmailIcon
+                                                fontSize="large"
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    marginLeft: '15px',
+                                                }}
+                                            />
+                                            <InputBase
+                                                value={filterText}
+                                                onChange={handleSearchChange}
+                                                placeholder="Szukaj..."
+                                                style={{
+                                                    width: '150px',
+                                                    padding: '10px',
+                                                    borderRadius: '15px',
+                                                    backgroundColor: '#F5F5F5',
+                                                }}
+                                            />
+                                        </div>
+                                        <DataGrid
+                                            rows={filteredRows}
+                                            columns={columns}
+                                            getRowHeight={() => 'auto'}
+                                            localeText={{
+                                                noRowsLabel: 'Brak wierszy',
+                                                noResultsOverlayLabel:
+                                                    'Nie znaleziono wyników.',
+
+                                                // Column menu text
+                                                columnMenuLabel: 'Menu',
+                                                columnMenuShowColumns:
+                                                    'Pokaż wszystkie kolumny',
+                                                columnMenuManageColumns:
+                                                    'Zarządzaj kolumnami',
+                                                columnMenuFilter: 'Filtr',
+                                                columnMenuHideColumn: 'Ukryj',
+                                                columnMenuUnsort:
+                                                    'Anuluj sortowanie',
+                                                columnMenuSortAsc:
+                                                    'Sortuj rosnąco',
+                                                columnMenuSortDesc:
+                                                    'Sortuj malejąco',
+                                                footerTotalRows:
+                                                    'Łączna liczba wierszy:',
+
+                                                // Column header text
+                                                columnHeaderFiltersTooltipActive:
+                                                    (count) =>
+                                                        `Liczba aktywnych filtrów: ${count}`,
+                                                columnHeaderFiltersLabel:
+                                                    'Pokaż filtry',
+                                                columnHeaderSortIconLabel:
+                                                    'Sortuj',
+
+                                                // Filter panel text
+                                                filterPanelAddFilter:
+                                                    'Dodaj filtr',
+                                                filterPanelRemoveAll:
+                                                    'Usuń wszystkie',
+                                                filterPanelDeleteIconLabel:
+                                                    'Usuń',
+                                                filterPanelLogicOperator:
+                                                    'Operator logiczny',
+                                                filterPanelOperator: 'Operator',
+                                                filterPanelOperatorAnd: 'I',
+                                                filterPanelOperatorOr: 'Lub',
+                                                filterPanelColumns: 'Kolumny',
+                                                filterPanelInputLabel:
+                                                    'Wartość',
+                                                filterPanelInputPlaceholder:
+                                                    'Filtrowana wartość',
+
+                                                // Filter operators text
+                                                filterOperatorContains:
+                                                    'zawiera',
+                                                // filterOperatorDoesNotContain: 'does not contain',
+                                                filterOperatorEquals:
+                                                    'równa się',
+                                                // filterOperatorDoesNotEqual: 'does not equal',
+                                                filterOperatorStartsWith:
+                                                    'zaczyna się od',
+                                                filterOperatorEndsWith:
+                                                    'kończy się na',
+                                                filterOperatorIs: 'równa się',
+                                                filterOperatorNot: 'różne',
+                                                filterOperatorAfter:
+                                                    'większe niż',
+                                                filterOperatorOnOrAfter:
+                                                    'większe lub równe',
+                                                filterOperatorBefore:
+                                                    'mniejsze niż',
+                                                filterOperatorOnOrBefore:
+                                                    'mniejsze lub równe',
+                                                filterOperatorIsEmpty:
+                                                    'jest pusty',
+                                                filterOperatorIsNotEmpty:
+                                                    'nie jest pusty',
+                                                filterOperatorIsAnyOf:
+                                                    'jest jednym z',
                                             }}
+                                            initialState={{
+                                                pagination: {
+                                                    paginationModel: {
+                                                        page: 0,
+                                                        pageSize: 5,
+                                                    },
+                                                },
+                                                columns: {
+                                                    columnVisibilityModel: {
+                                                        id: false,
+                                                    },
+                                                },
+                                            }}
+                                            pageSizeOptions={[5, 10]}
+                                            //checkboxSelection
+                                            sx={{ border: 0 }}
                                         />
-                                    </div>
-                                    <DataGrid
-                                        rows={filteredRows}
-                                        columns={columns}
-                                        getRowHeight={() => 'auto'}
-                                        localeText={{
-                                            noRowsLabel: 'Brak wierszy',
-                                            noResultsOverlayLabel:
-                                                'Nie znaleziono wyników.',
-
-                                            // Column menu text
-                                            columnMenuLabel: 'Menu',
-                                            columnMenuShowColumns:
-                                                'Pokaż wszystkie kolumny',
-                                            columnMenuManageColumns:
-                                                'Zarządzaj kolumnami',
-                                            columnMenuFilter: 'Filtr',
-                                            columnMenuHideColumn: 'Ukryj',
-                                            columnMenuUnsort:
-                                                'Anuluj sortowanie',
-                                            columnMenuSortAsc: 'Sortuj rosnąco',
-                                            columnMenuSortDesc:
-                                                'Sortuj malejąco',
-                                            footerTotalRows:
-                                                'Łączna liczba wierszy:',
-
-                                            // Column header text
-                                            columnHeaderFiltersTooltipActive: (
-                                                count,
-                                            ) =>
-                                                `Liczba aktywnych filtrów: ${count}`,
-                                            columnHeaderFiltersLabel:
-                                                'Pokaż filtry',
-                                            columnHeaderSortIconLabel: 'Sortuj',
-
-                                            // Filter panel text
-                                            filterPanelAddFilter: 'Dodaj filtr',
-                                            filterPanelRemoveAll:
-                                                'Usuń wszystkie',
-                                            filterPanelDeleteIconLabel: 'Usuń',
-                                            filterPanelLogicOperator:
-                                                'Operator logiczny',
-                                            filterPanelOperator: 'Operator',
-                                            filterPanelOperatorAnd: 'I',
-                                            filterPanelOperatorOr: 'Lub',
-                                            filterPanelColumns: 'Kolumny',
-                                            filterPanelInputLabel: 'Wartość',
-                                            filterPanelInputPlaceholder:
-                                                'Filtrowana wartość',
-
-                                            // Filter operators text
-                                            filterOperatorContains: 'zawiera',
-                                            // filterOperatorDoesNotContain: 'does not contain',
-                                            filterOperatorEquals: 'równa się',
-                                            // filterOperatorDoesNotEqual: 'does not equal',
-                                            filterOperatorStartsWith:
-                                                'zaczyna się od',
-                                            filterOperatorEndsWith:
-                                                'kończy się na',
-                                            filterOperatorIs: 'równa się',
-                                            filterOperatorNot: 'różne',
-                                            filterOperatorAfter: 'większe niż',
-                                            filterOperatorOnOrAfter:
-                                                'większe lub równe',
-                                            filterOperatorBefore:
-                                                'mniejsze niż',
-                                            filterOperatorOnOrBefore:
-                                                'mniejsze lub równe',
-                                            filterOperatorIsEmpty: 'jest pusty',
-                                            filterOperatorIsNotEmpty:
-                                                'nie jest pusty',
-                                            filterOperatorIsAnyOf:
-                                                'jest jednym z',
-                                        }}
-                                        initialState={{
-                                            pagination: {
-                                                paginationModel: {
-                                                    page: 0,
-                                                    pageSize: 5,
-                                                },
-                                            },
-                                            columns: {
-                                                columnVisibilityModel: {
-                                                    id: false,
-                                                },
-                                            },
-                                        }}
-                                        pageSizeOptions={[5, 10]}
-                                        //checkboxSelection
-                                        sx={{ border: 0 }}
-                                    />
-                                </Paper>
-                            </div>
+                                    </Paper>
+                                </div>
+                            </OfferDetailsStyle>
                         </div>
                     </div>
-                </div>
+                    {/* </Container> */}
+                </>
             )}
         </>
     );
