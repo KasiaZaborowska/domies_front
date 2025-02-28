@@ -12,6 +12,9 @@ import inputHelper from '../../Helper/inputHelper';
 import { useGetAnimalTypesQuery } from '../../Apis/animalTypeApi';
 import { setAnimalType } from '../../Store/Redux/animalTypeSlice';
 import MainLoader from '../../Components/MainLoader';
+import facilityInterface from '../../Interfaces/facilityInterface';
+import { useGetFacilitiesQuery } from '../../Apis/facilityApi';
+import { setFacility } from '../../Store/Redux/facilitySlice';
 
 interface AddOfferFormProps {
     onSuccess: () => void;
@@ -38,22 +41,29 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
         price: 0,
         file: null,
         offerAnimalTypes: [],
+        facilities: [],
     });
 
     const { data, isLoading } = useGetAnimalTypesQuery(null);
+    const { data: facilities, isLoading: isLoadingFacilities } =
+        useGetFacilitiesQuery(null);
     const [preview, setPreview] = useState<string | null>(null); // Obsługa podglądu zdjęcia
 
     useEffect(() => {
         if (!isLoading) {
             dispatch(setAnimalType(data.result));
+            dispatch(setFacility(facilities.result));
         }
         console.log('Dane załadowane:', formData);
     }, [isLoading, data, dispatch]);
 
+    //RENDER DROPDOWN's
     const renderSelected = () => {
         return formData.offerAnimalTypes.join(', ') || 'Wybierz';
     };
-
+    const renderSelectedFacilities = () => {
+        return formData.facilities.join(', ') || 'Wybierz';
+    };
     const handleCheckboxChange = (animalTypeId: number) => {
         const selectedType = data.result.find(
             (type: animalTypeInterface) => type.animalTypeId === animalTypeId,
@@ -71,24 +81,28 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                 return { ...prev, offerAnimalTypes: updatedTypes };
             });
         }
-        // // Znajdź nazwę typu na podstawie TypeId
-        // const selectedType = data.result.find(
-        //     (type: animalTypeInterface) => type.animalTypeId === animalTypeId,
-        // )?.type;
-
-        // if (selectedType) {
-        //     setFormData((prev) => {
-        //         const isSelected = prev.offerAnimalTypes.includes(selectedType);
-        //         const updatedSelectedTypes = isSelected
-        //             ? prev.offerAnimalTypes.filter(
-        //                   (type) => type !== selectedType,
-        //               ) // Usuń
-        //             : [...prev.offerAnimalTypes, selectedType]; // Dodaj
-
-        //         return { ...prev, offerAnimalTypes: updatedSelectedTypes };
-        //     });
-        // }
     };
+    const handleCheckboxChangeFacilities = (id: number) => {
+        const selectedFacility = facilities.result.find(
+            (facility: facilityInterface) => facility.id === id,
+        )?.id;
+        console.log(selectedFacility);
+        if (selectedFacility) {
+            setFormData((prev) => {
+                const isSelected = prev.facilities.includes(selectedFacility);
+                const updatedTypes = isSelected
+                    ? prev.facilities.filter(
+                          (facility) => facility !== selectedFacility,
+                      )
+                    : [...prev.facilities, selectedFacility];
+
+                return { ...prev, facilities: updatedTypes };
+            });
+        }
+    };
+    console.log('facilities');
+    console.log(facilities);
+    console.log('Selected facilities:', formData.facilities);
     // const renderSelected = () => {
     //     if (isLoading) {
     //         return 'Ładowanie...'; // Możesz dodać komunikat o ładowaniu
@@ -152,6 +166,9 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
         formDataToSend.append('price', formData.price.toString());
         formData.offerAnimalTypes.forEach((type: string) => {
             formDataToSend.append('offerAnimalTypes[]', type);
+        });
+        formData.facilities.forEach((facility: number) => {
+            formDataToSend.append('facilities[]', facility.toString());
         });
         // formDataToSend.append(
         //     'offerAnimalTypes',
@@ -360,6 +377,43 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                                 }
                             />
                         ))}
+                    </DropdownButton>
+                </Col>
+            </Form.Group>
+            <Form.Group
+                as={Row}
+                className="align-items-center mb-2"
+                controlId="formAnimalTypes"
+            >
+                <Col sm={2}>
+                    <Form.Label>Udogodnienia:</Form.Label>{' '}
+                </Col>
+                <Col sm={10}>
+                    <DropdownButton
+                        title={
+                            renderSelectedFacilities() || 'wybierz udogodnienia'
+                        }
+                    >
+                        {facilities.result.map(
+                            (facility: facilityInterface) => (
+                                <Form.Check
+                                    className="m-2"
+                                    key={facility.id}
+                                    type="checkbox"
+                                    label={facility.facilitiesDescription}
+                                    value={facility.id}
+                                    checked={formData.facilities.some(
+                                        (selectedFacility: number) =>
+                                            selectedFacility === facility.id,
+                                    )}
+                                    onChange={() =>
+                                        handleCheckboxChangeFacilities(
+                                            facility.id,
+                                        )
+                                    }
+                                />
+                            ),
+                        )}
                     </DropdownButton>
                 </Col>
             </Form.Group>
