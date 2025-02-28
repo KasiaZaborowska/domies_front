@@ -16,5 +16,5 @@ export default interface offerInterface {
     price: number;
     offerAnimalTypes: string[];
     file?: File | null;
-    facilities?: facilityInterface[];
+    facilities: number[];
 }
