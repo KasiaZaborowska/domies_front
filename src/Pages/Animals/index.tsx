@@ -6,9 +6,15 @@ import { setAnimalType } from '../../Store/Redux/animalTypeSlice';
 import { Button, Dropdown, DropdownButton, Form, Modal } from 'react-bootstrap';
 import MainLoader from '../../Components/MainLoader';
 import { useAddAnimalMutation, useGetAnimalsQuery } from '../../Apis/animalApi';
-import { animalInterface, animalTypeInterface } from '../../Interfaces';
+import {
+    animalInterface,
+    animalTypeInterface,
+    userAccountInterface,
+} from '../../Interfaces';
 import inputHelper from '../../Helper/inputHelper';
 import { useGetAnimalTypesQuery } from '../../Apis/animalTypeApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../Store/Redux/store';
 
 function Animals() {
     //const dispatch = useDispatch();
@@ -58,21 +64,23 @@ function Animals() {
         const selectedType = animalTypes?.result.find(
             (type: any) => type.animalTypeId === selectedTypeId,
         );
-        //console.log(' abc selectedTypeId ', selectedTypeId);
+        console.log(' abc selectedTypeId ', selectedTypeId);
         if (selectedType) {
             // Aktualizuj `formData.type` na podstawie znalezionego obiektu
             setFormData((prevFormData) => ({
                 ...prevFormData,
                 animalType: selectedTypeId, // Przypisz nazwę typu do formData.type
             }));
-            //console.log('Przypisano typ:', selectedType.type);
-            //console.log('Przypisano formData:', formData);
+            console.log('Przypisano typ:', selectedType.type);
+            console.log('Przypisano formData:', formData);
         } else {
             console.log('Nie znaleziono typu o podanym ID');
         }
     };
     //console.log('Przypisano formData2:', formData);
-
+    const userData: userAccountInterface = useSelector(
+        (state: RootState) => state.userAccountStore,
+    );
     const handleSubmit = async (e: React.FormEvent) => {
         // e.preventDefault();
         const form = e.currentTarget as HTMLFormElement;
@@ -91,7 +99,7 @@ function Animals() {
             console.log('Dane, które wysyłam:', formData);
             await offferToAdd({
                 data: formData,
-                //userId: userData.Email,
+                userId: userData.Email,
             }).unwrap();
             window.location.href = '/animals';
         } catch (error: any) {
