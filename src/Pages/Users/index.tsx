@@ -4,12 +4,10 @@ import { useState } from 'react';
 // import { useDispatch } from 'react-redux';
 import { Button, Form, Modal, Row } from 'react-bootstrap';
 import MainLoader from '../../Components/MainLoader';
-import { applicationInterface } from '../../Interfaces';
 import inputHelper from '../../Helper/inputHelper';
 import {
     useAddApplicationMutation,
     useDeleteApplicationMutation,
-    useGetApplicationsQuery,
 } from '../../Apis/applicationApi';
 import DefaultDataTable from '../Applications/components/DefaultTable';
 import { useNavigate } from 'react-router-dom';
@@ -17,25 +15,32 @@ import { GridColDef } from '@mui/x-data-grid';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import EmailIcon from '@mui/icons-material/Email';
 import './Users.css';
+import jwt_decode from 'jwt-decode';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 import dayjs, { Dayjs } from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useGetUsersQuery } from '../../Apis/userApi';
+import {
+    useDeleteUserMutation,
+    useDowngradingToUserRoleMutation,
+    useGetUsersQuery,
+    usePromotionToManagerRoleMutation,
+} from '../../Apis/userApi';
 import userInterface from '../../Interfaces/userInterface';
+import Tooltip from '@mui/material/Tooltip';
 
 function Users() {
-    const { data, isLoading } = useGetUsersQuery(null);
+    const { data, error, isLoading } = useGetUsersQuery(null);
     // const { data: animals } = useGetAnimalsQuery(null);
-    console.log('dataaaa');
-    console.log(data);
+    // console.log('dataaaa');
+    // console.log(data);
     // console.log(animals);
+
     const navigate = useNavigate();
     const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
 
     const [applicationToAdd] = useAddApplicationMutation();
+    const [deleteUser] = useDeleteUserMutation();
 
     const [formData, setFormData] = useState<userInterface>({
         email: '',
@@ -45,6 +50,11 @@ function Users() {
         roleName: '',
         dateAdd: '',
     });
+    console.log(error);
+
+    // if (error?.status === 401) {
+    //     return <Navigate to="/login" replace />;
+    // }
 
     const [deleteApplication] = useDeleteApplicationMutation();
 
@@ -77,6 +87,21 @@ function Users() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const getRole = (): string | undefined => {
+        const accessToken = localStorage.getItem('token');
+        if (accessToken) {
+            const userRole: {
+                Role: string;
+            } = jwt_decode(accessToken);
+            return userRole.Role.toLowerCase();
+        } else {
+            //console.error('Brak tokenu!');
+            return undefined;
+        }
+    };
+    const role = getRole();
+    console.log('roleeeeee');
+    console.log(role);
     const columns: GridColDef[] = [
         {
             field: 'email',
@@ -124,7 +149,7 @@ function Users() {
     useEffect(() => {
         if (!isLoading) {
             if (data.result && Array.isArray(data.result)) {
-                console.log('Data:', data.result);
+                //console.log('Data:', data.result);
                 const dataInRows = data.result.map((item: userInterface) => ({
                     id: item.email,
                     email: item.email,
@@ -136,9 +161,9 @@ function Users() {
                 }));
 
                 setRows(dataInRows); // Ustawiamy dane w stanie
-                console.log('dataInRows');
-                console.log(dataInRows);
-                console.log(data.result[1].animals);
+                //console.log('dataInRows');
+                //console.log(dataInRows);
+                //console.log(data.result[1].animals);
             }
         }
     }, [data, navigate]);
@@ -155,6 +180,62 @@ function Users() {
     //     }
     //     // DeleteButtonWithModal(data.result.id, deleteApplication);
     // };
+
+    const [promotionToManagerRole] = usePromotionToManagerRoleMutation();
+    const [downgradingToUserRole] = useDowngradingToUserRoleMutation();
+
+    const renderCustomActions = (row: userInterface) => {
+        return (
+            row.roleName !== 'Admin' && (
+                <>
+                    <Tooltip title="Zdegradowanie do roli użytkownika">
+                        <Button
+                            variant="contained"
+                            color="success"
+                            style={{
+                                backgroundColor: 'darkgrey',
+                                marginRight: '10px',
+                            }}
+                            onClick={() => downgradingToUserRole(row)}
+                            disabled={row.roleName === 'User'}
+                        >
+                            <AccountCircleIcon
+                                fontSize="medium"
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    border: '1px black',
+                                    color: 'black',
+                                }}
+                            />
+                        </Button>
+                    </Tooltip>
+                    <Tooltip title="Promocja do roli managera">
+                        <Button
+                            variant="contained"
+                            color="success"
+                            style={{
+                                backgroundColor: 'darkgrey',
+                                marginRight: '10px',
+                            }}
+                            onClick={() => promotionToManagerRole(row)}
+                            disabled={row.roleName === 'Manager'}
+                        >
+                            <AdminPanelSettingsIcon
+                                fontSize="medium"
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    border: '1px black',
+                                    color: 'black',
+                                }}
+                            />
+                        </Button>
+                    </Tooltip>
+                </>
+            )
+        );
+    };
 
     if (isLoading) {
         return <MainLoader />;
@@ -205,8 +286,9 @@ function Users() {
                                         }}
                                     />
                                 }
+                                renderCustomActions={renderCustomActions}
                                 //onEdit={handleEdit}
-                                onDelete={deleteApplication}
+                                onDelete={deleteUser}
                             />
                         </div>
                         <Modal show={show} onHide={handleClose}>
