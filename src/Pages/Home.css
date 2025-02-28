@@ -1,5 +1,4 @@
 .custom_ToggleButton {
-    margin-inline: 20px;
     color: black;
     display: flex;
     align-items: center;
@@ -7,12 +6,59 @@
     border-radius: 10px !important;
     background-color: rgb(237, 193, 222);
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease-in-out;
 }
 
 /* Hover dla nieaktywnego przycisku */
 .custom_ToggleButton:hover {
     background-color: #b6abb7 !important;
     border: 2px solid rgb(101, 101, 101) !important;
-    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.responsive_box_Home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    /* background-color: #7fffd4; */
+    width: 95vw;
+    transition: all 0.3s ease-in-out;
+    margin: 0 auto; /* Wyśrodkowanie poziome */
+    text-align: center; /* Jeśli są teksty, będą na środku */
+
+    padding-top: 1px !important;
+    padding-bottom: 0px !important;
+}
+
+.toggle-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.toggle-group .btn {
+    width: 100%; /* Ustawia szerokość przycisku na 100% dostępnej przestrzeni */
+    max-width: 150px; /* Maksymalna szerokość przycisku */
+    max-height: 50px;
+    flex-grow: 1; /* Sprawia, że przyciski zajmują równą szerokość */
+}
+
+@media (min-width: 300px) {
+    .toggle-group {
+        flex-direction: row; /* Na większych ekranach przyciski układają się w poziomie */
+        flex-wrap: wrap;
+        gap: 5px;
+        justify-content: center;
+    }
+
+    .toggle-group .btn {
+        font-size: 14px; /* Zmniejsza rozmiar tekstu */
+        padding: 8px 16px; /* Zmniejsza padding */
+        max-width: 120px; /* Opcjonalnie zmniejsza maksymalną szerokość */
+        transform: scale(0.8); /* Zmniejsza całą wielkość przycisku o 10% */
+    }
 }

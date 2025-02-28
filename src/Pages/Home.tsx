@@ -62,18 +62,11 @@ function Home() {
                 searchString={searchString}
                 setSearchString={setSearchString}
             />
-            <div
-                className="containerTypes"
-                style={{ justifyContent: 'center' }}
-            >
+            <div className="responsive_box_Home">
                 <ToggleButtonGroup
-                    style={{
-                        alignContent: 'center',
-                        padding: '10px',
-                    }}
+                    className="toggle-group"
                     type="checkbox"
                     value={selectedTypes}
-                    //onChange={handleChange}
                 >
                     <ToggleButton
                         className="custom_ToggleButton"
