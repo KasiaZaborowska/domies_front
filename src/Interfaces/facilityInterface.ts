@@ -1,5 +1,5 @@
 export default interface facilityInterface {
-    id?: number;
+    id: number;
     facilitiesType: string;
     facilitiesDescription: string;
 }
