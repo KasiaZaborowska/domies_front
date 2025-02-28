@@ -31,8 +31,8 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
 
     const [animalData, setAnimalData] = useState(row);
 
-    console.log('animalData');
-    console.log(animalData);
+    //console.log('animalData');
+    //console.log(animalData);
 
     const [formData, setFormData] = useState<animalInterface>({
         petName: animalData.petName,
@@ -40,14 +40,13 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
         //type: animalData.type,
         animalType: animalData.animalType,
     });
-    console.log(formData);
 
     const { data: animalTypes, isLoading: isLoadingAnimalTypes } =
         useGetAnimalTypesQuery(null);
     //const navigate = useNavigate();
 
     const handleDelete = async (id: number) => {
-        console.log('ID: ', id);
+        //console.log('ID: ', id);
         if (id !== null && id !== undefined) {
             try {
                 //console.log(`Usuwam pupila o ID: ${id}`);
@@ -101,13 +100,15 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
         const selectedType = animalTypes?.result.find(
             (type: any) => type.animalTypeId === selectedTypeId,
         );
-        console.log(' abc selectedTypeId ', selectedTypeId);
         if (selectedType) {
             // Aktualizuj `formData.type` na podstawie znalezionego obiektu
+
             setFormData((prevFormData) => ({
                 ...prevFormData,
                 animalType: selectedTypeId, // Przypisz nazwę typu do formData.type
             }));
+            formData.animalType = selectedTypeId;
+            console.log('Przypisano typ:', selectedTypeId);
             console.log('Przypisano typ:', selectedType.type);
             console.log('Przypisano formData:', formData);
         } else {
@@ -115,7 +116,6 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
         }
     };
 
-    // Funkcja do zmiany wartości w formularzu
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const tempData = inputHelper(e, formData);
         setFormData(tempData);
