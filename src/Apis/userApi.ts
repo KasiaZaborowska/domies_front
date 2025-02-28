@@ -26,9 +26,9 @@ const userApi = createApi({
             }),
             providesTags: ['User'],
         }),
-        updateUser: builder.mutation({
+        downgradingToUserRole: builder.mutation({
             query: ({ data, email }) => ({
-                url: `user/${email}`,
+                url: `user/userRole/${email}`,
                 method: 'PUT',
                 body: data,
                 params: {
@@ -40,40 +40,70 @@ const userApi = createApi({
             }),
             invalidatesTags: ['User'],
         }),
-        addUser: builder.mutation({
-            query: ({ data, userId }) => ({
-                url: `user`,
-                method: 'POST',
+        promotionToManagerRole: builder.mutation({
+            query: ({ data, email }) => ({
+                url: `user/managerRole/${email}`,
+                method: 'PUT',
                 body: data,
                 params: {
-                    userId,
+                    email,
                 },
                 headers: {
-                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             }),
             invalidatesTags: ['User'],
         }),
-        // deleteUser: builder.mutation({
-        //     query: (id: number) => ({
-        //         url: `application/${id}`,
-        //         method: 'DELETE',
+        // updateUser: builder.mutation({
+        //     query: ({ data, email }) => ({
+        //         url: `user/${email}`,
+        //         method: 'PUT',
+        //         body: data,
+        //         params: {
+        //             email,
+        //         },
         //         headers: {
         //             Authorization: `Bearer ${localStorage.getItem('token')}`,
         //         },
         //     }),
         //     invalidatesTags: ['User'],
         // }),
+        // addUser: builder.mutation({
+        //     query: ({ data, userId }) => ({
+        //         url: `user`,
+        //         method: 'POST',
+        //         body: data,
+        //         params: {
+        //             userId,
+        //         },
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             Authorization: `Bearer ${localStorage.getItem('token')}`,
+        //         },
+        //     }),
+        //     invalidatesTags: ['User'],
+        // }),
+        deleteUser: builder.mutation({
+            query: (id: number) => ({
+                url: `user/${id}`,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            }),
+            invalidatesTags: ['User'],
+        }),
     }),
 });
 
 export const {
     useGetUsersQuery,
     useGetUserByIdQuery,
-    useAddUserMutation,
-    useUpdateUserMutation,
-    // useDeleteApplicationMutation,
+    useDowngradingToUserRoleMutation,
+    usePromotionToManagerRoleMutation,
+    // useAddUserMutation,
+    // useUpdateUserMutation,
+    useDeleteUserMutation,
 } = userApi;
 
 export default userApi;
