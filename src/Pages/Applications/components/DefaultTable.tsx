@@ -83,6 +83,7 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
                         color="success"
                         id={params.row.id}
                         onClick={() => onEdit?.(dataRow)}
+                        style={{ display: onEdit ? 'inline-block' : 'none' }}
                     >
                         <i className="bi bi-pencil-fill"></i>
                     </Button>
