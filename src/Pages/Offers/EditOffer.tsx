@@ -23,10 +23,12 @@ import { useGetAnimalTypesQuery } from '../../Apis/animalTypeApi';
 import { setAnimalType } from '../../Store/Redux/animalTypeSlice';
 import { useParams } from 'react-router-dom';
 import MainLoader from '../../Components/MainLoader';
+import { useGetFacilitiesQuery } from '../../Apis/facilityApi';
+import facilityInterface from '../../Interfaces/facilityInterface';
 
 function EditOfferForm() {
     const { offerId } = useParams(); // offerId match the offerId from App.tsx
-    console.log(offerId);
+    // console.log(offerId);
     const { data: dataOffer } = useGetOfferByIdQuery({ id: offerId });
 
     const dispatch = useDispatch();
@@ -38,7 +40,11 @@ function EditOfferForm() {
     //console.log(dataOffer.result.offerAnimalTypes);
     const offerAnimalTypesToArray =
         dataOffer.result.offerAnimalTypes.split(', ');
-    console.log(offerAnimalTypesToArray);
+    // console.log(offerAnimalTypesToArray);
+    // console.log(dataOffer);
+
+    // const facilitiesToArray = dataOffer.result.facilities.split(', ');
+    // console.log(offerAnimalTypesToArray);
 
     const loggedInUserEmail = userData.Email;
     // const role = userData.Role;
@@ -57,6 +63,7 @@ function EditOfferForm() {
         price: dataOffer.result.price,
         file: dataOffer.result.photo,
         offerAnimalTypes: offerAnimalTypesToArray,
+        facilities: dataOffer.result.facilities,
     });
 
     const { data, isLoading } = useGetAnimalTypesQuery(null);
@@ -130,6 +137,9 @@ function EditOfferForm() {
             console.log(type);
             formDataToSend.append('offerAnimalTypes[]', type);
         });
+        formData.facilities.forEach((facility: number) => {
+            formDataToSend.append('facilities[]', facility.toString());
+        });
         if (formData.file) {
             formDataToSend.append('file', formData.file);
         }
@@ -149,7 +159,35 @@ function EditOfferForm() {
         console.log('Dane załadowane:', formData);
         //console.log('Dane send:', Object.fromEntries(formDataToSend));
     };
+    const { data: facilities, isLoading: isLoadingFacilities } =
+        useGetFacilitiesQuery(null);
 
+    console.log(formData.facilities);
+    const renderSelectedFacilities = () => {
+        return (
+            formData.facilities
+                .map((item: any) => `${item.facilitiesDescription}`)
+                .join(', ') || 'Wybierz'
+        );
+    };
+    const handleCheckboxChangeFacilities = (id: number) => {
+        const selectedFacility = facilities.result.find(
+            (facility: facilityInterface) => facility.id === id,
+        )?.id;
+        console.log(selectedFacility);
+        if (selectedFacility) {
+            setFormData((prev) => {
+                const isSelected = prev.facilities.includes(selectedFacility);
+                const updatedTypes = isSelected
+                    ? prev.facilities.filter(
+                          (facility) => facility !== selectedFacility,
+                      )
+                    : [...prev.facilities, selectedFacility];
+
+                return { ...prev, facilities: updatedTypes };
+            });
+        }
+    };
     //console.log(photo);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -322,7 +360,43 @@ function EditOfferForm() {
                     </DropdownButton>
                 </Col>
             </Form.Group>
-
+            <Form.Group
+                as={Row}
+                className="align-items-center mb-2"
+                controlId="facilities"
+            >
+                <Col sm={2}>
+                    <Form.Label>Udogodnienia:</Form.Label>{' '}
+                </Col>
+                <Col sm={10}>
+                    <DropdownButton
+                        title={
+                            renderSelectedFacilities() || 'wybierz udogodnienia'
+                        }
+                    >
+                        {facilities.result.map(
+                            (facility: facilityInterface) => (
+                                <Form.Check
+                                    className="m-2"
+                                    key={facility.id}
+                                    type="checkbox"
+                                    label={facility.facilitiesDescription}
+                                    value={facility.id}
+                                    checked={formData.facilities.some(
+                                        (selectedFacility: number) =>
+                                            selectedFacility === facility.id,
+                                    )}
+                                    onChange={() =>
+                                        handleCheckboxChangeFacilities(
+                                            facility.id,
+                                        )
+                                    }
+                                />
+                            ),
+                        )}
+                    </DropdownButton>
+                </Col>
+            </Form.Group>
             <Form.Group
                 as={Row}
                 className="align-items-center mb-2"
