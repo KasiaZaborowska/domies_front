@@ -383,7 +383,7 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
             <Form.Group
                 as={Row}
                 className="align-items-center mb-2"
-                controlId="formAnimalTypes"
+                controlId="facilities"
             >
                 <Col sm={2}>
                     <Form.Label>Udogodnienia:</Form.Label>{' '}
