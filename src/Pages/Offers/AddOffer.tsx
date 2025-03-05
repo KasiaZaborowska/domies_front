@@ -16,7 +16,6 @@ import facilityInterface from '../../Interfaces/facilityInterface';
 import { useGetFacilitiesQuery } from '../../Apis/facilityApi';
 import { setFacility } from '../../Store/Redux/facilitySlice';
 import toastNotify from '../../Helper/toastNotify';
-import * as formik from 'formik';
 interface AddOfferFormProps {
     onSuccess: () => void;
 }
@@ -26,14 +25,12 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
     const userData: userAccountInterface = useSelector(
         (state: RootState) => state.userAccountStore,
     );
-    const { Formik } = formik;
+    // const { Formik } = formik;
     const loggedInUserEmail = userData.Email;
     const [submitted, setSubmitted] = useState(false);
     const [offferToAdd] = useAddOfferMutation();
     const [loading, setLoading] = useState(false);
-    const [touched, setTouched] = useState({
-        lastName: false,
-    });
+
     const [formData, setFormData] = useState<offerInterface>({
         name: '',
         host: loggedInUserEmail,
@@ -202,7 +199,7 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
         // console.log(errorMessage[key][0]);
         return errorMessage.hasOwnProperty(key) ? errorMessage[key][0] : '';
     }
-    console.log(getErrorMessage('Name'));
+    // console.log(getErrorMessage('Name'));
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         //setFormData((prev) => ({ prev, file: e.target.file[0] }));
         const photo = e.target.files?.[0];
@@ -242,10 +239,10 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                         // isValid={touched.Name && !errors.Name}
                         // isInvalid={touched.Name && errors.Name}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('Name') || 'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
-                <Form.Control.Feedback>
-                    {getErrorMessage('Name')}
-                </Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Row} className="mb-2" controlId="">
                 <Col sm={2}>
@@ -261,10 +258,11 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                         value={formData.offerDescription}
                         onChange={handleUserInput}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('OfferDescription') ||
+                            'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
-                <div className="invalid-feedback">
-                    {getErrorMessage('OfferDescription')}
-                </div>
             </Form.Group>
             <Form.Group as={Row} className="mb-2" controlId="">
                 <Col sm={2}>
@@ -280,10 +278,11 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                         value={formData.petSitterDescription}
                         onChange={handleUserInput}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('PetSitterDescription') ||
+                            'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
-                <div className="invalid-feedback">
-                    {getErrorMessage('PetSitterDescription')}
-                </div>
             </Form.Group>
             <Form.Group
                 as={Row}
@@ -302,10 +301,10 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                         isInvalid={submitted && formData.price === 0}
                         onChange={handleUserInput}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('Price') || 'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
-                <div className="invalid-feedback">
-                    {getErrorMessage('Price')}
-                </div>
             </Form.Group>
             <div className="invalid-feedback">{getErrorMessage('price')}</div>
             <Form.Group
@@ -325,8 +324,11 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                         onChange={handleUserInput}
                     />
                 </Col>
+                <Form.Control.Feedback type="invalid">
+                    {getErrorMessage('Country') || 'To pole jest wymagane.'}
+                </Form.Control.Feedback>
             </Form.Group>
-            <div className="invalid-feedback">{getErrorMessage('Country')}</div>
+
             <Form.Group
                 as={Row}
                 className="align-items-center mb-2"
@@ -343,9 +345,12 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                         value={formData.city}
                         onChange={handleUserInput}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('City') || 'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
             </Form.Group>
-            <div className="invalid-feedback">{getErrorMessage('City')}</div>
+
             <Form.Group
                 as={Row}
                 className="align-items-center mb-2"
@@ -362,9 +367,11 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                         value={formData.street}
                         onChange={handleUserInput}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('Street') || 'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
             </Form.Group>
-            <div className="invalid-feedback">{getErrorMessage('Street')}</div>
             <Form.Group
                 as={Row}
                 className="align-items-center mb-2"
@@ -381,10 +388,11 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                         value={formData.postalCode}
                         onChange={handleUserInput}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('PostalCode') ||
+                            'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
-                <div className="invalid-feedback">
-                    {getErrorMessage('PostalCode')}
-                </div>
             </Form.Group>
             <Form.Group
                 as={Row}
@@ -399,22 +407,28 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                         title={renderSelected() || 'wybierz typy  zwierząt'}
                     >
                         {data.result.map((type: animalTypeInterface) => (
-                            <Form.Check
-                                className="m-2"
-                                key={type.animalTypeId}
-                                type="checkbox"
-                                required
-                                label={type.type}
-                                value={type.animalTypeId}
-                                checked={formData.offerAnimalTypes.includes(
-                                    type.type,
-                                )}
-                                onChange={() =>
-                                    handleCheckboxChange(type.animalTypeId)
-                                }
-                            />
+                            <>
+                                <Form.Check
+                                    className="m-2"
+                                    key={type.animalTypeId}
+                                    type="checkbox"
+                                    required
+                                    label={type.type}
+                                    value={type.animalTypeId}
+                                    checked={formData.offerAnimalTypes.includes(
+                                        type.type,
+                                    )}
+                                    onChange={() =>
+                                        handleCheckboxChange(type.animalTypeId)
+                                    }
+                                />
+                            </>
                         ))}
                     </DropdownButton>
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('OfferAnimalTypes') ||
+                            'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
             </Form.Group>
             <Form.Group
@@ -466,6 +480,10 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                         accept="image/*"
                         onChange={handleFileChange}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('File') ||
+                            'Zdjęcie do oferty jest wymagane.'}
+                    </Form.Control.Feedback>
                     <div>
                         <p className="pt-3">Podgląd obrazu:</p>
                         <img
