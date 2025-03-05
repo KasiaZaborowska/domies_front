@@ -50,19 +50,40 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
     const [preview, setPreview] = useState<string | null>(null); // Obsługa podglądu zdjęcia
 
     useEffect(() => {
-        if (!isLoading) {
+        if (!isLoading || !isLoadingFacilities) {
             dispatch(setAnimalType(data.result));
             dispatch(setFacility(facilities.result));
         }
         console.log('Dane załadowane:', formData);
-    }, [isLoading, data, dispatch]);
+    }, [isLoading, isLoadingFacilities, data, dispatch]);
 
     //RENDER DROPDOWN's
     const renderSelected = () => {
         return formData.offerAnimalTypes.join(', ') || 'Wybierz';
     };
+
+    const facilitiesArray = facilities.result;
+    console.log(facilitiesArray);
+    console.log(formData.facilities);
     const renderSelectedFacilities = () => {
-        return formData.facilities.join(', ') || 'Wybierz';
+        if (
+            !Array.isArray(formData.facilities) ||
+            formData.facilities.length === 0
+        ) {
+            return 'Wybierz';
+        }
+
+        return (
+            formData.facilities
+                .map((id) => {
+                    const myFacility = facilitiesArray.find(
+                        (f: any) => f.id === id,
+                    );
+                    return myFacility ? myFacility.facilitiesDescription : '';
+                })
+                .join(', ') || 'Wybierz'
+        );
+        // return formData.facilities.join(', ') || 'Wybierz';
     };
     const handleCheckboxChange = (animalTypeId: number) => {
         const selectedType = data.result.find(
@@ -212,7 +233,7 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
     };
 
     //console.log(data);
-    if (isLoading) {
+    if (isLoading || isLoadingFacilities) {
         return <MainLoader />;
     }
 
