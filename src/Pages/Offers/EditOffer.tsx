@@ -25,6 +25,7 @@ import { useParams } from 'react-router-dom';
 import MainLoader from '../../Components/MainLoader';
 import { useGetFacilitiesQuery } from '../../Apis/facilityApi';
 import facilityInterface from '../../Interfaces/facilityInterface';
+import toastNotify from '../../Helper/toastNotify';
 
 function EditOfferForm() {
     const { offerId } = useParams(); // offerId match the offerId from App.tsx
@@ -49,6 +50,8 @@ function EditOfferForm() {
     console.log(temp);
     console.log(dataOffer.result.facilities);
     console.log(offerFacilitiesDescriptionsArray);
+    const [validated, setValidated] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string[]>([]);
     // console.log(offerAnimalTypesToArray);
     // console.log(dataOffer);
 
@@ -69,13 +72,24 @@ function EditOfferForm() {
         city: dataOffer.result.city,
         street: dataOffer.result.street,
         postalCode: dataOffer.result.postalCode,
-        price: dataOffer.result.price,
+        price: dataOffer.result.price.toString().replace('.', ','),
         file: dataOffer.result.photo,
         offerAnimalTypes: offerAnimalTypesToArray,
         facilities: dataOffer.result.facilities.map(
             (facility: any) => facility.id,
         ),
     });
+
+    // useEffect(() => {
+    //     // Jeśli masz wartość 'price' z dataOffer, przypisujesz ją
+    //     // i zamieniasz kropkę na przecinek.
+    //     if (dataOffer && dataOffer.result && dataOffer.result.price) {
+    //         setFormData({
+    //             ...formData,
+    //             price: dataOffer.result.price.toString().replace('.', ','),
+    //         });
+    //     }
+    // }, [dataOffer]);
 
     const facilitiesIdArray: number[] = formData.facilities.map(
         (facility: any) => facility.id,
@@ -129,10 +143,10 @@ function EditOfferForm() {
     const handleEditOffer = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
-        if (!formData) {
-            alert('Wszystkie pola są wymagane!');
-            setLoading(false);
-            return;
+        const form = e.currentTarget;
+        if (form.checkValidity() === false) {
+            e.stopPropagation();
+            setValidated(true);
         }
 
         const formDataToSend = new FormData();
@@ -166,18 +180,29 @@ function EditOfferForm() {
                 id: offerId,
             }).unwrap();
             console.log(response);
-            alert('dodane!');
-        } catch (error) {
+            toastNotify('Edytowanie oferty zakończone sukcesem!');
+        } catch (error: any) {
             console.log('Błąd');
-            console.error('Błąd przy dodawaniu:', error);
+            console.error('Błąd przy edytowaniu:', error);
+            if (error?.data?.errors) {
+                setErrorMessage(error.data.errors);
+            } else {
+                setErrorMessage(['Wystąpił  błąd.']);
+            }
         }
         console.log('Dane załadowane:', formData);
+        setLoading(false);
         //console.log('Dane send:', Object.fromEntries(formDataToSend));
     };
     const { data: facilities, isLoading: isLoadingFacilities } =
         useGetFacilitiesQuery(null);
     //console.log(facilities.result);
-
+    function getErrorMessage(key: any) {
+        console.log(errorMessage);
+        // console.log(errorMessage['Name'][0]);
+        // console.log(errorMessage[key][0]);
+        return errorMessage.hasOwnProperty(key) ? errorMessage[key][0] : '';
+    }
     //console.log(formData.facilities);
 
     const renderSelectedFacilities = () => {
@@ -258,7 +283,7 @@ function EditOfferForm() {
     }
 
     return (
-        <Form onSubmit={handleEditOffer}>
+        <Form noValidate validated={validated} onSubmit={handleEditOffer}>
             <Form.Group
                 as={Row}
                 className="align-items-center mb-2"
@@ -271,9 +296,13 @@ function EditOfferForm() {
                     <Form.Control
                         placeholder="Wpisz tytuł"
                         name="name"
+                        required
                         value={formData.name}
                         onChange={handleUserInput}
-                    />
+                    />{' '}
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('Name') || 'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-2" controlId="">
@@ -284,11 +313,16 @@ function EditOfferForm() {
                     <Form.Control
                         as="textarea"
                         rows={3}
+                        required
                         placeholder="opis oferty"
                         name="offerDescription"
                         value={formData.offerDescription}
                         onChange={handleUserInput}
-                    />
+                    />{' '}
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('OfferDescription') ||
+                            'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-2" controlId="">
@@ -299,11 +333,16 @@ function EditOfferForm() {
                     <Form.Control
                         as="textarea"
                         rows={3}
+                        required
                         placeholder="opis opiekuna"
                         name="petSitterDescription"
                         value={formData.petSitterDescription}
                         onChange={handleUserInput}
-                    />
+                    />{' '}
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('PetSitterDescription') ||
+                            'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
             </Form.Group>
             <Form.Group
@@ -318,9 +357,13 @@ function EditOfferForm() {
                     <Form.Control
                         placeholder="cena"
                         name="price"
+                        required
                         value={formData.price}
                         onChange={handleUserInput}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('Price') || 'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
             </Form.Group>
             <Form.Group
@@ -335,9 +378,13 @@ function EditOfferForm() {
                     <Form.Control
                         placeholder="opis"
                         name="country"
+                        required
                         value={formData.country}
                         onChange={handleUserInput}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('Country') || 'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
             </Form.Group>
             <Form.Group
@@ -352,9 +399,13 @@ function EditOfferForm() {
                     <Form.Control
                         placeholder="opis"
                         name="city"
+                        required
                         value={formData.city}
                         onChange={handleUserInput}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('City') || 'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
             </Form.Group>
             <Form.Group
@@ -369,9 +420,13 @@ function EditOfferForm() {
                     <Form.Control
                         placeholder="opis"
                         name="street"
+                        required
                         value={formData.street}
                         onChange={handleUserInput}
-                    />{' '}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('Street') || 'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
             </Form.Group>
             <Form.Group
@@ -386,9 +441,14 @@ function EditOfferForm() {
                     <Form.Control
                         placeholder="opis"
                         name="postalCode"
+                        required
                         value={formData.postalCode}
                         onChange={handleUserInput}
-                    />{' '}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('PostalCode') ||
+                            'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
             </Form.Group>
             <Form.Group
@@ -419,6 +479,10 @@ function EditOfferForm() {
                             />
                         ))}
                     </DropdownButton>
+                    <Form.Control.Feedback type="invalid">
+                        {getErrorMessage('OfferAnimalTypes') ||
+                            'To pole jest wymagane.'}
+                    </Form.Control.Feedback>
                 </Col>
             </Form.Group>
             <Form.Group
