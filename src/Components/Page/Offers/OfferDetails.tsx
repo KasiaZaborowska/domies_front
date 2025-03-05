@@ -223,7 +223,8 @@ function OfferDetails() {
                         <Facilities data={data.result} isLoading={isLoading} />
                     </div>
                     <span className="h3">
-                        Koszt usługi: {data.result.price}zł /24h
+                        Koszt usługi:{' '}
+                        {data.result.price.toString().replace('.', ',')}zł /24h
                     </span>
                     <hr />
                     <div className="row pt-4">
