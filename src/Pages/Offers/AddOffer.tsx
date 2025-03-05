@@ -15,7 +15,8 @@ import MainLoader from '../../Components/MainLoader';
 import facilityInterface from '../../Interfaces/facilityInterface';
 import { useGetFacilitiesQuery } from '../../Apis/facilityApi';
 import { setFacility } from '../../Store/Redux/facilitySlice';
-
+import toastNotify from '../../Helper/toastNotify';
+import * as formik from 'formik';
 interface AddOfferFormProps {
     onSuccess: () => void;
 }
@@ -25,10 +26,14 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
     const userData: userAccountInterface = useSelector(
         (state: RootState) => state.userAccountStore,
     );
+    const { Formik } = formik;
     const loggedInUserEmail = userData.Email;
-
+    const [submitted, setSubmitted] = useState(false);
     const [offferToAdd] = useAddOfferMutation();
     const [loading, setLoading] = useState(false);
+    const [touched, setTouched] = useState({
+        lastName: false,
+    });
     const [formData, setFormData] = useState<offerInterface>({
         name: '',
         host: loggedInUserEmail,
@@ -49,11 +54,14 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
         useGetFacilitiesQuery(null);
     const [preview, setPreview] = useState<string | null>(null); // Obsługa podglądu zdjęcia
 
+    const [validated, setValidated] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string[]>([]);
+
     useEffect(() => {
-        if (!isLoading || !isLoadingFacilities) {
-            dispatch(setAnimalType(data.result));
-            dispatch(setFacility(facilities.result));
-        }
+        if (isLoading || isLoadingFacilities) return;
+        dispatch(setAnimalType(data.result));
+        // dispatch(setFacility(facilities.result));
+
         console.log('Dane załadowane:', formData);
     }, [isLoading, isLoadingFacilities, data, dispatch]);
 
@@ -62,9 +70,6 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
         return formData.offerAnimalTypes.join(', ') || 'Wybierz';
     };
 
-    const facilitiesArray = facilities.result;
-    console.log(facilitiesArray);
-    console.log(formData.facilities);
     const renderSelectedFacilities = () => {
         if (
             !Array.isArray(formData.facilities) ||
@@ -72,7 +77,7 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
         ) {
             return 'Wybierz';
         }
-
+        const facilitiesArray = facilities.result;
         return (
             formData.facilities
                 .map((id) => {
@@ -83,7 +88,6 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                 })
                 .join(', ') || 'Wybierz'
         );
-        // return formData.facilities.join(', ') || 'Wybierz';
     };
     const handleCheckboxChange = (animalTypeId: number) => {
         const selectedType = data.result.find(
@@ -124,39 +128,6 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
     console.log('facilities');
     console.log(facilities);
     console.log('Selected facilities:', formData.facilities);
-    // const renderSelected = () => {
-    //     if (isLoading) {
-    //         return 'Ładowanie...'; // Możesz dodać komunikat o ładowaniu
-    //     }
-
-    //     if (!data || !data.result || data.result.length === 0) {
-    //         return 'Wybierz cechy'; // Zwracamy domyślny komunikat, jeśli brak danych
-    //     }
-    //     console.log(data.result);
-    //     return (
-    //         formData.offerAnimalTypes
-    //             .map(
-    //                 (animalTypeId) =>
-    //                     data.result.find(
-    //                         (type: animalTypeInterface) =>
-    //                             type.animalTypeId === animalTypeId,
-    //                     )?.name,
-    //             )
-    //             .filter((name) => name)
-    //             .join(', ') || 'Wybierz cechy'
-    //     );
-    // };
-
-    // const handleCheckboxChange = (animalTypeId: number) => {
-    //     setFormData((prev) => {
-    //         const isSelected = prev.offerAnimalTypes.includes(animalTypeId);
-    //         const updatedOfferAnimalTypes = isSelected
-    //             ? prev.offerAnimalTypes.filter((id) => id !== animalTypeId) // Usuń cechę
-    //             : [...prev.offerAnimalTypes, animalTypeId]; // Dodaj cechę
-
-    //         return { ...prev, offerAnimalTypes: updatedOfferAnimalTypes };
-    //     });
-    // };
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const tempData = inputHelper(e, formData);
@@ -166,12 +137,11 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
     const handleAddOffer = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
-        if (!formData) {
-            alert('Wszystkie pola są wymagane!');
-            setLoading(false);
-            return;
+        const form = e.currentTarget;
+        if (form.checkValidity() === false) {
+            e.stopPropagation();
+            setValidated(true);
         }
-
         const formDataToSend = new FormData();
         formDataToSend.append('name', formData.name);
         formDataToSend.append('host', loggedInUserEmail);
@@ -191,12 +161,6 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
         formData.facilities.forEach((facility: number) => {
             formDataToSend.append('facilities[]', facility.toString());
         });
-        // formDataToSend.append(
-        //     'offerAnimalTypes',
-        //     formData.offerAnimalTypes.join(', '),
-        // ); // Dodajemy typy zwierząt (jako string)
-
-        // Jeśli mamy plik, dodajemy go do formData
         if (formData.file) {
             formDataToSend.append('file', formData.file); // Dodajemy plik
         }
@@ -209,15 +173,36 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
             }).unwrap();
             console.log('Dane, które dodaje:', response, 'and ', response.name);
             onSuccess();
-            alert('dodane!');
-        } catch (error) {
+            toastNotify('Dodawanie oferty zakończone sukcesem!');
+            // alert('dodane!');
+        } catch (error: any) {
             console.log('Błąd');
             console.error('Błąd przy dodawaniu:', error);
+            if (error?.data?.errors) {
+                setErrorMessage(error.data.errors);
+            } else {
+                setErrorMessage(['Wystąpił  błąd.']);
+            }
         }
         console.log('Dane załadowane:', formData);
         console.log('Dane send:', Object.fromEntries(formDataToSend));
+
+        setLoading(false);
+        setSubmitted(true);
+        // setValidated(true);
     };
 
+    function getErrorMessage(key: any) {
+        console.log(errorMessage);
+        console.log(key);
+        console.log(errorMessage.hasOwnProperty(key));
+        console.log(errorMessage.hasOwnProperty('Name'));
+        console.log(errorMessage.hasOwnProperty(['Name'][0]));
+        // console.log(errorMessage['Name'][0]);
+        // console.log(errorMessage[key][0]);
+        return errorMessage.hasOwnProperty(key) ? errorMessage[key][0] : '';
+    }
+    console.log(getErrorMessage('Name'));
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         //setFormData((prev) => ({ prev, file: e.target.file[0] }));
         const photo = e.target.files?.[0];
@@ -238,23 +223,29 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
     }
 
     return (
-        <Form onSubmit={handleAddOffer}>
+        <Form noValidate validated={validated} onSubmit={handleAddOffer}>
             <Form.Group
                 as={Row}
                 className="align-items-center mb-2"
                 controlId="name"
             >
                 <Col sm={2}>
-                    <Form.Label>Nazwa</Form.Label>
+                    <Form.Label>Imię opiekuna:</Form.Label>
                 </Col>
                 <Col>
                     <Form.Control
                         placeholder="Wpisz tytuł"
                         name="name"
+                        required
                         value={formData.name}
                         onChange={handleUserInput}
+                        // isValid={touched.Name && !errors.Name}
+                        // isInvalid={touched.Name && errors.Name}
                     />
                 </Col>
+                <Form.Control.Feedback>
+                    {getErrorMessage('Name')}
+                </Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Row} className="mb-2" controlId="">
                 <Col sm={2}>
@@ -264,12 +255,16 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                     <Form.Control
                         as="textarea"
                         rows={3}
+                        required
                         placeholder="opis oferty"
                         name="offerDescription"
                         value={formData.offerDescription}
                         onChange={handleUserInput}
                     />
                 </Col>
+                <div className="invalid-feedback">
+                    {getErrorMessage('OfferDescription')}
+                </div>
             </Form.Group>
             <Form.Group as={Row} className="mb-2" controlId="">
                 <Col sm={2}>
@@ -279,12 +274,16 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                     <Form.Control
                         as="textarea"
                         rows={3}
+                        required
                         placeholder="opis opiekuna"
                         name="petSitterDescription"
                         value={formData.petSitterDescription}
                         onChange={handleUserInput}
                     />
                 </Col>
+                <div className="invalid-feedback">
+                    {getErrorMessage('PetSitterDescription')}
+                </div>
             </Form.Group>
             <Form.Group
                 as={Row}
@@ -298,11 +297,17 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                     <Form.Control
                         placeholder="cena"
                         name="price"
+                        required
                         value={formData.price}
+                        isInvalid={submitted && formData.price === 0}
                         onChange={handleUserInput}
                     />
                 </Col>
+                <div className="invalid-feedback">
+                    {getErrorMessage('Price')}
+                </div>
             </Form.Group>
+            <div className="invalid-feedback">{getErrorMessage('price')}</div>
             <Form.Group
                 as={Row}
                 className="align-items-center mb-2"
@@ -315,11 +320,13 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                     <Form.Control
                         placeholder="opis"
                         name="country"
+                        required
                         value={formData.country}
                         onChange={handleUserInput}
                     />
                 </Col>
             </Form.Group>
+            <div className="invalid-feedback">{getErrorMessage('Country')}</div>
             <Form.Group
                 as={Row}
                 className="align-items-center mb-2"
@@ -332,11 +339,13 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                     <Form.Control
                         placeholder="opis"
                         name="city"
+                        required
                         value={formData.city}
                         onChange={handleUserInput}
                     />
                 </Col>
             </Form.Group>
+            <div className="invalid-feedback">{getErrorMessage('City')}</div>
             <Form.Group
                 as={Row}
                 className="align-items-center mb-2"
@@ -349,11 +358,13 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                     <Form.Control
                         placeholder="opis"
                         name="street"
+                        required
                         value={formData.street}
                         onChange={handleUserInput}
                     />
                 </Col>
             </Form.Group>
+            <div className="invalid-feedback">{getErrorMessage('Street')}</div>
             <Form.Group
                 as={Row}
                 className="align-items-center mb-2"
@@ -366,10 +377,14 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                     <Form.Control
                         placeholder="opis"
                         name="postalCode"
+                        required
                         value={formData.postalCode}
                         onChange={handleUserInput}
                     />
                 </Col>
+                <div className="invalid-feedback">
+                    {getErrorMessage('PostalCode')}
+                </div>
             </Form.Group>
             <Form.Group
                 as={Row}
@@ -388,6 +403,7 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                                 className="m-2"
                                 key={type.animalTypeId}
                                 type="checkbox"
+                                required
                                 label={type.type}
                                 value={type.animalTypeId}
                                 checked={formData.offerAnimalTypes.includes(
@@ -446,6 +462,7 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                     <Form.Control
                         type="file"
                         name="file"
+                        required
                         accept="image/*"
                         onChange={handleFileChange}
                     />
