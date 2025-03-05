@@ -40,6 +40,15 @@ function EditOfferForm() {
     //console.log(dataOffer.result.offerAnimalTypes);
     const offerAnimalTypesToArray =
         dataOffer.result.offerAnimalTypes.split(', ');
+
+    const temp = dataOffer.result.facilities;
+    const offerFacilitiesDescriptionsArray = temp.map(
+        (facility: any) => facility.facilitiesDescription,
+    );
+    console.log(dataOffer.result);
+    console.log(temp);
+    console.log(dataOffer.result.facilities);
+    console.log(offerFacilitiesDescriptionsArray);
     // console.log(offerAnimalTypesToArray);
     // console.log(dataOffer);
 
@@ -63,9 +72,15 @@ function EditOfferForm() {
         price: dataOffer.result.price,
         file: dataOffer.result.photo,
         offerAnimalTypes: offerAnimalTypesToArray,
-        facilities: dataOffer.result.facilities,
+        facilities: dataOffer.result.facilities.map(
+            (facility: any) => facility.id,
+        ),
     });
 
+    const facilitiesIdArray: number[] = formData.facilities.map(
+        (facility: any) => facility.id,
+    );
+    console.log(facilitiesIdArray);
     const { data, isLoading } = useGetAnimalTypesQuery(null);
 
     const [preview, setPreview] = useState<string | null>();
@@ -73,7 +88,7 @@ function EditOfferForm() {
     const photo = formData.file;
 
     useEffect(() => {
-        if (!isLoading) {
+        if (!isLoading || !isLoadingFacilities) {
             dispatch(setAnimalType(data.result));
         }
         console.log('Dane załadowane:', formData);
@@ -161,14 +176,45 @@ function EditOfferForm() {
     };
     const { data: facilities, isLoading: isLoadingFacilities } =
         useGetFacilitiesQuery(null);
+    //console.log(facilities.result);
 
-    console.log(formData.facilities);
+    //console.log(formData.facilities);
+
     const renderSelectedFacilities = () => {
+        if (
+            !Array.isArray(formData.facilities) ||
+            formData.facilities.length === 0
+        ) {
+            return 'Wybierz';
+        }
+        const facilitiesArray = facilities.result;
         return (
             formData.facilities
-                .map((item: any) => `${item.facilitiesDescription}`)
+                .map((id) => {
+                    const myFacility = facilitiesArray.find(
+                        (f: any) => f.id === id,
+                    );
+                    console.log(id);
+                    console.log(myFacility);
+                    return myFacility
+                        ? myFacility.facilitiesDescription
+                        : 'błąd';
+                })
                 .join(', ') || 'Wybierz'
+            // formData.facilities
+            //     .map((facility: any) => {
+            //         const myFacility = facilitiesArray.find(
+            //             (f: facilityInterface) => f.id === facility.id,
+            //         );
+            //         console.log(facility);
+            //         console.log(myFacility);
+            //         return myFacility
+            //             ? myFacility.facilitiesDescription
+            //             : 'błąd';
+            //     })
+            //     .join(', ') || 'Wybierz'
         );
+        // return formData.facilities.join(', ') || 'Wybierz';
     };
     const handleCheckboxChangeFacilities = (id: number) => {
         const selectedFacility = facilities.result.find(
@@ -204,10 +250,10 @@ function EditOfferForm() {
             //setPhoto(photo); // ustawienie wybranego pliku
         }
     };
-    console.log('preview');
-    console.log(preview);
+    // console.log('preview');
+    // console.log(preview);
     //console.log(data);
-    if (isLoading) {
+    if (isLoading || isLoadingFacilities) {
         return <MainLoader />;
     }
 
@@ -241,6 +287,21 @@ function EditOfferForm() {
                         placeholder="opis oferty"
                         name="offerDescription"
                         value={formData.offerDescription}
+                        onChange={handleUserInput}
+                    />
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-2" controlId="">
+                <Col sm={2}>
+                    <Form.Label>Opis opiekuna/O mnie</Form.Label>
+                </Col>
+                <Col sm={10}>
+                    <Form.Control
+                        as="textarea"
+                        rows={3}
+                        placeholder="opis opiekuna"
+                        name="petSitterDescription"
+                        value={formData.petSitterDescription}
                         onChange={handleUserInput}
                     />
                 </Col>
@@ -426,7 +487,6 @@ function EditOfferForm() {
                     </div>
                 </Col>
             </Form.Group>
-
             <Button variant="primary" type="submit">
                 Edytuj ofertę
             </Button>
