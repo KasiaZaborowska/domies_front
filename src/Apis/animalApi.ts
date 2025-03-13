@@ -10,7 +10,6 @@ const animalApi = createApi({
         getAnimals: builder.query({
             query: () => ({
                 url: 'animal',
-                params: {},
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
