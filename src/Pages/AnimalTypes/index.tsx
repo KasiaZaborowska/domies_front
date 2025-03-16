@@ -18,7 +18,7 @@ import DefaultDataTable from '../Applications/components/DefaultTable';
 import PetsIcon from '@mui/icons-material/Pets';
 import { useNavigate } from 'react-router-dom';
 import './components/animalTypes.css';
-import inputHelper from '../../Helper/inputHelper';
+import Tooltip from '@mui/material/Tooltip';
 
 function AnimalTypes() {
     const dispatch = useDispatch();
@@ -157,18 +157,20 @@ function AnimalTypes() {
                             <div className="d-flex align-items-center justify-content-between mx-5 px-4">
                                 <h1 className="text-success">Typy zwierząt</h1>
                                 <div className="d-flex justify-content-end pt-4">
-                                    <Button
-                                        onClick={handleShow}
-                                        style={{
-                                            backgroundColor: 'pink',
-                                            borderColor: 'pink',
-                                            borderRadius: '50px',
-                                            padding: '10px',
-                                            color: 'black',
-                                        }}
-                                    >
-                                        Dodaj nowy typ zwierzęcia!
-                                    </Button>
+                                    <Tooltip title="Dodaj nowy typ zwierzęcia">
+                                        <Button
+                                            onClick={handleShow}
+                                            style={{
+                                                backgroundColor: 'pink',
+                                                borderColor: 'pink',
+                                                borderRadius: '50px',
+                                                padding: '10px',
+                                                color: 'black',
+                                            }}
+                                        >
+                                            Dodaj nowy typ zwierzęcia!
+                                        </Button>
+                                    </Tooltip>
                                 </div>
                             </div>
                         </div>
@@ -196,7 +198,7 @@ function AnimalTypes() {
                         <Modal
                             show={show}
                             onHide={handleClose}
-                            dialogClassName="custom-modal"
+                            dialogClassName="animal_type_modal"
                         >
                             <Modal.Header closeButton>
                                 <Modal.Title>

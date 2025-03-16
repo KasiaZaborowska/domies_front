@@ -13,3 +13,32 @@
     width: 50%;
     max-width: 500px;
 }
+
+.animal_type_modal {
+    /* background-color: rgb(204, 255, 0); */
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    margin-left: 24vw;
+    margin-right: 24vw;
+    margin-top: 10vh;
+}
+@media (max-width: 900px) {
+    .animal_type_modal {
+        /* background-color: aqua; */
+        width: 70%;
+        margin-left: 13vw;
+        margin-right: 13vw;
+        margin-top: 13vh;
+    }
+}
+
+@media (max-width: 400px) {
+    .animal_type_modal {
+        /* background-color: rgb(0, 21, 255); */
+        width: 90%;
+        margin-left: 8vw;
+        margin-right: 8vw;
+        margin-top: 10vh;
+    }
+}

@@ -7,6 +7,7 @@ import {
     useUpdateAnimalTypeMutation,
 } from '../../../Apis/animalTypeApi';
 import { animalTypeInterface } from '../../../Interfaces';
+import Tooltip from '@mui/material/Tooltip';
 
 interface ActionsColumnProps {
     row: {
@@ -73,18 +74,20 @@ export default function ActionsColumn({ row }: ActionsColumnProps) {
 
     return (
         <>
-            <Button
-                variant="contained"
-                color="success"
-                style={{ marginRight: 8 }}
-                onClick={() => setShowEditModal(true)}
-            >
-                <i className="bi bi-pencil-fill"></i>
-            </Button>
+            <Tooltip title="Edytuj">
+                <Button
+                    variant="contained"
+                    color="success"
+                    style={{ marginRight: 8 }}
+                    onClick={() => setShowEditModal(true)}
+                >
+                    <i className="bi bi-pencil-fill"></i>
+                </Button>
+            </Tooltip>
             <Modal
                 show={showEditModal}
                 onHide={() => setShowEditModal(false)}
-                centered
+                className="animal_type_modal"
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Edytuj rodzaj zwierzęcia:</Modal.Title>
@@ -127,7 +130,7 @@ export default function ActionsColumn({ row }: ActionsColumnProps) {
             <Modal
                 show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}
-                centered
+                className="animal_type_modal"
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
