@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
-import inputHelper from '../../Helper/inputHelper';
+import inputHelperUtility from '../../Utils/inputHelperUtility';
 import { useRegisterUserMutation } from '../../Apis/accountApi';
 import { apiResponse } from '../../Interfaces';
-import toastNotify from '../../Helper/toastNotify';
+import toastNotify from '../../Components/toastNotify';
 import { useNavigate } from 'react-router-dom';
 import MainLoader from '../../Components/MainLoader';
 import { Form } from 'react-bootstrap';
@@ -23,8 +23,18 @@ function SingUp() {
     const [errorMessage, setErrorMessage] = useState<string[]>([]);
     const [validated, setValidated] = useState(false);
 
+    const inputHelperUtility2 = <T extends Record<string, any>>(
+        e: React.ChangeEvent<
+            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+        >,
+        data: T,
+    ): T => ({
+        ...data,
+        [e.target.name]: e.target.value,
+    });
+
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const tempData = inputHelper(e, userInput);
+        const tempData = inputHelperUtility2(e, userInput);
         setUserInput(tempData);
     };
 
@@ -36,11 +46,16 @@ function SingUp() {
         if (form.checkValidity() === false) {
             e.stopPropagation();
             setValidated(true);
+            console.log('in');
         }
+        console.log('after');
         setLoading(true);
         try {
             console.log(userInput.FirstName);
             console.log(userInput.PhoneNumber);
+            console.log(userInput.Email);
+            console.log(userInput.LastName);
+            console.log(userInput.Password);
             // console.log(response);
             const response: apiResponse = await registerUser({
                 Email: userInput.Email,
@@ -48,7 +63,9 @@ function SingUp() {
                 LastName: userInput.LastName,
                 PhoneNumber: userInput.PhoneNumber,
                 Password: userInput.Password,
+                // RoleId: 1,
             }).unwrap();
+            console.log(response);
             if (response.data) {
                 toastNotify(
                     'Rejestracja zakończona sukcesem! Potwierdź swój adres email aby móc się zalogować.',
