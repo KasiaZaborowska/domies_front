@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Banner, OfferList } from '../Components/Page/Offers';
+import Banner from './Home/Banner';
+import OfferList from './Home/OfferList';
 import { offerByIdInterface, readOfferInterface } from '../Interfaces';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';

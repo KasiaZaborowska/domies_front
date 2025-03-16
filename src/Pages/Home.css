@@ -47,7 +47,7 @@
     flex-grow: 1; /* Sprawia, że przyciski zajmują równą szerokość */
 }
 
-@media (min-width: 300px) {
+@media (max-width: 300px) {
     .toggle-group {
         flex-direction: row; /* Na większych ekranach przyciski układają się w poziomie */
         flex-wrap: wrap;
@@ -60,5 +60,36 @@
         padding: 8px 16px; /* Zmniejsza padding */
         max-width: 120px; /* Opcjonalnie zmniejsza maksymalną szerokość */
         transform: scale(0.8); /* Zmniejsza całą wielkość przycisku o 10% */
+    }
+}
+@media (max-width: 900px) {
+    .toggle-group {
+        flex-direction: row; /* Na większych ekranach przyciski układają się w poziomie */
+        flex-wrap: wrap;
+        gap: 5px;
+        justify-content: center;
+    }
+
+    .toggle-group .btn {
+        font-size: 16px; /* Zmniejsza rozmiar tekstu */
+        padding: 8px 16px; /* Zmniejsza padding */
+        max-width: 140px; /* Opcjonalnie zmniejsza maksymalną szerokość */
+        transform: scale(0.8); /* Zmniejsza całą wielkość przycisku o 10% */
+    }
+}
+@media (min-width: 900px) {
+    .toggle-group {
+        flex-direction: row; /* Na większych ekranach przyciski układają się w poziomie */
+        flex-wrap: wrap;
+        gap: 5px;
+        justify-content: center;
+    }
+
+    .toggle-group .btn {
+        margin-top: 10px;
+        font-size: 20px; /* Zmniejsza rozmiar tekstu */
+        padding: 8px 28px; /* Zmniejsza padding */
+        max-width: 180px; /* Opcjonalnie zmniejsza maksymalną szerokość */
+        transform: scale(0.9); /* Zmniejsza całą wielkość przycisku o 10% */
     }
 }
