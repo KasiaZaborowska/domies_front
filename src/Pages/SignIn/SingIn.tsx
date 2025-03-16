@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import inputHelper from '../../Helper/inputHelper';
+import inputHelperUtility from '../../Utils/inputHelperUtility';
 import { useLoginUserMutation } from '../../Apis/accountApi';
 import { userAccountInterface } from '../../Interfaces';
 import jwt_decode from 'jwt-decode';
@@ -8,7 +8,7 @@ import { setLoggedInUser } from '../../Store/Redux/userAccountSlice';
 import { Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import MainLoader from '../../Components/MainLoader';
-import toastNotify from '../../Helper/toastNotify';
+import toastNotify from '../../Components/toastNotify';
 
 function SingIn() {
     const dispatch = useDispatch();
@@ -23,7 +23,7 @@ function SingIn() {
     });
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const tempData = inputHelper(e, userInput);
+        const tempData = inputHelperUtility(e, userInput);
         setUserInput(tempData);
     };
 
