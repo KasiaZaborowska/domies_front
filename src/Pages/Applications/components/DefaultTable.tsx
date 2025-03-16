@@ -7,6 +7,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 import DeleteButtonWithModal from './HandleDelete';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { autoBatchEnhancer, SerializedError } from '@reduxjs/toolkit';
+import Tooltip from '@mui/material/Tooltip';
 
 interface DataTableProps {
     columns: GridColDef[];
@@ -83,14 +84,20 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
                         color="success"
                         id={params.row.id}
                         onClick={() => onEdit?.(dataRow)}
-                        style={{ display: onEdit ? 'inline-block' : 'none' }}
+                        style={{
+                            display: onEdit ? 'inline-block' : 'none',
+                        }}
                     >
                         <i className="bi bi-pencil-fill"></i>
                     </Button>
-                    <DeleteButtonWithModal
-                        id={params.row.id}
-                        deleteFunction={onDelete}
-                    />
+                    <Tooltip title="Usuń">
+                        <>
+                            <DeleteButtonWithModal
+                                id={params.row.id}
+                                deleteFunction={onDelete}
+                            />
+                        </>
+                    </Tooltip>
                 </div>
             );
         },
