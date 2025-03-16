@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button, Col, DropdownButton, Form, Modal, Row } from 'react-bootstrap';
 import MainLoader from '../../../Components/MainLoader';
 import { animalInterface, applicationInterface } from '../../../Interfaces';
-import inputHelper from '../../../Helper/inputHelper';
+import inputHelperUtility from '../../../Utils/inputHelperUtility';
 import { useAddApplicationMutation } from '../../../Apis/applicationApi';
 import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -46,7 +46,7 @@ function AddUser({ offerId }: Props) {
     });
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const tempData = inputHelper(e, formData);
+        const tempData = inputHelperUtility(e, formData);
         setFormData(tempData);
     };
 

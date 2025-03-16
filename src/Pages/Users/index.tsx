@@ -4,7 +4,7 @@ import { useState } from 'react';
 // import { useDispatch } from 'react-redux';
 import { Button, Form, Modal, Row } from 'react-bootstrap';
 import MainLoader from '../../Components/MainLoader';
-import inputHelper from '../../Helper/inputHelper';
+import inputHelperUtility from '../../Utils/inputHelperUtility';
 import {
     useAddApplicationMutation,
     useDeleteApplicationMutation,
@@ -46,6 +46,7 @@ function Users() {
         email: '',
         firstName: '',
         lastName: '',
+        phoneNumber: '',
         roleId: 0,
         roleName: '',
         dateAdd: '',
@@ -59,7 +60,7 @@ function Users() {
     const [deleteApplication] = useDeleteApplicationMutation();
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const tempData = inputHelper(e, formData);
+        const tempData = inputHelperUtility(e, formData);
         setFormData(tempData);
     };
 
@@ -107,6 +108,7 @@ function Users() {
             field: 'email',
             headerName: 'Email',
             minWidth: 250,
+            flex: 1,
             renderCell: (params) => (
                 <div style={{ padding: '5px' }}>{params.value}</div>
             ),
@@ -114,7 +116,8 @@ function Users() {
         {
             field: 'firstName',
             headerName: 'Imię',
-            minWidth: 250,
+            minWidth: 150,
+            flex: 1,
             renderCell: (params) => (
                 <div style={{ padding: '5px' }}>{params.value}</div>
             ),
@@ -122,7 +125,17 @@ function Users() {
         {
             field: 'lastName',
             headerName: 'Nazwisko',
-            minWidth: 250,
+            minWidth: 150,
+            flex: 1,
+            renderCell: (params) => (
+                <div style={{ padding: '5px' }}>{params.value}</div>
+            ),
+        },
+        {
+            field: 'phoneNumber',
+            headerName: 'Telefon',
+            minWidth: 150,
+            flex: 1,
             renderCell: (params) => (
                 <div style={{ padding: '5px' }}>{params.value}</div>
             ),
@@ -130,7 +143,8 @@ function Users() {
         {
             field: 'roleName',
             headerName: 'Rola',
-            minWidth: 200,
+            minWidth: 100,
+            flex: 1,
             renderCell: (params) => (
                 <div style={{ padding: '5px' }}>{params.value}</div>
             ),
@@ -138,7 +152,8 @@ function Users() {
         {
             field: 'dateAdd',
             headerName: 'Data dodania',
-            minWidth: 250,
+            minWidth: 150,
+            flex: 1,
         },
     ];
     const [rows, setRows] = useState([]);
@@ -155,6 +170,7 @@ function Users() {
                     email: item.email,
                     firstName: item.firstName,
                     lastName: item.lastName,
+                    phoneNumber: item.phoneNumber,
                     dateAdd: new Date(item.dateAdd).toLocaleDateString('pl-PL'),
                     roleId: item.roleId,
                     roleName: item.roleName,
@@ -240,8 +256,6 @@ function Users() {
     if (isLoading) {
         return <MainLoader />;
     }
-    //console.log('rows:', rows);
-    //console.log(animalTypes.result);
     return (
         <>
             <div className="h-dvh">
@@ -254,20 +268,6 @@ function Users() {
                         <div className="p-3">
                             <div className="d-flex align-items-center justify-content-between mx-5 px-4">
                                 <h1 className="text-success">Użytkownicy</h1>
-                                <div className="d-flex justify-content-end pt-4">
-                                    <Button
-                                        onClick={handleShow}
-                                        style={{
-                                            backgroundColor: 'pink',
-                                            borderColor: 'pink',
-                                            borderRadius: '50px',
-                                            padding: '10px',
-                                            color: 'black',
-                                        }}
-                                    >
-                                        Dodaj użytkownika!
-                                    </Button>
-                                </div>
                             </div>
                         </div>
 
@@ -291,65 +291,6 @@ function Users() {
                                 onDelete={deleteUser}
                             />
                         </div>
-                        <Modal show={show} onHide={handleClose}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Dodaj nowe zwierze:</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <Form>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Email:</Form.Label>
-                                        <Form.Control
-                                            name="dateStart"
-                                            type="text"
-                                            value={formData.email}
-                                            placeholder="Wpisz typ"
-                                            onChange={handleUserInput}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Imię:</Form.Label>
-                                        <Form.Control
-                                            name="dateStart"
-                                            type="text"
-                                            value={formData.firstName}
-                                            placeholder="Wpisz typ"
-                                            onChange={handleUserInput}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Nazwisko:</Form.Label>
-                                        <Form.Control
-                                            name="dateStart"
-                                            type="text"
-                                            value={formData.lastName}
-                                            placeholder="Wpisz typ"
-                                            onChange={handleUserInput}
-                                        />
-                                    </Form.Group>
-
-                                    <Form.Group
-                                        className="d-flex justify-content-end"
-                                        controlId="formBasicEmail"
-                                    >
-                                        <Button
-                                            className="m-1"
-                                            variant="secondary"
-                                            onClick={handleClose}
-                                        >
-                                            Zamknij
-                                        </Button>
-                                        <Button
-                                            className="m-1"
-                                            variant="primary"
-                                            //onClick={handleSubmit}
-                                        >
-                                            Dodaj
-                                        </Button>
-                                    </Form.Group>
-                                </Form>
-                            </Modal.Body>
-                        </Modal>
                     </div>
                 )}
             </div>
