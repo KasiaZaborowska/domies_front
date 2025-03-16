@@ -3,13 +3,14 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const animalApi = createApi({
     reducerPath: 'animalApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://localhost:7098/api/',
+        baseUrl: `${process.env.REACT_APP_BACKEND_URL}/api/`,
     }),
     tagTypes: ['Animal'],
     endpoints: (builder) => ({
         getAnimals: builder.query({
             query: () => ({
                 url: 'animal',
+                params: {},
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
