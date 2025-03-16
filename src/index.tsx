@@ -10,7 +10,7 @@ import { store } from './Store';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { router } from './Container/Router';
+import { router } from './Router';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement,
