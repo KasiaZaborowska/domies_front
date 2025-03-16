@@ -1,5 +1,5 @@
 import jwt_decode from 'jwt-decode';
-import { redirect, RedirectFunction, useNavigate } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 
 const getRole = (): string | undefined => {
     const accessToken = localStorage.getItem('token');
@@ -9,7 +9,6 @@ const getRole = (): string | undefined => {
         } = jwt_decode(accessToken);
         return userRole.Role.toLowerCase();
     } else {
-        //console.error('Brak tokenu!');
         return undefined;
     }
 };
