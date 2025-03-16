@@ -8,7 +8,7 @@ import {
     applicationInterface,
     userAccountInterface,
 } from '../../../Interfaces';
-import inputHelper from '../../../Helper/inputHelper';
+import inputHelperUtility from '../../../Utils/inputHelperUtility';
 import { useAddApplicationMutation } from '../../../Apis/applicationApi';
 import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -67,7 +67,7 @@ function UpdateApplication({ offerId }: Props) {
     console.log(animalTypesAccepted);
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const tempData = inputHelper(e, formData);
+        const tempData = inputHelperUtility(e, formData);
         setFormData(tempData);
     };
 

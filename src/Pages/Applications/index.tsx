@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Button, Form, Modal, Row } from 'react-bootstrap';
 import MainLoader from '../../Components/MainLoader';
 import { applicationInterface } from '../../Interfaces';
-import inputHelper from '../../Helper/inputHelper';
+import inputHelperUtility from '../../Utils/inputHelperUtility';
 import {
     useAddApplicationMutation,
     useDeleteApplicationMutation,
@@ -81,7 +81,13 @@ function Applications() {
             headerName: 'Oferta',
             minWidth: 100,
             renderCell: (params) => (
-                <div style={{ padding: '5px' }}>{params.value}</div>
+                <div style={{ padding: '5px' }}>
+                    <a
+                        href={`http://localhost:3000/offerDetails/${params.value}`}
+                    >
+                        Link do oferty!
+                    </a>
+                </div>
             ),
         },
         {
@@ -95,7 +101,7 @@ function Applications() {
         {
             field: 'petName',
             headerName: 'Imię/Imiona',
-            minWidth: 150,
+            minWidth: 100,
             renderCell: (params) => (
                 <div style={{ padding: '5px' }}>{params.value}</div>
             ),
@@ -103,7 +109,7 @@ function Applications() {
         {
             field: 'specificDescription',
             headerName: 'Opis pupila',
-            minWidth: 300,
+            minWidth: 200,
             headerAlign: 'center',
             flex: 1,
             renderCell: (params) => (
@@ -121,7 +127,8 @@ function Applications() {
         {
             field: 'note',
             headerName: 'Notatka',
-            minWidth: 250,
+            minWidth: 350,
+            flex: 1,
             renderCell: (params) => (
                 <div style={{ padding: '5px' }}>{params.value}</div>
             ),

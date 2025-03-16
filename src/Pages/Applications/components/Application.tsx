@@ -8,7 +8,7 @@ import {
     applicationInterface,
     userAccountInterface,
 } from '../../../Interfaces';
-import inputHelper from '../../../Helper/inputHelper';
+import inputHelperUtility from '../../../Utils/inputHelperUtility';
 import { useAddApplicationMutation } from '../../../Apis/applicationApi';
 import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -34,6 +34,9 @@ function Application({ offerId, show, setShow, application }: Props) {
     const [dateEnd, setDateEnd] = React.useState<Dayjs | null>(
         dayjs().add(1, 'day').startOf('day'),
     );
+
+    console.log(dateStart);
+    console.log(dateEnd);
     const [applicationToAdd] = useAddApplicationMutation();
 
     const [validated, setValidated] = useState<boolean>(false);
@@ -87,7 +90,7 @@ function Application({ offerId, show, setShow, application }: Props) {
     console.log(application);
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const tempData = inputHelper(e, formData);
+        const tempData = inputHelperUtility(e, formData);
         setFormData(tempData);
     };
 
@@ -132,23 +135,23 @@ function Application({ offerId, show, setShow, application }: Props) {
         setValidated(true);
 
         const formDataToSend = {
-            dateStart: dateStart ? dateStart.toISOString() : '',
-            dateEnd: dateEnd ? dateEnd.toISOString() : '',
+            dateStart: dateStart ? dateStart.format('YYYY-MM-DD') : '',
+            dateEnd: dateEnd ? dateEnd.format('YYYY-MM-DD') : '',
             offerId: formData.offerId.toString(),
             note: formData.note,
             animals: formData.animals.map(
                 (animal: animalInterface | any) => animal.id,
             ),
         };
+        console.log(formDataToSend);
 
         try {
             console.log('Dane, które wysyłam:', formDataToSend);
-            console.log('FormData contents:');
             await applicationToAdd({
                 data: formDataToSend,
                 userId: userData.Email,
             }).unwrap();
-            window.location.href = '/applications';
+            // window.location.href = '/applications';
         } catch (error: any) {
             console.log('Błąd');
             console.error('Błąd przy dodawaniu:', error);
@@ -157,41 +160,41 @@ function Application({ offerId, show, setShow, application }: Props) {
         }
     };
 
-    const handleEditApplication = async (
-        e: React.FormEvent<HTMLFormElement>,
-    ) => {
-        e.preventDefault();
-        const form = e.currentTarget;
-        if (form.checkValidity() === false) {
-            e.stopPropagation();
-        }
-        setValidated(true);
+    // const handleEditApplication = async (
+    //     e: React.FormEvent<HTMLFormElement>,
+    // ) => {
+    //     e.preventDefault();
+    //     const form = e.currentTarget;
+    //     if (form.checkValidity() === false) {
+    //         e.stopPropagation();
+    //     }
+    //     setValidated(true);
 
-        const formDataToSend = {
-            dateStart: dateStart ? dateStart.toISOString() : '',
-            dateEnd: dateEnd ? dateEnd.toISOString() : '',
-            offerId: formData.offerId.toString(),
-            note: formData.note,
-            animals: formData.animals.map(
-                (animal: animalInterface | any) => animal.id,
-            ),
-        };
+    //     const formDataToSend = {
+    //         dateStart: dateStart ? dateStart.toISOString() : '',
+    //         dateEnd: dateEnd ? dateEnd.toISOString() : '',
+    //         offerId: formData.offerId.toString(),
+    //         note: formData.note,
+    //         animals: formData.animals.map(
+    //             (animal: animalInterface | any) => animal.id,
+    //         ),
+    //     };
 
-        try {
-            console.log('Dane, które wysyłam:', formDataToSend);
-            console.log('FormData contents:');
-            await applicationToAdd({
-                data: formDataToSend,
-                userId: userData.Email,
-            }).unwrap();
-            window.location.href = '/applications';
-        } catch (error: any) {
-            console.log('Błąd');
-            console.error('Błąd przy dodawaniu:', error);
-            console.error('Błąd przy dodawaniu:', error.data.errors.Animals[0]);
-            setErrorMessage(error.data.errors.Animals[0] || 'Wystąpił błąd.');
-        }
-    };
+    //     try {
+    //         console.log('Dane, które wysyłam:', formDataToSend);
+    //         console.log('FormData contents:');
+    //         await applicationToAdd({
+    //             data: formDataToSend,
+    //             userId: userData.Email,
+    //         }).unwrap();
+    //         window.location.href = '/applications';
+    //     } catch (error: any) {
+    //         console.log('Błąd');
+    //         console.error('Błąd przy dodawaniu:', error);
+    //         console.error('Błąd przy dodawaniu:', error.data.errors.Animals[0]);
+    //         setErrorMessage(error.data.errors.Animals[0] || 'Wystąpił błąd.');
+    //     }
+    // };
 
     const handleClose = () => setShow(false);
     // const handleShow = () => setShow(true);
@@ -210,17 +213,14 @@ function Application({ offerId, show, setShow, application }: Props) {
     }, [dateStart, dateEnd]);
 
     useEffect(() => {
-        if (!isLoadingAnimalTypesAccepted) {
-            const tableAnimalTypes: string[] =
-                animalTypesAccepted.result.offerAnimalTypes.split(', ');
+        if (isLoadingAnimalTypesAccepted || isLoadingAnimals) return;
+        const tableAnimalTypes: string[] =
+            animalTypesAccepted.result.offerAnimalTypes.split(', ');
 
-            const filtredAnimals = animals.result.filter((animal: any) =>
-                tableAnimalTypes?.includes(animal.type),
-            );
-            console.log('filtredAnimals');
-            console.log(filtredAnimals);
-            setFilteredTableAnimalsFromOffer(filtredAnimals);
-        }
+        const filtredAnimals = animals.result.filter((animal: any) =>
+            tableAnimalTypes?.includes(animal.type),
+        );
+        setFilteredTableAnimalsFromOffer(filtredAnimals);
     }, [isLoadingAnimalTypesAccepted, isLoadingAnimals]);
 
     if (isLoadingAnimals) {
@@ -253,9 +253,8 @@ function Application({ offerId, show, setShow, application }: Props) {
                         noValidate
                         validated={validated}
                         onSubmit={
-                            application
-                                ? handleEditApplication
-                                : handleAddApplication
+                            // ? handleEditApplication
+                            handleAddApplication
                         }
                     >
                         {application ? (

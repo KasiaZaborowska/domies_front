@@ -5,7 +5,7 @@ import {
     applicationInterface,
     userAccountInterface,
 } from '../../../Interfaces';
-import inputHelper from '../../../Helper/inputHelper';
+import inputHelperUtility from '../../../Utils/inputHelperUtility';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../Store/Redux/store';
 import { useAddOpinionMutation } from '../../../Apis/opinionApi';
@@ -43,7 +43,7 @@ function AddOpinion({ show, setShow, application }: Props) {
     console.log(application);
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const tempData = inputHelper(e, formData);
+        const tempData = inputHelperUtility(e, formData);
         setFormData(tempData);
     };
 
