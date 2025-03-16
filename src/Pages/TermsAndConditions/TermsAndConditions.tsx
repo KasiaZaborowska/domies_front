@@ -38,67 +38,76 @@ function TermsAndConditions() {
                     </div>
                     <h3>II. Zasady korzystania z serwisu </h3>{' '}
                     <div className="custom_div">
-                        4. Użytkownicy mogą korzystać ze strony w celach
+                        1. Użytkownicy mogą korzystać ze strony w celach
                         informacyjnych, edukacyjnych oraz w celu znalezienia
                         opiekuna dla zwierzęcia lub podjęcia się opieki nad
                         zwierzęciem.
-                        <br /> 5. Zabronione jest wykorzystywanie strony do
+                        <br /> 2. Zabronione jest wykorzystywanie strony do
                         działań niezgodnych z prawem, w tym handlu zwierzętami w
                         sposób naruszający przepisy prawa. <br />
-                        6. Każdy użytkownik zobowiązuje się do podawania
+                        3. Każdy użytkownik zobowiązuje się do podawania
                         prawdziwych danych podczas rejestracji i kontaktu z
                         innymi użytkownikami.
                     </div>
                     <h3>III. Rejestracja i konto użytkownika</h3>
                     <div className="custom_div">
-                        7. Rejestracja na stronie jest opcjonalna, ale wymagana
+                        1. Rejestracja na stronie jest opcjonalna, ale wymagana
                         w celu skorzystania z funkcji dodawania ogłoszeń i
                         kontaktowania się z innymi użytkownikami.
-                        <br /> 8. Użytkownik zobowiązuje się do zabezpieczenia
+                        <br /> 2. Użytkownik zobowiązuje się do zabezpieczenia
                         swoich danych logowania i nieudostępniania ich osobom
                         trzecim. <br />
-                        9. Administrator ma prawo zablokować lub usunąć konto
-                        użytkownika w przypadku naruszenia regulaminu.
+                        3. Administrator ma prawo usunąć konto użytkownika w
+                        przypadku naruszenia regulaminu.
                     </div>
                     <h3>IV. Dodawanie ogłoszeń</h3>{' '}
                     <div className="custom_div">
-                        10. Każde ogłoszenie dotyczące zwierzęcia powinno
+                        1. Każde ogłoszenie dotyczące zwierzęcia powinno
                         zawierać rzetelne informacje na jego temat, w tym wiek,
                         stan zdrowia oraz warunki adopcji lub opieki. <br />
-                        11. Zabronione jest dodawanie ogłoszeń wprowadzających w
+                        2. Zabronione jest dodawanie ogłoszeń wprowadzających w
                         błąd, zawierających treści obraźliwe lub niezgodne z
                         prawem.
-                        <br />
-                        12. Administrator ma prawo do usunięcia ogłoszenia bez
-                        podania przyczyny, jeśli narusza ono regulamin.
                     </div>
-                    <h3>V. Odpowiedzialność użytkowników</h3>{' '}
+                    <h3>V. Dodawanie aplikaci oraz opinii</h3>{' '}
                     <div className="custom_div">
-                        13. Użytkownicy ponoszą pełną odpowiedzialność za
-                        treści, które zamieszczają na stronie. <br />
-                        14. Administrator nie ponosi odpowiedzialności za skutki
+                        1. Każda aplikacja dotycząca zwierzęcia powinna zawierać
+                        rzetelne informacje na jego temat, w tym wiek, stan
+                        zdrowia oraz warunki adopcji lub opieki. <br />
+                        2. Zabronione jest dodawanie aplikacji oraz opinii
+                        wprowadzających w błąd, zawierających treści obraźliwe
+                        lub niezgodne z prawem.
+                        <br />
+                        3. Do każdej aplikacji do oferty możemy dodać jedną
+                        opinię.
+                    </div>
+                    <h3>VI. Odpowiedzialność użytkowników</h3>{' '}
+                    <div className="custom_div">
+                        1. Użytkownicy ponoszą pełną odpowiedzialność za treści,
+                        które zamieszczają na stronie. <br />
+                        2. Administrator nie ponosi odpowiedzialności za skutki
                         wynikające z kontaktu między użytkownikami oraz za treść
                         ogłoszeń zamieszczanych przez użytkowników. <br />
-                        15. W przypadku naruszenia przepisów prawa przez
+                        3. W przypadku naruszenia przepisów prawa przez
                         użytkownika, administrator ma prawo zgłosić sprawę
                         odpowiednim organom.
                     </div>
-                    <h3>VI. Ochrona danych osobowych</h3>{' '}
+                    <h3>VII. Ochrona danych osobowych</h3>{' '}
                     <div className="custom_div">
-                        16. Dane osobowe użytkowników są przetwarzane zgodnie z
+                        1. Dane osobowe użytkowników są przetwarzane zgodnie z
                         polityką prywatności dostępną na stronie internetowej.
-                        <br /> 17. Użytkownik ma prawo do wglądu w swoje dane,
+                        <br /> 2. Użytkownik ma prawo do wglądu w swoje dane,
                         ich poprawiania oraz żądania ich usunięcia.
                     </div>{' '}
-                    <h3>VII. Postanowienia końcowe</h3>{' '}
+                    <h3>VIII. Postanowienia końcowe</h3>{' '}
                     <div className="custom_div">
-                        18. Administrator zastrzega sobie prawo do zmiany
+                        1. Administrator zastrzega sobie prawo do zmiany
                         regulaminu w dowolnym czasie. Zmiany wchodzą w życie po
                         ich opublikowaniu na stronie. <br />
-                        19. Wszelkie spory wynikające z korzystania ze strony
+                        2. Wszelkie spory wynikające z korzystania ze strony
                         będą rozwiązywane zgodnie z przepisami prawa polskiego.{' '}
                         <br />
-                        20. W sprawach nieuregulowanych niniejszym regulaminem
+                        3. W sprawach nieuregulowanych niniejszym regulaminem
                         stosuje się powszechnie obowiązujące przepisy prawa.
                     </div>
                 </Row>
