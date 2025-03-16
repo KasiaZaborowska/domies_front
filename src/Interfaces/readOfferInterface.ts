@@ -1,4 +1,3 @@
-import animalTypeInterface from './animalTypeInterface';
 import applicationInterface from './applicationInterface';
 import facilityInterface from './facilityInterface';
 

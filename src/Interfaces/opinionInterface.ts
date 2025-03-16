@@ -1,5 +1,3 @@
-import animalInterface from './animalInterface';
-
 export default interface opinionInterface {
     id?: number;
     rating: number;
