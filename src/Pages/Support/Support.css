@@ -23,3 +23,23 @@
     /* font-weight: bolder !important; */
     font-size: larger !important;
 }
+
+@media (max-width: 768px) {
+    .responsive_Col {
+        text-align: justify;
+        padding-inline: 1vw;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
+        margin-inline: 1vh;
+    }
+}
+
+@media (max-width: 600px) {
+    .responsive_Col {
+        text-align: justify;
+        padding-inline: 5vw;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
+        margin-inline: 1vh;
+    }
+}

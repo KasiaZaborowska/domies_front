@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
+import PlaceIcon from '@mui/icons-material/Place';
 function SupportPage() {
     return (
         // <div className="col-md-4 col-10 p-3">
@@ -20,7 +21,13 @@ function SupportPage() {
                 margin: '20px',
             }}
         >
-            <Container fluid className="custom_Container">
+            <Container
+                fluid
+                className="custom_Container"
+                style={{
+                    paddingInline: '10vw',
+                }}
+            >
                 <br />
                 <h2 className="text-center"> Witaj na stronie Domies!</h2>
 
@@ -35,9 +42,10 @@ function SupportPage() {
             <Container>
                 <Row className="custom_Row">
                     <Col
-                        sm={5}
-                        className="align-self-start custom_Col "
-                        style={{ textAlign: 'justify' }}
+                        xs={12}
+                        sm={14}
+                        md={5}
+                        className="align-self-start  responsive_Col"
                     >
                         Platforma Domies została założone w 2025 roku. Wiemy z
                         własnego doświadczenia, że brakuje Nam
@@ -70,7 +78,7 @@ function SupportPage() {
                             //className="w-100 mt-5 image-box"
                         /> */}
                     </Col>
-                    <Col sm={5}>
+                    <Col xs={12} md={5} sm={14} className="responsive_Col">
                         <img
                             style={{
                                 width: '100%',
@@ -86,7 +94,7 @@ function SupportPage() {
             </Container>
             <Container>
                 <Row className="custom_Row">
-                    <Col sm={5}>
+                    <Col xs={12} md={5} sm={14} className="responsive_Col">
                         <img
                             style={{
                                 width: '100%',
@@ -98,7 +106,7 @@ function SupportPage() {
                             alt="girl with dog"
                         ></img>
                     </Col>
-                    <Col sm={5} className="align-self-justify custom_Col">
+                    <Col xs={12} md={5} sm={14} className="responsive_Col">
                         Gwarantujemy, że Twój ukochany zwierzak będzie
                         traktowany przez opiekunów jak najlepiej.Twój pupil ma
                         konkretne potrzeby? Uwielbia długie spacery i kocha
@@ -111,21 +119,6 @@ function SupportPage() {
                         Masz jakieś pytania?
                         <br />
                         Napisz do nas! Kontakt na dole strony. :)
-                        {/* <img
-                            src="../../Assets/Images/support1.jpg"
-                            // style={{
-                            //     width: '250px', // Określona szerokość
-                            //     height: '200px',
-                            //     borderRadius: '5%',
-                            //     objectFit: 'cover',
-                            // }}
-                            alt="aaaa"
-                            //className="w-100 mt-5 image-box"
-                        /> */}
-                        {/* <img
-                            src="/Images/support1.jpg"
-                            alt="girl with dog"
-                        ></img> */}
                     </Col>
                 </Row>
             </Container>
@@ -133,14 +126,24 @@ function SupportPage() {
             <br />
             <Container fluid="true" className="custom_Container">
                 <Row className="custom_Row">
-                    <Col sm={4} className="align-self-start custom_Col">
+                    <Col
+                        xs={12}
+                        md={5}
+                        sm={4}
+                        className="align-self-start custom_Col"
+                        style={{
+                            paddingInline: '6vw',
+                            marginTop: '1vh',
+                            marginBottom: '1vh',
+                        }}
+                    >
                         <div>Masz wątpliwości?</div>
                         <h4>
                             Przygotowaliśmy odpowiedzi na najczęściej
                             powtarzające się pytania!
                         </h4>
                     </Col>
-                    <Col sm={6}>
+                    <Col xs={12} md={5} sm={6}>
                         <div>
                             <Accordion defaultExpanded>
                                 <AccordionSummary
@@ -295,12 +298,12 @@ function SupportPage() {
             </Container>{' '}
             <Container fluid="true" className="custom_Container">
                 <Row className="custom_Row">
-                    <Col sm={3}>
+                    <Col xs={12} md={5} className="text-center" sm={3}>
                         <div
                             className="custom_Row"
                             style={{ alignItems: 'center' }}
                         >
-                            <PhoneIcon
+                            <PlaceIcon
                                 fontSize="large"
                                 style={{
                                     display: 'flex',
@@ -308,23 +311,7 @@ function SupportPage() {
                                     marginRight: '15px',
                                 }}
                             />
-                            +45 452 524 525
-                        </div>
-                    </Col>
-                    <Col className="text-center" sm={3}>
-                        <div
-                            className="custom_Row"
-                            style={{ alignItems: 'center' }}
-                        >
-                            <EmailIcon
-                                fontSize="large"
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    marginRight: '15px',
-                                }}
-                            />
-                            domies.680@gmail.com
+                            Pomorska 159, 90-236 Łódź
                         </div>
                     </Col>
                 </Row>
@@ -334,7 +321,7 @@ function SupportPage() {
             </Container>{' '}
             <Container fluid="true" className="custom_Container">
                 <Row className="custom_Row">
-                    <Col sm={3}>
+                    <Col xs={12} md={5} sm={3}>
                         {/* <div className="custom_Row">Numer telefonu:</div> */}
                         <div
                             className="custom_Row"
@@ -351,7 +338,7 @@ function SupportPage() {
                             +45 452 524 525
                         </div>
                     </Col>
-                    <Col className="text-center" sm={3}>
+                    <Col xs={12} md={5} className="text-center" sm={3}>
                         <div
                             className="custom_Row"
                             style={{ alignItems: 'center' }}
