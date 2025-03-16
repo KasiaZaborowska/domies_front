@@ -9,9 +9,9 @@ import {
 } from '../../../Apis/animalApi';
 import { useNavigate } from 'react-router-dom';
 import { useGetAnimalTypesQuery } from '../../../Apis/animalTypeApi';
-import inputHelper from '../../../Helper/inputHelper';
+import inputHelperUtility from '../../../Utils/inputHelperUtility';
 import AnimalModalForm from './AnimalModalForm';
-
+import './Animals.css';
 interface ActionsColumnProps {
     row: {
         id: number;
@@ -117,7 +117,7 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
     };
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const tempData = inputHelper(e, formData);
+        const tempData = inputHelperUtility(e, formData);
         setFormData(tempData);
     };
 
@@ -138,7 +138,7 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
             <Modal
                 show={showEditModal}
                 onHide={() => setShowEditModal(false)}
-                centered
+                className="animal_modal"
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Edytuj pupila:</Modal.Title>
@@ -155,16 +155,20 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
                                 placeholder="Wprowadź imię pupila"
                             />
                         </Form.Group>
+                        <br />
                         <Form.Group controlId="specificDescription">
                             <Form.Label>Opis:</Form.Label>
                             <Form.Control
                                 //type="text"
+                                as="textarea"
+                                rows={6}
                                 name="specificDescription" // Możesz dostosować do właściwości rośliny
                                 value={formData.specificDescription}
                                 onChange={handleUserInput}
                                 placeholder="Wprowadź opis"
                             />
                         </Form.Group>
+                        <br />
                         <Form.Group controlId="type">
                             <Form.Label>Rodzaj zwierzęcia:</Form.Label>
                             <DropdownButton
@@ -212,14 +216,18 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
             <Modal
                 show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}
-                centered
+                className="animal_modal"
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Czy napewno chcesz usunąć ten typ zwierzęcia? Nie da się
-                    tego cofnąć.
+                    <div style={{ textAlign: 'center' }}>
+                        Czy napewno chcesz usunąć ten typ zwierzęcia?
+                        <br />
+                        <br />
+                        Nie da się tego cofnąć.
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button

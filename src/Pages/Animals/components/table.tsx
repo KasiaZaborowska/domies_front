@@ -31,7 +31,8 @@ export default function DataTable({ data }: any) {
         {
             field: 'specificDescription',
             headerName: 'Opis',
-            width: 400,
+            width: 500,
+            minWidth: 300,
             flex: 1,
             renderCell: (params) => (
                 <div
@@ -57,7 +58,7 @@ export default function DataTable({ data }: any) {
         {
             field: 'actions',
             headerName: 'Akcje',
-            width: 250,
+            width: 150,
             align: 'right',
             renderCell: (params) => {
                 return (

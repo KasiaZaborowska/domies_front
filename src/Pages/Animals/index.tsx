@@ -11,10 +11,11 @@ import {
     animalTypeInterface,
     userAccountInterface,
 } from '../../Interfaces';
-import inputHelper from '../../Helper/inputHelper';
+import inputHelperUtility from '../../Utils/inputHelperUtility';
 import { useGetAnimalTypesQuery } from '../../Apis/animalTypeApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../Store/Redux/store';
+import './components/Animals.css';
 
 function Animals() {
     //const dispatch = useDispatch();
@@ -37,7 +38,7 @@ function Animals() {
     const [validated, setValidated] = useState(false);
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const tempData = inputHelper(e, formData);
+        const tempData = inputHelperUtility(e, formData);
         setFormData(tempData);
     };
 
@@ -145,7 +146,7 @@ function Animals() {
                 ) : (
                     <div>
                         <div className="p-3">
-                            <div className="d-flex align-items-center justify-content-between mx-5 px-4">
+                            <div className="custom-container d-flex align-items-center justify-content-between ">
                                 <h1 className="text-success">Pupile</h1>
                                 <div className="d-flex justify-content-end pt-4">
                                     <Button
@@ -163,121 +164,137 @@ function Animals() {
                                 </div>
                             </div>
                         </div>
-
-                        <Modal show={show} onHide={handleClose}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Dodaj nowe zwierze:</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <Form
-                                    noValidate
-                                    validated={validated}
-                                    //onSubmit={handleSubmit}
-                                >
-                                    <Form.Group
-                                        className="mb-3"
+                        <div className="outside_modal">
+                            <Modal
+                                show={show}
+                                onHide={handleClose}
+                                className="animal_modal"
+                            >
+                                <Modal.Header closeButton>
+                                    <Modal.Title>
+                                        Dodaj nowe zwierze:
+                                    </Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <Form
+                                        noValidate
+                                        validated={validated}
                                         //onSubmit={handleSubmit}
-                                        controlId="animalDto"
                                     >
-                                        <Form.Label>
-                                            Imię zwierzęcia:
-                                        </Form.Label>
-                                        <Form.Control
-                                            required
-                                            name="petName"
-                                            type="text"
-                                            value={formData.petName}
-                                            placeholder="Wpisz typ"
-                                            onChange={handleUserInput}
-                                        />
-                                        <Form.Control.Feedback type="invalid">
-                                            {getErrorMessage('PetName')}
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
-                                    <Form.Group
-                                        className="mb-3"
-                                        onSubmit={handleSubmit}
-                                        controlId="animalDto"
-                                    >
-                                        <Form.Label>
-                                            Opis zwierzęcia:
-                                        </Form.Label>
-                                        <Form.Control
-                                            as="textarea"
-                                            rows={3}
-                                            name="specificDescription"
-                                            type="text"
-                                            value={formData.specificDescription}
-                                            placeholder="Wpisz typ"
-                                            onChange={handleUserInput}
-                                            required
-                                        />
-                                        <Form.Control.Feedback type="invalid">
-                                            {getErrorMessage(
-                                                'SpecificDescription',
-                                            )}
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
-                                    <Form.Group
-                                        className="mb-3"
-                                        onSubmit={handleSubmit}
-                                        controlId="animalDto"
-                                    >
-                                        <Form.Label>Typ zwierzęcia:</Form.Label>
-                                        {/* <Form.Control
+                                        <Form.Group
+                                            className="mb-3"
+                                            //onSubmit={handleSubmit}
+                                            controlId="animalDto"
+                                        >
+                                            <Form.Label>
+                                                Imię zwierzęcia:
+                                            </Form.Label>
+                                            <Form.Control
+                                                required
+                                                name="petName"
+                                                type="text"
+                                                value={formData.petName}
+                                                placeholder="Wpisz typ"
+                                                onChange={handleUserInput}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                {getErrorMessage('PetName')}
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                        <Form.Group
+                                            className="mb-3"
+                                            onSubmit={handleSubmit}
+                                            controlId="animalDto"
+                                        >
+                                            <Form.Label>
+                                                Opis zwierzęcia:
+                                            </Form.Label>
+                                            <Form.Control
+                                                as="textarea"
+                                                rows={3}
+                                                name="specificDescription"
+                                                type="text"
+                                                value={
+                                                    formData.specificDescription
+                                                }
+                                                placeholder="Wpisz typ"
+                                                onChange={handleUserInput}
+                                                required
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                {getErrorMessage(
+                                                    'SpecificDescription',
+                                                )}
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                        <Form.Group
+                                            className="mb-3"
+                                            onSubmit={handleSubmit}
+                                            controlId="animalDto"
+                                        >
+                                            <Form.Label>
+                                                Typ zwierzęcia:
+                                            </Form.Label>
+                                            {/* <Form.Control
                                             name="type"
                                             type="text"
                                             value={formData.type}
                                             placeholder="Wpisz typ"
                                             onChange={handleUserInput}
                                         /> */}
-                                        <DropdownButton
-                                            title={
-                                                renderSelected() ||
-                                                'wybierz typy  zwierząt'
-                                            }
+                                            <DropdownButton
+                                                title={
+                                                    renderSelected() ||
+                                                    'wybierz typy  zwierząt'
+                                                }
+                                            >
+                                                {animalTypes.result.map(
+                                                    (
+                                                        type: animalTypeInterface,
+                                                    ) => (
+                                                        <Dropdown.Item
+                                                            key={
+                                                                type.animalTypeId
+                                                            }
+                                                            onClick={() =>
+                                                                handleSelectChange(
+                                                                    type.animalTypeId,
+                                                                )
+                                                            }
+                                                        >
+                                                            {type.type}
+                                                        </Dropdown.Item>
+                                                    ),
+                                                )}
+                                            </DropdownButton>
+                                            <Form.Control.Feedback type="invalid">
+                                                {getErrorMessage('AnimalType')}
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                        <Form.Group
+                                            className="d-flex justify-content-end"
+                                            controlId="formBasicEmail"
                                         >
-                                            {animalTypes.result.map(
-                                                (type: animalTypeInterface) => (
-                                                    <Dropdown.Item
-                                                        key={type.animalTypeId}
-                                                        onClick={() =>
-                                                            handleSelectChange(
-                                                                type.animalTypeId,
-                                                            )
-                                                        }
-                                                    >
-                                                        {type.type}
-                                                    </Dropdown.Item>
-                                                ),
-                                            )}
-                                        </DropdownButton>
-                                        <Form.Control.Feedback type="invalid">
-                                            {getErrorMessage('AnimalType')}
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
-                                    <Form.Group
-                                        className="d-flex justify-content-end"
-                                        controlId="formBasicEmail"
-                                    >
-                                        <Button
-                                            className="m-1"
-                                            variant="secondary"
-                                            onClick={handleClose}
-                                        >
-                                            Zamknij
-                                        </Button>
-                                        <Button
-                                            className="m-1"
-                                            variant="primary"
-                                            onClick={handleSubmit}
-                                        >
-                                            Dodaj
-                                        </Button>
-                                    </Form.Group>
-                                </Form>
-                            </Modal.Body>
-                        </Modal>
+                                            <Button
+                                                className="m-1"
+                                                variant="secondary"
+                                                onClick={handleClose}
+                                            >
+                                                Zamknij
+                                            </Button>
+                                            <Button
+                                                className="m-1"
+                                                variant="primary"
+                                                onClick={handleSubmit}
+                                            >
+                                                Dodaj
+                                            </Button>
+                                        </Form.Group>
+                                    </Form>
+                                </Modal.Body>
+                            </Modal>
+                        </div>
+
                         <div className="container pt-5">
                             <DataTable data={data || []} />
                         </div>
