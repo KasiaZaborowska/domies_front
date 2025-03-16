@@ -8,7 +8,7 @@ import {
     setLoggedInUser,
 } from '../../Store/Redux/userAccountSlice';
 import { isAdmin, isManagerOrAdmin } from '../../Utils/authUtils';
-let logo = require('../../Assets/Images/main.png');
+const logo = '/Images/main.png';
 
 function Header() {
     const dispatch = useDispatch();
@@ -34,7 +34,7 @@ function Header() {
                             src={logo}
                             style={{ height: '40px' }}
                             className="m-1"
-                            alt="mainJPG"
+                            alt="Logo"
                         />
                     </NavLink>
                     <button
