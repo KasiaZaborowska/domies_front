@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../Store/Redux/store';
 import './Offers.css';
 import MyOfferCard from './MyOfferCard';
-import { withAuth } from '../../HOC';
 import MainLoader from '../../Components/MainLoader';
 
 function Offers() {
@@ -54,11 +53,13 @@ function Offers() {
                     show={show}
                     onHide={handleClose}
                     dialogClassName="modal-dialog"
-                    size="lg"
-                    centered
+                    size={'lg'}
+                    className="offers_modal"
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>Dodaj nową ofertę:</Modal.Title>
+                        <Modal.Title style={{ display: 'block' }}>
+                            Dodaj nową ofertę:
+                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <AddOfferForm onSuccess={handleClose} />
@@ -134,7 +135,14 @@ function Offers() {
                                         Dodaj swoją ofertę!
                                     </Button>
                                 </div>
-                                <p>Brak ofert.</p>{' '}
+                                <div className="no-offers-container">
+                                    <div className="no-offers-message">
+                                        <p>
+                                            Brak ofert. Wygląda na to, że
+                                            jeszcze nie dodałeś żadnej oferty!
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </>
@@ -144,4 +152,4 @@ function Offers() {
     );
 }
 
-export default withAuth(Offers);
+export default Offers;

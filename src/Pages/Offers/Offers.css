@@ -10,3 +10,70 @@
     max-width: 90%;
     max-height: 90vh;
 }
+
+.no-offers-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+.no-offers-message {
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 80%;
+}
+
+.no-offers-message p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.offers_modal {
+    /* background-color: rgb(204, 255, 0); */
+    width: 60%;
+    justify-content: center;
+    align-items: center;
+    margin-left: 24vw;
+    margin-right: 24vw;
+    margin-top: 10vh;
+    max-height: 90vh; /* Maksymalna wysokość modala = 90% ekranu */
+    overflow-y: auto; /* Włącza przewijanie w pionie, jeśli modal jest za duży */
+}
+@media (max-width: 1100px) {
+    .offers_modal {
+        width: 80%;
+        margin-left: 12vw;
+        margin-right: 12vw;
+        margin-top: 6vh;
+        max-height: 90vh; /* Maksymalna wysokość modala = 90% ekranu */
+        overflow-y: auto; /* Włącza przewijanie w pionie, jeśli modal jest za duży */
+    }
+}
+@media (max-width: 900px) {
+    .offers_modal {
+        width: 90%;
+        margin-left: 6vw;
+        margin-right: 6vw;
+        margin-top: 5vh;
+        padding-top: 20px;
+        max-height: 100vh; /* Maksymalna wysokość modala = 90% ekranu */
+        overflow-y: auto; /* Włącza przewijanie w pionie, jeśli modal jest za duży */
+    }
+}
+
+@media (max-width: 580px) {
+    .offers_modal {
+        width: 100%;
+        margin-left: 5vw;
+        margin-right: 5vw;
+        padding-top: 200px;
+        max-height: 90vh; /* Maksymalna wysokość modala = 90% ekranu */
+        overflow-y: auto;
+    }
+}
