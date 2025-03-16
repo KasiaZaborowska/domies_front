@@ -51,99 +51,97 @@ function MyOfferCard(props: Props) {
 
     return (
         <div className="col-md-4 col-10 p-3">
-            <div
-                className="card"
-                style={{ boxShadow: '0 1px 7px 0 rgb(0 0 0 / 50%)' }}
+            {' '}
+            <Link
+                to={`/myOfferDetails/${props.offer.id}`}
+                style={{ textDecoration: 'none' }}
             >
-                <div className="card-body pt-2">
-                    <div className=" d-flex p-2 justify-content-center">
-                        <Link to={`/myOfferDetails/${props.offer.id}`}>
+                <div
+                    className="card"
+                    style={{ boxShadow: '0 1px 7px 0 rgb(0 0 0 / 50%)' }}
+                >
+                    <div className="card-body pt-2">
+                        <div className=" d-flex p-2 justify-content-center">
                             <img
                                 src={props.offer.photo}
+                                className="w-100 mt-5 image-box"
                                 style={{
-                                    width: '250px', // Określona szerokość
+                                    maxWidth: '100%',
+                                    width: '250px',
                                     height: '200px',
                                     borderRadius: '5%',
                                     objectFit: 'cover',
                                 }}
                                 alt=""
-                                //className="w-100 mt-5 image-box"
-                                className=" mt-5 "
                             />
-                        </Link>
-                    </div>
+                        </div>
 
-                    <i
-                        // className="bi bi-star btn"
-                        style={{
-                            position: 'absolute',
-                            top: '15px',
-                            left: '15px',
-                            padding: '5px 10px',
-                            borderRadius: '3px',
-                            outline: 'none !important',
-                            cursor: 'pointer',
-                            backgroundColor: '#f1dede',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        <GradeIcon
-                            fontSize="medium"
+                        <i
+                            // className="bi bi-star btn"
                             style={{
-                                alignContent: 'center',
-                                marginBottom: '5px',
-                                marginRight: '5px',
-                                color: 'black',
+                                position: 'absolute',
+                                top: '15px',
+                                left: '15px',
+                                padding: '5px 10px',
+                                borderRadius: '3px',
+                                outline: 'none !important',
+                                cursor: 'pointer',
+                                backgroundColor: '#f1dede',
+                                alignItems: 'center',
+                                justifyContent: 'center',
                             }}
-                        />
-                        {getAverageRating(props.offer)}
-                    </i>
-
-                    <i
-                        className="bi bi-cart-plus btn btn-outline-danger"
-                        style={{
-                            position: 'absolute',
-                            top: '15px',
-                            right: '15px',
-                            padding: '5px 10px',
-                            borderRadius: '3px',
-                            outline: 'none !important',
-                            cursor: 'pointer',
-                        }}
-                        onClick={() => setShowDeleteModal(true)}
-                    ></i>
-
-                    <div className="text-center">
-                        <Link
-                            to={`/offerDetails/${props.offer.id}`}
-                            style={{ textDecoration: 'none' }}
                         >
+                            <GradeIcon
+                                fontSize="medium"
+                                style={{
+                                    alignContent: 'center',
+                                    marginBottom: '5px',
+                                    marginRight: '5px',
+                                    color: 'black',
+                                }}
+                            />
+                            {getAverageRating(props.offer)}
+                        </i>
+
+                        <i
+                            className="bi bi-cart-plus btn btn-outline-danger"
+                            style={{
+                                position: 'absolute',
+                                top: '15px',
+                                right: '15px',
+                                padding: '5px 10px',
+                                borderRadius: '3px',
+                                outline: 'none !important',
+                                cursor: 'pointer',
+                            }}
+                            onClick={() => setShowDeleteModal(true)}
+                        ></i>
+
+                        <div className="text-center">
                             <p
                                 className="card-title m-0 fs-3"
                                 style={{ color: '#5e503f' }}
                             >
                                 {props.offer.name}
                             </p>
-                        </Link>
-                        <p
-                            className="badge"
-                            style={{
-                                fontSize: '12px',
-                                marginTop: '10px',
-                                backgroundColor: '#ab947e',
-                            }}
-                        >
-                            {props.offer.offerAnimalTypes}
-                        </p>
-                    </div>
+                            <p
+                                className="badge"
+                                style={{
+                                    fontSize: '12px',
+                                    marginTop: '10px',
+                                    backgroundColor: '#ab947e',
+                                }}
+                            >
+                                {props.offer.offerAnimalTypes}
+                            </p>
+                        </div>
 
-                    <div className="row text-center">
-                        <p>{props.offer.city}</p>
+                        <div className="row text-center">
+                            <p>{props.offer.city}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            </Link>
             <Modal
                 show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}

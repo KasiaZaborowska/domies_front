@@ -8,14 +8,14 @@ import {
     userAccountInterface,
 } from '../../Interfaces';
 import { RootState } from '../../Store/Redux/store';
-import inputHelper from '../../Helper/inputHelper';
+import inputHelperUtility from '../../Utils/inputHelperUtility';
 import { useGetAnimalTypesQuery } from '../../Apis/animalTypeApi';
 import { setAnimalType } from '../../Store/Redux/animalTypeSlice';
 import MainLoader from '../../Components/MainLoader';
 import facilityInterface from '../../Interfaces/facilityInterface';
 import { useGetFacilitiesQuery } from '../../Apis/facilityApi';
 import { setFacility } from '../../Store/Redux/facilitySlice';
-import toastNotify from '../../Helper/toastNotify';
+import toastNotify from '../../Components/toastNotify';
 interface AddOfferFormProps {
     onSuccess: () => void;
 }
@@ -127,7 +127,7 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
     console.log('Selected facilities:', formData.facilities);
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const tempData = inputHelper(e, formData);
+        const tempData = inputHelperUtility(e, formData);
         setFormData(tempData);
     };
 

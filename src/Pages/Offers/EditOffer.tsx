@@ -18,14 +18,14 @@ import {
     userAccountInterface,
 } from '../../Interfaces';
 import { RootState } from '../../Store/Redux/store';
-import inputHelper from '../../Helper/inputHelper';
+import inputHelperUtility from '../../Utils/inputHelperUtility';
 import { useGetAnimalTypesQuery } from '../../Apis/animalTypeApi';
 import { setAnimalType } from '../../Store/Redux/animalTypeSlice';
 import { useParams } from 'react-router-dom';
 import MainLoader from '../../Components/MainLoader';
 import { useGetFacilitiesQuery } from '../../Apis/facilityApi';
 import facilityInterface from '../../Interfaces/facilityInterface';
-import toastNotify from '../../Helper/toastNotify';
+import toastNotify from '../../Components/toastNotify';
 
 function EditOfferForm() {
     const { offerId } = useParams(); // offerId match the offerId from App.tsx
@@ -136,7 +136,7 @@ function EditOfferForm() {
     };
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const tempData = inputHelper(e, formData);
+        const tempData = inputHelperUtility(e, formData);
         setFormData(tempData);
     };
 
@@ -499,26 +499,29 @@ function EditOfferForm() {
                             renderSelectedFacilities() || 'wybierz udogodnienia'
                         }
                     >
-                        {facilities.result.map(
-                            (facility: facilityInterface) => (
-                                <Form.Check
-                                    className="m-2"
-                                    key={facility.id}
-                                    type="checkbox"
-                                    label={facility.facilitiesDescription}
-                                    value={facility.id}
-                                    checked={formData.facilities.some(
-                                        (selectedFacility: number) =>
-                                            selectedFacility === facility.id,
-                                    )}
-                                    onChange={() =>
-                                        handleCheckboxChangeFacilities(
-                                            facility.id,
-                                        )
-                                    }
-                                />
-                            ),
-                        )}
+                        <div className="d-flex flex-column flex-md-row">
+                            {facilities.result.map(
+                                (facility: facilityInterface) => (
+                                    <Form.Check
+                                        className="m-2 d-block"
+                                        key={facility.id}
+                                        type="checkbox"
+                                        label={facility.facilitiesDescription}
+                                        value={facility.id}
+                                        checked={formData.facilities.some(
+                                            (selectedFacility: number) =>
+                                                selectedFacility ===
+                                                facility.id,
+                                        )}
+                                        onChange={() =>
+                                            handleCheckboxChangeFacilities(
+                                                facility.id,
+                                            )
+                                        }
+                                    />
+                                ),
+                            )}
+                        </div>
                     </DropdownButton>
                 </Col>
             </Form.Group>
