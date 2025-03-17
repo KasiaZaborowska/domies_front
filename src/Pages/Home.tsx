@@ -42,7 +42,7 @@ function Home() {
     };
 
     useEffect(() => {
-        fetch('https://localhost:7098/api/offer')
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/offer`)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);

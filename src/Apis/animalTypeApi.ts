@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const animalTypeApi = createApi({
     reducerPath: 'animalTypeApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://localhost:7098/api/',
+        baseUrl: `${process.env.REACT_APP_BACKEND_URL}/api/`,
     }),
     tagTypes: ['AnimalTypes'],
     endpoints: (builder) => ({

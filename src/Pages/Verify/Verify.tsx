@@ -18,7 +18,7 @@ function EmailVerify() {
             }
 
             const response = await fetch(
-                `https://localhost:7098/api/account/verify?token=${token}`,
+                `${process.env.REACT_APP_BACKEND_URL}/api/account/verify?token=${token}`,
                 {
                     method: 'POST',
                 },
