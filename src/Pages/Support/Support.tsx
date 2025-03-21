@@ -112,7 +112,7 @@ function SupportPage() {
                         konkretne potrzeby? Uwielbia długie spacery i kocha
                         przebywać na świeżym powietrzu? A może woli spędzać czas
                         robiąc sobie drzemki na kanapie? Korzystając z pomocy
-                        DOMIES możesz znaleść oppiekuna, który zapewni Twojemu
+                        DOMIES możesz znaleść opiekuna, który zapewni Twojemu
                         zwierzakowi wszystko czego potrzebuje.
                         <br />
                         <br />
@@ -321,7 +321,7 @@ function SupportPage() {
             </Container>{' '}
             <Container fluid="true" className="custom_Container">
                 <Row className="custom_Row">
-                    <Col xs={12} md={5} sm={3}>
+                    <Col xs={12} md={2} sm={3}>
                         {/* <div className="custom_Row">Numer telefonu:</div> */}
                         <div
                             className="custom_Row"
@@ -338,7 +338,7 @@ function SupportPage() {
                             +45 452 524 525
                         </div>
                     </Col>
-                    <Col xs={12} md={5} className="text-center" sm={3}>
+                    <Col xs={12} md={2} className="text-center" sm={3}>
                         <div
                             className="custom_Row"
                             style={{ alignItems: 'center' }}

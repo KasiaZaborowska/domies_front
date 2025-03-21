@@ -290,7 +290,7 @@ function EditOfferForm() {
                 controlId="name"
             >
                 <Col sm={2}>
-                    <Form.Label>Nazwa</Form.Label>
+                    <Form.Label>Imię opiekuna</Form.Label>
                 </Col>
                 <Col sm={10}>
                     <Form.Control
@@ -327,7 +327,7 @@ function EditOfferForm() {
             </Form.Group>
             <Form.Group as={Row} className="mb-2" controlId="">
                 <Col sm={2}>
-                    <Form.Label>Opis opiekuna/O mnie</Form.Label>
+                    <Form.Label>Opis opiekuna</Form.Label>
                 </Col>
                 <Col sm={10}>
                     <Form.Control
@@ -351,7 +351,7 @@ function EditOfferForm() {
                 controlId=""
             >
                 <Col sm={2}>
-                    <Form.Label>Cena</Form.Label>
+                    <Form.Label>Cena za 24h</Form.Label>
                 </Col>
                 <Col sm={10}>
                     <Form.Control
@@ -491,7 +491,7 @@ function EditOfferForm() {
                 controlId="facilities"
             >
                 <Col sm={2}>
-                    <Form.Label>Udogodnienia:</Form.Label>{' '}
+                    <Form.Label>Udogodnienia</Form.Label>{' '}
                 </Col>
                 <Col sm={10}>
                     <DropdownButton
@@ -531,7 +531,7 @@ function EditOfferForm() {
                 controlId="File"
             >
                 <Form.Label column sm={2}>
-                    Plik
+                    Wybrany plik
                 </Form.Label>
                 <Col sm={10}>
                     <Form.Control

@@ -52,15 +52,56 @@ function MyOfferCard(props: Props) {
     return (
         <div className="col-md-4 col-10 p-3">
             {' '}
-            <Link
-                to={`/myOfferDetails/${props.offer.id}`}
-                style={{ textDecoration: 'none' }}
+            <div
+                className="card"
+                style={{ boxShadow: '0 1px 7px 0 rgb(0 0 0 / 50%)' }}
             >
-                <div
-                    className="card"
-                    style={{ boxShadow: '0 1px 7px 0 rgb(0 0 0 / 50%)' }}
+                {' '}
+                <i
+                    // className="bi bi-star btn"
+                    style={{
+                        position: 'absolute',
+                        top: '15px',
+                        left: '15px',
+                        padding: '5px 10px',
+                        borderRadius: '3px',
+                        outline: 'none !important',
+                        cursor: 'pointer',
+                        backgroundColor: '#f1dede',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <GradeIcon
+                        fontSize="medium"
+                        style={{
+                            alignContent: 'center',
+                            marginBottom: '5px',
+                            marginRight: '5px',
+                            color: 'black',
+                        }}
+                    />
+                    {getAverageRating(props.offer)}
+                </i>
+                <i
+                    className="bi bi-cart-plus btn btn-outline-danger"
+                    style={{
+                        position: 'absolute',
+                        top: '15px',
+                        right: '15px',
+                        padding: '5px 10px',
+                        borderRadius: '3px',
+                        outline: 'none !important',
+                        cursor: 'pointer',
+                    }}
+                    onClick={() => setShowDeleteModal(true)}
+                ></i>{' '}
+                <Link
+                    to={`/myOfferDetails/${props.offer.id}`}
+                    style={{ textDecoration: 'none' }}
                 >
                     <div className="card-body pt-2">
+                        {' '}
                         <div className=" d-flex p-2 justify-content-center">
                             <img
                                 src={props.offer.photo}
@@ -75,48 +116,6 @@ function MyOfferCard(props: Props) {
                                 alt=""
                             />
                         </div>
-
-                        <i
-                            // className="bi bi-star btn"
-                            style={{
-                                position: 'absolute',
-                                top: '15px',
-                                left: '15px',
-                                padding: '5px 10px',
-                                borderRadius: '3px',
-                                outline: 'none !important',
-                                cursor: 'pointer',
-                                backgroundColor: '#f1dede',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <GradeIcon
-                                fontSize="medium"
-                                style={{
-                                    alignContent: 'center',
-                                    marginBottom: '5px',
-                                    marginRight: '5px',
-                                    color: 'black',
-                                }}
-                            />
-                            {getAverageRating(props.offer)}
-                        </i>
-
-                        <i
-                            className="bi bi-cart-plus btn btn-outline-danger"
-                            style={{
-                                position: 'absolute',
-                                top: '15px',
-                                right: '15px',
-                                padding: '5px 10px',
-                                borderRadius: '3px',
-                                outline: 'none !important',
-                                cursor: 'pointer',
-                            }}
-                            onClick={() => setShowDeleteModal(true)}
-                        ></i>
-
                         <div className="text-center">
                             <p
                                 className="card-title m-0 fs-3"
@@ -135,23 +134,27 @@ function MyOfferCard(props: Props) {
                                 {props.offer.offerAnimalTypes}
                             </p>
                         </div>
-
                         <div className="row text-center">
                             <p>{props.offer.city}</p>
                         </div>
-                    </div>
-                </div>
-            </Link>
+                    </div>{' '}
+                </Link>
+            </div>
             <Modal
                 show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}
-                centered
+                style={{
+                    maxWidth: '40vw',
+                    marginInline: '30vw',
+                    marginTop: '10vh',
+                }}
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Czy napewno chcesz usunąć tą ofertę? Nie da się tego cofnąć.
+                    Czy na pewno chcesz usunąć tę ofertę? Tej operacji nie można
+                    cofnąć.
                 </Modal.Body>
                 <Modal.Footer>
                     <Button

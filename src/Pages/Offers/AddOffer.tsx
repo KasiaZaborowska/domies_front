@@ -266,7 +266,7 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
             </Form.Group>
             <Form.Group as={Row} className="mb-2" controlId="">
                 <Col sm={2}>
-                    <Form.Label>Opis opiekuna/O mnie</Form.Label>
+                    <Form.Label>Opis opiekuna</Form.Label>
                 </Col>
                 <Col sm={10}>
                     <Form.Control
@@ -290,7 +290,7 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                 controlId=""
             >
                 <Col sm={2}>
-                    <Form.Label>Cena</Form.Label>
+                    <Form.Label>Cena za 24h</Form.Label>
                 </Col>
                 <Col sm={10}>
                     <Form.Control
