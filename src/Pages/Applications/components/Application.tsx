@@ -283,6 +283,7 @@ function Application({ offerId, show, setShow, application }: Props) {
                                                         setDateStart(newValue)
                                                     }
                                                     minDate={dayjs()} // Ustawienie minimalnej daty na dzisiejszy dzień
+                                                    format="DD/MM/YYYY"
                                                 />
                                                 <DatePicker
                                                     label="Data końcowa:"
@@ -293,6 +294,7 @@ function Application({ offerId, show, setShow, application }: Props) {
                                                     minDate={dayjs()
                                                         .add(1, 'day')
                                                         .startOf('day')}
+                                                    format="DD/MM/YYYY"
                                                 />
                                             </DemoContainer>
                                         </LocalizationProvider>
