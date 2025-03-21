@@ -12,7 +12,7 @@ import {
     useGetApplicationsQuery,
 } from '../../Apis/applicationApi';
 import DefaultDataTable from './components/DefaultTable';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GridColDef } from '@mui/x-data-grid';
 import { useGetAnimalsQuery } from '../../Apis/animalApi';
 import EmailIcon from '@mui/icons-material/Email';
@@ -38,6 +38,7 @@ function Applications() {
         offerId: 0,
         applicant: '',
         applicationDateAdd: '',
+        applicationStatus: '',
         note: '',
         animals: [
             {
@@ -81,19 +82,21 @@ function Applications() {
             headerName: 'Oferta',
             minWidth: 100,
             renderCell: (params) => (
-                <div style={{ padding: '5px' }}>
-                    <a
-                        href={`http://localhost:3000/offerDetails/${params.value}`}
-                    >
-                        Link do oferty!
-                    </a>
-                </div>
+                <div style={{ padding: '5px' }}>{params.value}</div>
             ),
         },
         {
             field: 'applicant',
             headerName: 'Użytkownik',
             minWidth: 200,
+            renderCell: (params) => (
+                <div style={{ padding: '5px' }}>{params.value}</div>
+            ),
+        },
+        {
+            field: 'applicationStatus',
+            headerName: 'Status aplikacji',
+            minWidth: 140,
             renderCell: (params) => (
                 <div style={{ padding: '5px' }}>{params.value}</div>
             ),
@@ -127,7 +130,7 @@ function Applications() {
         {
             field: 'note',
             headerName: 'Notatka',
-            minWidth: 350,
+            minWidth: 250,
             flex: 1,
             renderCell: (params) => (
                 <div style={{ padding: '5px' }}>{params.value}</div>
@@ -157,18 +160,18 @@ function Applications() {
 
     console.log(rows);
 
-    const handleEdit = async (row: applicationInterface) => {
-        if (row && row.id) {
-            setSelectedRow(row);
-            console.log('row');
-            console.log(row);
-            const offerId = row.offerId;
-            setOfferId(offerId);
-            setIsModalOpen(true);
-        } else {
-            console.error('Brak ID w wierszu do usunięcia:', row);
-        }
-    };
+    // const handleEdit = async (row: applicationInterface) => {
+    //     if (row && row.id) {
+    //         setSelectedRow(row);
+    //         console.log('row');
+    //         console.log(row);
+    //         const offerId = row.offerId;
+    //         setOfferId(offerId);
+    //         setIsModalOpen(true);
+    //     } else {
+    //         console.error('Brak ID w wierszu do usunięcia:', row);
+    //     }
+    // };
 
     const addOpinionHandler = (row: applicationInterface) => {
         setSelectedRow(row);
@@ -221,8 +224,33 @@ function Applications() {
                         dateEnd: new Date(item.dateEnd).toLocaleDateString(
                             'pl-PL',
                         ),
-                        offerId: item.offerId,
+                        offerId: (
+                            <Button
+                                style={{
+                                    margin: '3px 3px',
+                                    padding: '1px 2px',
+                                    backgroundColor: '#FFFFFF',
+                                    borderRadius: '16px',
+                                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                                    transition: 'all 0.3s ease',
+                                    outline: 'none',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                }}
+                            >
+                                <Link
+                                    style={{
+                                        textDecoration: 'none',
+                                        color: 'black',
+                                    }}
+                                    to={`http://localhost:3000/offerDetails/${item.offerId}`}
+                                >
+                                    Link do oferty!
+                                </Link>
+                            </Button>
+                        ),
                         applicant: item.applicant,
+                        applicationStatus: item.applicationStatus,
                         applicationDateAdd: new Date(
                             item.applicationDateAdd,
                         ).toLocaleDateString('pl-PL'),
@@ -280,7 +308,7 @@ function Applications() {
                                     />
                                 }
                                 renderCustomActions={renderCustomActions}
-                                onEdit={handleEdit}
+                                // onEdit={handleEdit}
                                 onDelete={deleteApplication}
                             />
                         </div>
