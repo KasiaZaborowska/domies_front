@@ -152,7 +152,7 @@ function Header() {
                                                 }}
                                                 //onClick={handleLogout}
                                             >
-                                                Welcome, {userData.FirstName}
+                                                Witaj, {userData.FirstName}
                                             </button>
                                         </li>
                                         <li className="nav-item">
@@ -167,7 +167,7 @@ function Header() {
                                                 }}
                                                 onClick={handleLogout}
                                             >
-                                                Logout
+                                                Wyloguj
                                             </button>
                                         </li>
                                     </>
@@ -180,7 +180,7 @@ function Header() {
                                                 className="nav-link"
                                                 to="/signUp"
                                             >
-                                                Register
+                                                Rejestracja
                                             </NavLink>
                                         </li>
                                         <li className="nav-item">
@@ -189,12 +189,12 @@ function Header() {
                                                 style={{
                                                     border: 'none',
                                                     height: '40px',
-                                                    width: '100px',
+                                                    width: '120px',
                                                     backgroundColor: '#f4acb7',
                                                 }}
                                                 to="/signIn"
                                             >
-                                                Login
+                                                Zaloguj się
                                             </NavLink>
                                         </li>
                                     </>
