@@ -18,6 +18,9 @@ import {
     useRejectApplicationMutation,
 } from '../../Apis/applicationApi';
 import OfferDetailsStyle from '../OfferDetailsStyle';
+import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
 function MyOfferDetails() {
     const { offerId } = useParams(); // offerId match the offerId from App.tsx
@@ -143,39 +146,39 @@ function MyOfferDetails() {
         {
             field: 'dateStart',
             headerName: 'Data początkowa',
-            minWidth: 150,
+            minWidth: 130,
             renderCell: (params) => (
-                <div style={{ padding: '15px' }}>{params.value}</div>
+                <div style={{ padding: '5px' }}>{params.value}</div>
             ),
         },
         {
             field: 'dateEnd',
             headerName: 'Data końcowa',
-            minWidth: 150,
+            minWidth: 130,
             renderCell: (params) => (
-                <div style={{ padding: '15px' }}>{params.value}</div>
+                <div style={{ padding: '5px' }}>{params.value}</div>
             ),
         },
         {
             field: 'applicant',
             headerName: 'Użytkownik',
-            minWidth: 200,
+            minWidth: 180,
             renderCell: (params) => (
-                <div style={{ padding: '15px' }}>{params.value}</div>
+                <div style={{ padding: '5px' }}>{params.value}</div>
             ),
         },
         {
             field: 'petName',
             headerName: 'Imię/Imiona',
-            minWidth: 150,
+            minWidth: 70,
             renderCell: (params) => (
-                <div style={{ padding: '15px' }}>{params.value}</div>
+                <div style={{ padding: '5px' }}>{params.value}</div>
             ),
         },
         {
             field: 'specificDescription',
             headerName: 'Opis pupila',
-            minWidth: 300,
+            minWidth: 160,
             headerAlign: 'center',
             flex: 1,
             renderCell: (params) => (
@@ -183,7 +186,7 @@ function MyOfferDetails() {
                     style={{
                         whiteSpace: 'normal',
                         wordWrap: 'break-word',
-                        padding: '15px',
+                        padding: '5px',
                     }}
                 >
                     {params.value.map((data: any) => (
@@ -197,36 +200,37 @@ function MyOfferDetails() {
         {
             field: 'type',
             headerName: 'Typ',
-            minWidth: 150,
+            minWidth: 70,
             renderCell: (params) => (
-                <div style={{ padding: '15px' }}>{params.value}</div>
+                <div style={{ padding: '5px' }}>{params.value}</div>
             ),
         },
         {
             field: 'note',
             headerName: 'Notatka',
-            minWidth: 250,
+            minWidth: 200,
+            flex: 1,
             renderCell: (params) => (
-                <div style={{ padding: '15px' }}>{params.value}</div>
+                <div style={{ padding: '5px' }}>{params.value}</div>
             ),
         },
         {
             field: 'applicationDateAdd',
             headerName: 'Data aplikowania',
-            minWidth: 150,
+            minWidth: 129,
             renderCell: (params) => {
                 const formattedDate = params.value
                     ? formatDate(params.value)
                     : '';
-                return <div style={{ padding: '15px' }}>{formattedDate}</div>;
+                return <div style={{ padding: '5px' }}>{formattedDate}</div>;
             },
         },
         {
             field: 'applicationStatus',
             headerName: 'Status',
-            minWidth: 250,
+            minWidth: 180,
             renderCell: (params) => (
-                <div style={{ padding: '15px' }}>
+                <div style={{ padding: '5px' }}>
                     {params.value}
                     <div style={{ marginTop: '10px' }}>
                         <button
@@ -283,6 +287,9 @@ function MyOfferDetails() {
         console.log('data');
         console.log(data.result);
     }
+    const formatPhoneNumber = (phone: string): string => {
+        return phone.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+    };
 
     // Metoda do aktualizacji statusu
 
@@ -384,20 +391,35 @@ function MyOfferDetails() {
                                 <hr />
                                 <div className="row pt-4">
                                     <span
-                                        style={{ fontSize: '20px' }}
+                                        style={{
+                                            fontSize: '20px',
+                                            display: 'flex',
+                                        }}
                                         className="pt-2"
                                     >
+                                        <PersonPinCircleIcon
+                                            fontSize="large"
+                                            style={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                marginTop: '10px',
+                                            }}
+                                        />
                                         <h3 style={{ marginTop: '20px' }}>
-                                            Adres
+                                            Adres opiekuna
                                         </h3>
                                     </span>
                                     <span
-                                        style={{ fontSize: '20px' }}
+                                        style={{
+                                            fontSize: '20px',
+                                            marginLeft: '36px',
+                                        }}
                                         className="pb-4"
                                     >
                                         {data.result.country},{' '}
-                                        {data.result.city},{data.result.street},{' '}
-                                        {data.result.postalCode}
+                                        {data.result.city}, {data.result.street}
+                                        , {data.result.postalCode}
                                     </span>
                                     <div
                                         className="py-3"
@@ -407,26 +429,89 @@ function MyOfferDetails() {
                                         }}
                                     >
                                         <span
-                                            style={{ fontSize: '20px' }}
+                                            style={{
+                                                fontSize: '20px',
+                                                display: 'flex',
+                                            }}
                                             className="pt-2"
                                         >
+                                            <AccountCircleIcon
+                                                fontSize="medium"
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    marginTop: '16px',
+                                                }}
+                                            />
                                             <h3
                                                 style={{
                                                     marginTop: '20px',
+                                                    marginLeft: '2px',
                                                 }}
                                             >
                                                 Twój opiekun to
-                                            </h3>
+                                            </h3>{' '}
+                                        </span>
+                                        <span
+                                            style={{
+                                                fontSize: '20px',
+                                                marginLeft: '36px',
+                                            }}
+                                            className="pb-4"
+                                        >
                                             {data.result.name}
-                                            <br />
+                                        </span>
+                                        <span
+                                            style={{
+                                                fontSize: '20px',
+                                                display: 'flex',
+                                            }}
+                                            className="pt-2"
+                                        >
+                                            <MailOutlineIcon
+                                                fontSize="medium"
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    marginTop: '18px',
+                                                }}
+                                            />
                                             <h3
                                                 style={{
                                                     marginTop: '20px',
+                                                    marginLeft: '2px',
                                                 }}
                                             >
                                                 Kontakt
                                             </h3>
-                                            {data.result.host}
+                                        </span>
+                                        <span
+                                            style={{ fontSize: '20px' }}
+                                            className="pt-2"
+                                        >
+                                            <div
+                                                style={{
+                                                    fontSize: '20px',
+                                                    marginLeft: '36px',
+                                                }}
+                                            >
+                                                {' '}
+                                                Adres e-mail: {data.result.host}
+                                            </div>
+
+                                            <div
+                                                style={{
+                                                    fontSize: '20px',
+                                                    marginLeft: '36px',
+                                                }}
+                                            >
+                                                Numer telefonu:{' '}
+                                                {formatPhoneNumber(
+                                                    data.result.hostPhoneNumber,
+                                                )}
+                                            </div>
                                         </span>
                                     </div>
                                 </div>
