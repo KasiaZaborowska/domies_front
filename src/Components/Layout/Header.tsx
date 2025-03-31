@@ -12,7 +12,7 @@ const logo = '/Images/main.png';
 
 function Header() {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // login user data
     const userData: userAccountInterface = useSelector(
