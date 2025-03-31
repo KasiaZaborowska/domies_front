@@ -16,6 +16,9 @@ const animalTypeApi = createApi({
         getAnimalTypeById: builder.query({
             query: (id) => ({
                 url: `animaltype/${id}`,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
             }),
             providesTags: ['AnimalTypes'],
         }),
@@ -23,6 +26,9 @@ const animalTypeApi = createApi({
             query: (data) => ({
                 url: `animaltype`,
                 method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
                 body: data,
             }),
             invalidatesTags: ['AnimalTypes'],
@@ -33,6 +39,7 @@ const animalTypeApi = createApi({
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
                 body: data,
             }),
@@ -42,6 +49,9 @@ const animalTypeApi = createApi({
         deleteAnimalType: builder.mutation({
             query: (id) => ({
                 url: `animaltype/${id}`,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
                 method: 'DELETE',
             }),
             invalidatesTags: ['AnimalTypes'],

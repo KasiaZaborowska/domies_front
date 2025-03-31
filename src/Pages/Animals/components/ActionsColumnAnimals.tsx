@@ -75,7 +75,7 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
                 console.log(animalData.id);
 
                 setShowEditModal(false);
-                //window.location.href = '/animals';
+                window.location.href = '/animals';
             } catch (error) {
                 console.error('Błąd podczas edycji:', error);
             }
@@ -219,7 +219,7 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
                 className="animal_modal"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Confirm Delete</Modal.Title>
+                    <Modal.Title>Potwierdź usunięcie</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div style={{ textAlign: 'center' }}>

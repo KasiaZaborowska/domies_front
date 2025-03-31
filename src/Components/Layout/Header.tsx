@@ -20,6 +20,9 @@ function Header() {
     );
 
     const handleLogout = () => {
+        localStorage.removeItem('firstName');
+        localStorage.removeItem('lastName');
+        localStorage.removeItem('role');
         localStorage.removeItem('token');
         dispatch(setLoggedInUser({ ...emptyUserState }));
         navigate('/');
