@@ -24,11 +24,13 @@ function AnimalTypes() {
     const dispatch = useDispatch();
     const { data, isLoading } = useGetAnimalTypesQuery(null);
     const [addType, isLoadingAdd] = useAddAnimalTypeMutation();
-    const [Type, setType] = useState('');
 
     const [editMode, setEditMode] = useState(false);
-    const [selectedType, setSelectedType] =
-        useState<animalTypeInterface | null>(null);
+    const [selectedType, setSelectedType] = useState<any | null>(null);
+
+    const [Type, setType] = useState(
+        editMode && selectedType ? selectedType.type : '',
+    );
 
     const [editType] = useUpdateAnimalTypeMutation();
     const [deleteAnimalType] = useDeleteAnimalTypeMutation();
@@ -75,6 +77,19 @@ function AnimalTypes() {
     };
     const handleShow = () => setShow(true);
 
+    useEffect(() => {
+        if (editMode && selectedType) {
+            setType(selectedType.type);
+        }
+    }, [editMode, selectedType]);
+
+    const handleEdit = (row: any) => {
+        setSelectedType(row);
+        setEditMode(true);
+        //setRows(rows);
+        setShow(true);
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         const form = e.currentTarget as HTMLFormElement;
         if (form.checkValidity() === false) {
@@ -82,32 +97,39 @@ function AnimalTypes() {
             e.stopPropagation();
         }
         if (!form.checkValidity()) {
-            return; // Jeśli formularz jest niepoprawny, przerywamy obsługę
+            return;
         }
 
         try {
             // edit Type
-            if (editMode) {
+            //console.log('editMode', editMode);
+            if (editMode && selectedType) {
                 try {
+                    //console.log('edit modeee');
                     setEditMode(true);
-
                     const dataToUpdate = {
                         type: selectedType?.type,
                     };
+                    //console.log('dataToUpdate', dataToUpdate);
+                    //console.log('Edycja typu:', Type);
+                    //console.log(selectedType);
+                    //console.log(selectedType?.animalTypeId);
                     await editType({
-                        data: dataToUpdate,
-                        id: selectedType?.animalTypeId,
+                        data: { Type: Type },
+                        id: selectedType?.id,
                     });
-
-                    setEditMode(false);
+                    //console.log('edit modeee 2');
+                    handleClose();
                 } catch (error: any) {
-                    console.error('Błąd przy edycji:', error.data.errors);
+                    //console.error('Błąd przy edycji:', error.data.errors);
                     setErrors(error.data.errors);
                 }
-                setValidated(true);
+                // setValidated(true);
             } else {
                 // add Type
                 console.log('dodawanie............');
+                console.log('sprawdzenie', Type);
+                console.log(typeof Type);
                 await addType({ Type: Type }).unwrap();
                 console.log('Dane, które wysyłam:', Type);
                 handleClose();
@@ -125,6 +147,7 @@ function AnimalTypes() {
             ...prevState,
             [name]: value,
         }));
+        setType(e.target.value);
     };
     function getErrorMessage(key: any) {
         console.log('aaaaaaaaaaaaaaaaaaaaaaaa');
@@ -137,12 +160,6 @@ function AnimalTypes() {
             dispatch(setAnimalType(data.result));
         }
     }, [isLoading, data, dispatch]);
-
-    const handleEdit = (rows: any) => {
-        setEditMode(true);
-        //setRows(rows);
-        setShow(true);
-    };
 
     return (
         <>
@@ -219,15 +236,11 @@ function AnimalTypes() {
                                             required
                                             name="type"
                                             type="text"
-                                            defaultValue={
-                                                editMode && selectedType
-                                                    ? selectedType.type
-                                                    : ''
-                                            }
+                                            value={Type}
                                             placeholder="Wpisz typ"
                                             onChange={
                                                 handleInputChange
-                                                // (e) => setType(e.target.value)
+                                                //(e) => setType(e.target.value)
                                             }
                                         />
                                         <Form.Control.Feedback type="invalid">
@@ -250,7 +263,7 @@ function AnimalTypes() {
                                             variant="primary"
                                             onClick={handleSubmit}
                                         >
-                                            Dodaj
+                                            {editMode ? 'Edytuj' : 'Dodaj'}
                                         </Button>
                                     </Form.Group>
                                 </Form>

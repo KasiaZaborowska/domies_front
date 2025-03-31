@@ -133,7 +133,7 @@ export default function ActionsColumn({ row }: ActionsColumnProps) {
                 className="animal_type_modal"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Confirm Delete</Modal.Title>
+                    <Modal.Title>Potwierdź usunięcie</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     Czy napewno chcesz usunąć ten typ zwierzęcia? Nie da się
