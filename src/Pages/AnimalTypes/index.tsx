@@ -127,11 +127,7 @@ function AnimalTypes() {
                 // setValidated(true);
             } else {
                 // add Type
-                console.log('dodawanie............');
-                console.log('sprawdzenie', Type);
-                console.log(typeof Type);
                 await addType({ Type: Type }).unwrap();
-                console.log('Dane, które wysyłam:', Type);
                 handleClose();
             }
         } catch (error: any) {
@@ -150,8 +146,7 @@ function AnimalTypes() {
         setType(e.target.value);
     };
     function getErrorMessage(key: any) {
-        console.log('aaaaaaaaaaaaaaaaaaaaaaaa');
-        console.log(errors.hasOwnProperty(key) ? errors[key][0] : '');
+        // console.log(errors.hasOwnProperty(key) ? errors[key][0] : '');
         return errors.hasOwnProperty(key) ? errors[key][0] : '';
     }
 

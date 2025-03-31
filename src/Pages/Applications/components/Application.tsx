@@ -35,8 +35,6 @@ function Application({ offerId, show, setShow, application }: Props) {
         dayjs().add(1, 'day').startOf('day'),
     );
 
-    console.log(dateStart);
-    console.log(dateEnd);
     const [applicationToAdd] = useAddApplicationMutation();
 
     const [validated, setValidated] = useState<boolean>(false);
@@ -86,8 +84,6 @@ function Application({ offerId, show, setShow, application }: Props) {
     } = useGetOfferByIdQuery({
         id: offerId,
     });
-    console.log('application');
-    console.log(application);
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const tempData = inputHelperUtility(e, formData);
@@ -143,65 +139,20 @@ function Application({ offerId, show, setShow, application }: Props) {
                 (animal: animalInterface | any) => animal.id,
             ),
         };
-        console.log(formDataToSend);
 
         try {
-            console.log('Dane, które wysyłam:', formDataToSend);
             await applicationToAdd({
                 data: formDataToSend,
                 userId: userData.Email,
             }).unwrap();
             window.location.href = '/applications';
         } catch (error: any) {
-            console.log('Błąd');
-            console.error('Błąd przy dodawaniu:', error);
-            console.error('Błąd przy dodawaniu:', error.data.errors.Animals[0]);
+            // console.error('Błąd przy dodawaniu:', error.data.errors.Animals[0]);
             setErrorMessage(error.data.errors.Animals[0] || 'Wystąpił błąd.');
         }
     };
 
-    // const handleEditApplication = async (
-    //     e: React.FormEvent<HTMLFormElement>,
-    // ) => {
-    //     e.preventDefault();
-    //     const form = e.currentTarget;
-    //     if (form.checkValidity() === false) {
-    //         e.stopPropagation();
-    //     }
-    //     setValidated(true);
-
-    //     const formDataToSend = {
-    //         dateStart: dateStart ? dateStart.toISOString() : '',
-    //         dateEnd: dateEnd ? dateEnd.toISOString() : '',
-    //         offerId: formData.offerId.toString(),
-    //         note: formData.note,
-    //         animals: formData.animals.map(
-    //             (animal: animalInterface | any) => animal.id,
-    //         ),
-    //     };
-
-    //     try {
-    //         console.log('Dane, które wysyłam:', formDataToSend);
-    //         console.log('FormData contents:');
-    //         await applicationToAdd({
-    //             data: formDataToSend,
-    //             userId: userData.Email,
-    //         }).unwrap();
-    //         window.location.href = '/applications';
-    //     } catch (error: any) {
-    //         console.log('Błąd');
-    //         console.error('Błąd przy dodawaniu:', error);
-    //         console.error('Błąd przy dodawaniu:', error.data.errors.Animals[0]);
-    //         setErrorMessage(error.data.errors.Animals[0] || 'Wystąpił błąd.');
-    //     }
-    // };
-
     const handleClose = () => setShow(false);
-    // const handleShow = () => setShow(true);
-    // const [tableAnimalsFromOffer, setTableAnimalsFromOffer] =
-    //     useState<string[]>();
-    // console.log('tableAnimalsFromOffer');
-    // console.log(tableAnimalsFromOffer);
 
     const [filtredtableAnimalsFromOffer, setFilteredTableAnimalsFromOffer] =
         useState<string[]>([]);

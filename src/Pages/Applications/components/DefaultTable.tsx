@@ -65,10 +65,8 @@ const DefaultDataTable: React.FC<DataTableProps> = ({
         align: 'right',
         renderCell: (params) => {
             const dataRow = params.row;
-            //console.log('params.row');
             //console.log(params.row);
             //console.log(params.row.id);
-            //console.log(dataRow);
             return (
                 <div
                     style={{

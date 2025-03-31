@@ -14,7 +14,6 @@ function Offers() {
     const userData: userAccountInterface = useSelector(
         (state: RootState) => state.userAccountStore,
     );
-    console.log(userData.Email);
     const loggedInUserEmail = userData.Email;
 
     const { data, isLoading } = useGetOffersQuery(null);
@@ -27,7 +26,6 @@ function Offers() {
             const filtered = data.result.filter(
                 (offer: readOfferInterface) => offer.host === loggedInUserEmail,
             );
-            console.log(filtered);
 
             if (filtered.length > 0) {
                 setFilteredOffers(filtered);

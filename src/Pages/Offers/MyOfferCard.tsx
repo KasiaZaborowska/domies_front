@@ -14,10 +14,8 @@ function MyOfferCard(props: Props) {
     const [deleteOffer, isLoadingDelete] = useDeleteOfferMutation();
 
     const handleDelete = async (id: number) => {
-        console.log('ID: ', id);
         if (id !== null && id !== undefined) {
             try {
-                console.log(`Usuwam ofertę o ID: ${id}`);
                 await deleteOffer(id);
                 setShowDeleteModal(false);
                 window.location.href = '/offers';
@@ -36,9 +34,6 @@ function MyOfferCard(props: Props) {
         const allRatings = offer.applications.flatMap((app) =>
             (app.opinions ?? []).map((o) => o.rating ?? 0),
         );
-        console.log('allRatings');
-        console.log(allRatings);
-
         if (allRatings.length === 0) return 'Brak ocen';
 
         const totalRatings = allRatings.reduce(

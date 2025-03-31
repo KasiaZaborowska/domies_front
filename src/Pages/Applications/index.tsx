@@ -26,9 +26,6 @@ function Applications() {
     const { data, isLoading } = useGetApplicationsQuery(null);
     const { data: animals, isLoading: isLoadingAnimals } =
         useGetAnimalsQuery(null);
-    // console.log('dataaaa');
-    console.log(data);
-    // console.log(animals);
     const navigate = useNavigate();
     // const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
 
@@ -158,8 +155,6 @@ function Applications() {
     const [isOpinionModalOpen, setOpinionIsModalOpen] =
         useState<boolean>(false);
 
-    console.log(rows);
-
     // const handleEdit = async (row: applicationInterface) => {
     //     if (row && row.id) {
     //         setSelectedRow(row);
@@ -266,8 +261,8 @@ function Applications() {
                 );
 
                 setRows(dataInRows); // Ustawiamy dane w stanie
-                console.log('dataInRows');
-                console.log(dataInRows);
+                // console.log('dataInRows');
+                // console.log(dataInRows);
             }
         }
     }, [data, navigate]);

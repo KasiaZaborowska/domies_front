@@ -23,9 +23,6 @@ function OfferDetails() {
     const offerIdToNumber = Number(offerId);
 
     const { data, isLoading, error } = useGetOfferByIdQuery({ id: offerId });
-    console.log('Dane z API:', data);
-    console.log('Błąd:', error);
-    console.log('Ładowanie:', isLoading);
     const navigate = useNavigate();
     const [filterText, setFilterText] = useState('');
 
@@ -38,8 +35,6 @@ function OfferDetails() {
         const allOpinions = data.result.applications.flatMap(
             (app: applicationInterface) => app.opinions,
         );
-        console.log('allOpinions');
-        console.log(allOpinions);
         const dataToSet = allOpinions.map((opinion: opinionInterface) => ({
             id: opinion.id,
             rating: opinion.rating,
@@ -51,16 +46,16 @@ function OfferDetails() {
 
         setRows(dataToSet);
         setFilteredRows(dataToSet);
-        console.log(
-            allOpinions.map((opinion: opinionInterface) => ({
-                id: opinion.id,
-                rating: opinion.rating,
-                comment: opinion.comment,
-                applicationId: opinion.applicationId,
-                userEmail: opinion.userEmail,
-                opinionDateAdd: opinion.opinionDateAdd,
-            })),
-        );
+        // console.log(
+        //     allOpinions.map((opinion: opinionInterface) => ({
+        //         id: opinion.id,
+        //         rating: opinion.rating,
+        //         comment: opinion.comment,
+        //         applicationId: opinion.applicationId,
+        //         userEmail: opinion.userEmail,
+        //         opinionDateAdd: opinion.opinionDateAdd,
+        //     })),
+        // );
     }, [isLoading]);
 
     const formatDate = (dateString: string) => {
@@ -164,13 +159,11 @@ function OfferDetails() {
                 opinionDateAdd.includes(searchValue)
             );
         });
-        console.log(filteredRows);
         setFilteredRows(filteredRows); // Aktualizacja wyświetlanych wierszy
     };
     const formatPhoneNumber = (phone: string): string => {
         return phone.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
     };
-    console.log(data.result);
     return (
         <div className="container">
             <div className="">

@@ -23,9 +23,6 @@ function Animals() {
     const { data: animalTypes, isLoading: isLoadingAnimalTypes } =
         useGetAnimalTypesQuery(null);
 
-    //console.log('dataaaaaaa');
-    //console.log(data);
-
     const [offferToAdd] = useAddAnimalMutation();
 
     const [formData, setFormData] = useState<animalInterface>({
@@ -33,7 +30,6 @@ function Animals() {
         specificDescription: '',
         animalType: 0,
     });
-    //console.log(formData);
     const [errors, setErrors] = useState<string>('');
     const [validated, setValidated] = useState(false);
 
@@ -61,24 +57,18 @@ function Animals() {
         }
     };
     const handleSelectChange = (selectedTypeId: number) => {
-        console.log('Wybrano ID typu:', selectedTypeId);
         const selectedType = animalTypes?.result.find(
             (type: any) => type.animalTypeId === selectedTypeId,
         );
-        console.log(' abc selectedTypeId ', selectedTypeId);
         if (selectedType) {
             // Aktualizuj `formData.type` na podstawie znalezionego obiektu
             setFormData((prevFormData) => ({
                 ...prevFormData,
                 animalType: selectedTypeId, // Przypisz nazwę typu do formData.type
             }));
-            console.log('Przypisano typ:', selectedType.type);
-            console.log('Przypisano formData:', formData);
         } else {
-            console.log('Nie znaleziono typu o podanym ID');
         }
     };
-    //console.log('Przypisano formData2:', formData);
     const userData: userAccountInterface = useSelector(
         (state: RootState) => state.userAccountStore,
     );
@@ -97,14 +87,12 @@ function Animals() {
             return; // Jeśli formularz jest niepoprawny, przerywamy obsługę
         }
         try {
-            console.log('Dane, które wysyłam:', formData);
             await offferToAdd({
                 data: formData,
                 userId: userData.Email,
             }).unwrap();
             window.location.href = '/animals';
         } catch (error: any) {
-            //console.log('Błąd');
             console.error('Błąd przy dodawaniu:', error.data.errors);
             setErrors(error.data.errors);
         }
@@ -112,7 +100,7 @@ function Animals() {
     };
 
     function getErrorMessage(key: any) {
-        console.log(typeof (errors.hasOwnProperty(key) ? errors[key][0] : ''));
+        // console.log(typeof (errors.hasOwnProperty(key) ? errors[key][0] : ''));
         return errors.hasOwnProperty(key) ? errors[key][0] : '';
     }
 

@@ -143,7 +143,7 @@ function Header() {
                                 className="d-flex"
                                 style={{ marginLeft: 'auto' }}
                             >
-                                {userData.Email && (
+                                {userData.FirstName && (
                                     <>
                                         <li className="nav-item">
                                             <button

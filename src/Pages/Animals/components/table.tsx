@@ -94,8 +94,6 @@ export default function DataTable({ data }: any) {
 
         setRows(filteredRows); // Aktualizacja wyświetlanych wierszy
     };
-    console.log('________________________________');
-    console.log(rows);
     return (
         <Paper
             sx={{

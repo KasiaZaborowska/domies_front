@@ -39,8 +39,6 @@ function AddOpinion({ show, setShow, application }: Props) {
         userEmail: '',
         opinionDateAdd: '',
     });
-    console.log('application');
-    console.log(application);
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const tempData = inputHelperUtility(e, formData);
@@ -54,8 +52,6 @@ function AddOpinion({ show, setShow, application }: Props) {
             e.stopPropagation();
         }
         setValidated(true);
-        console.log(formData.rating);
-        console.log(formData.comment);
         const formDataToSend = {
             rating: ratingValue,
             comment: formData.comment,
@@ -65,17 +61,14 @@ function AddOpinion({ show, setShow, application }: Props) {
         };
 
         try {
-            console.log('Dane, które wysyłam:', formDataToSend);
-            console.log('FormData contents:');
             await opinionToAdd({
                 data: formDataToSend,
                 userId: userData.Email,
             }).unwrap();
             window.location.href = '/applications';
         } catch (error: any) {
-            console.log('Błąd');
             console.error('Błąd przy dodawaniu:', error);
-            console.error('Błąd przy dodawaniu:', error.data.errors);
+            // console.error('Błąd przy dodawaniu:', error.data.errors);
             setErrorMessage(error.data.errors || 'Wystąpił błąd.');
         }
     };

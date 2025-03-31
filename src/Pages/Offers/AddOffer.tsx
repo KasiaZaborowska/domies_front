@@ -58,8 +58,6 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
         if (isLoading || isLoadingFacilities) return;
         dispatch(setAnimalType(data.result));
         // dispatch(setFacility(facilities.result));
-
-        console.log('Dane załadowane:', formData);
     }, [isLoading, isLoadingFacilities, data, dispatch]);
 
     //RENDER DROPDOWN's
@@ -108,7 +106,6 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
         const selectedFacility = facilities.result.find(
             (facility: facilityInterface) => facility.id === id,
         )?.id;
-        console.log(selectedFacility);
         if (selectedFacility) {
             setFormData((prev) => {
                 const isSelected = prev.facilities.includes(selectedFacility);
@@ -122,9 +119,6 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
             });
         }
     };
-    console.log('facilities');
-    console.log(facilities);
-    console.log('Selected facilities:', formData.facilities);
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const tempData = inputHelperUtility(e, formData);
@@ -161,19 +155,16 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
         if (formData.file) {
             formDataToSend.append('file', formData.file); // Dodajemy plik
         }
-        console.log(formData.file);
 
         try {
             const response: offerInterface = await offferToAdd({
                 data: formDataToSend,
                 userId: loggedInUserEmail,
             }).unwrap();
-            console.log('Dane, które dodaje:', response, 'and ', response.name);
             onSuccess();
             toastNotify('Dodawanie oferty zakończone sukcesem!');
             // alert('dodane!');
         } catch (error: any) {
-            console.log('Błąd');
             console.error('Błąd przy dodawaniu:', error);
             if (error?.data?.errors) {
                 setErrorMessage(error.data.errors);
@@ -181,8 +172,6 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
                 setErrorMessage(['Wystąpił  błąd.']);
             }
         }
-        console.log('Dane załadowane:', formData);
-        console.log('Dane send:', Object.fromEntries(formDataToSend));
 
         setLoading(false);
         setSubmitted(true);
@@ -190,13 +179,7 @@ function AddOfferForm({ onSuccess }: AddOfferFormProps) {
     };
 
     function getErrorMessage(key: any) {
-        console.log(errorMessage);
-        console.log(key);
-        console.log(errorMessage.hasOwnProperty(key));
-        console.log(errorMessage.hasOwnProperty('Name'));
-        console.log(errorMessage.hasOwnProperty(['Name'][0]));
-        // console.log(errorMessage['Name'][0]);
-        // console.log(errorMessage[key][0]);
+        //console.log(errorMessage);
         return errorMessage.hasOwnProperty(key) ? errorMessage[key][0] : '';
     }
     // console.log(getErrorMessage('Name'));

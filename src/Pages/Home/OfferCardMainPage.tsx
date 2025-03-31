@@ -16,8 +16,6 @@ function OfferCardMainPage(props: Props) {
         const allRatings = offer.applications.flatMap((app) =>
             (app.opinions ?? []).map((o) => o.rating ?? 0),
         );
-        console.log('allRatings');
-        console.log(allRatings);
 
         if (allRatings.length === 0) return 'Brak ocen';
 

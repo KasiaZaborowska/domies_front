@@ -26,7 +26,7 @@ export const isManager = (): boolean => {
 };
 
 export const isManagerOrAdmin = (): boolean => {
-    console.log(getRole());
+    //console.log(getRole());
     return getRole() === 'manager' || getRole() === 'admin';
 };
 

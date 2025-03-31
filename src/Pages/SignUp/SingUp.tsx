@@ -46,17 +46,9 @@ function SingUp() {
         if (form.checkValidity() === false) {
             e.stopPropagation();
             setValidated(true);
-            console.log('in');
         }
-        console.log('after');
         setLoading(true);
         try {
-            console.log(userInput.FirstName);
-            console.log(userInput.PhoneNumber);
-            console.log(userInput.Email);
-            console.log(userInput.LastName);
-            console.log(userInput.Password);
-            // console.log(response);
             const response: apiResponse = await registerUser({
                 Email: userInput.Email,
                 FirstName: userInput.FirstName,
@@ -65,7 +57,6 @@ function SingUp() {
                 Password: userInput.Password,
                 // RoleId: 1,
             }).unwrap();
-            console.log(response);
             if (response) {
                 toastNotify(
                     'Rejestracja zakończona sukcesem! Potwierdź swój adres email aby móc się zalogować.',

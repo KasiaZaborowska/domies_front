@@ -10,7 +10,6 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useGetAnimalTypesQuery } from '../../../Apis/animalTypeApi';
 import inputHelperUtility from '../../../Utils/inputHelperUtility';
-import AnimalModalForm from './AnimalModalForm';
 import './Animals.css';
 interface ActionsColumnProps {
     row: {
@@ -31,9 +30,6 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
 
     const [animalData, setAnimalData] = useState(row);
 
-    //console.log('animalData');
-    //console.log(animalData);
-
     const [formData, setFormData] = useState<animalInterface>({
         petName: animalData.petName,
         specificDescription: animalData.specificDescription,
@@ -43,13 +39,10 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
 
     const { data: animalTypes, isLoading: isLoadingAnimalTypes } =
         useGetAnimalTypesQuery(null);
-    //const navigate = useNavigate();
 
     const handleDelete = async (id: number) => {
-        //console.log('ID: ', id);
         if (id !== null && id !== undefined) {
             try {
-                //console.log(`Usuwam pupila o ID: ${id}`);
                 await deleteType(id);
                 setShowDeleteModal(false);
                 window.location.href = '/animals';
@@ -62,18 +55,10 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
     };
 
     const handleEdit = async () => {
-        console.log('ID: ', animalData.id);
-        console.log('animalData: ', animalData);
         if (animalData.id !== null && animalData.id !== undefined) {
             try {
                 setShowEditModal(true);
                 await editAnimal({ data: formData, id: animalData.id });
-                console.log(
-                    '______________________________________________________',
-                );
-                console.log('animalData + data: ', formData);
-                console.log(animalData.id);
-
                 setShowEditModal(false);
                 window.location.href = '/animals';
             } catch (error) {
@@ -96,7 +81,6 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
     };
 
     const handleSelectChange = (selectedTypeId: number) => {
-        console.log('Wybrano ID typu:', selectedTypeId);
         const selectedType = animalTypes?.result.find(
             (type: any) => type.animalTypeId === selectedTypeId,
         );
@@ -108,9 +92,6 @@ export default function ActionsColumnAnimals({ row }: ActionsColumnProps) {
                 animalType: selectedTypeId, // Przypisz nazwę typu do formData.type
             }));
             formData.animalType = selectedTypeId;
-            console.log('Przypisano typ:', selectedTypeId);
-            console.log('Przypisano typ:', selectedType.type);
-            console.log('Przypisano formData:', formData);
         } else {
             console.log('Nie znaleziono typu o podanym ID');
         }

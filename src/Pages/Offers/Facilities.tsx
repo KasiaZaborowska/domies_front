@@ -54,14 +54,10 @@ function Facilities(data: any, isLoading: boolean) {
                 );
         }
     };
-
-    console.log('faaaaaaaaaaa');
-    console.log(data);
-    console.log(data.data.facilities);
-    if (!isLoading) {
-        console.log('data');
-        console.log(data?.facilities);
-    }
+    // if (!isLoading) {
+    //     console.log('data');
+    //     console.log(data?.facilities);
+    // }
 
     useEffect(() => {}, [data]);
 

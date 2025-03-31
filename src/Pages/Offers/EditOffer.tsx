@@ -36,9 +36,6 @@ function EditOfferForm() {
     const userData: userAccountInterface = useSelector(
         (state: RootState) => state.userAccountStore,
     );
-    //console.log(userData.Email);
-    //console.log(dataOffer.result.photo);
-    //console.log(dataOffer.result.offerAnimalTypes);
     const offerAnimalTypesToArray =
         dataOffer.result.offerAnimalTypes.split(', ');
 
@@ -46,20 +43,11 @@ function EditOfferForm() {
     const offerFacilitiesDescriptionsArray = temp.map(
         (facility: any) => facility.facilitiesDescription,
     );
-    console.log(dataOffer.result);
-    console.log(temp);
-    console.log(dataOffer.result.facilities);
-    console.log(offerFacilitiesDescriptionsArray);
+
     const [validated, setValidated] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string[]>([]);
-    // console.log(offerAnimalTypesToArray);
-    // console.log(dataOffer);
-
-    // const facilitiesToArray = dataOffer.result.facilities.split(', ');
-    // console.log(offerAnimalTypesToArray);
 
     const loggedInUserEmail = userData.Email;
-    // const role = userData.Role;
 
     const [offferToUpdate] = useUpdateOfferMutation();
     const [loading, setLoading] = useState(false);
@@ -80,35 +68,20 @@ function EditOfferForm() {
         ),
     });
 
-    // useEffect(() => {
-    //     // Jeśli masz wartość 'price' z dataOffer, przypisujesz ją
-    //     // i zamieniasz kropkę na przecinek.
-    //     if (dataOffer && dataOffer.result && dataOffer.result.price) {
-    //         setFormData({
-    //             ...formData,
-    //             price: dataOffer.result.price.toString().replace('.', ','),
-    //         });
-    //     }
-    // }, [dataOffer]);
-
     const facilitiesIdArray: number[] = formData.facilities.map(
         (facility: any) => facility.id,
     );
-    console.log(facilitiesIdArray);
     const { data, isLoading } = useGetAnimalTypesQuery(null);
 
     const [preview, setPreview] = useState<string | null>();
-
-    // const photo = formData.file;
 
     useEffect(() => {
         if (!isLoading || !isLoadingFacilities) {
             dispatch(setAnimalType(data.result));
         }
-        console.log('Dane załadowane:', formData);
 
         if (dataOffer.result.photo) {
-            setPreview(dataOffer.result.photo); // Ustawienie prewizualizacji obrazu z base64
+            setPreview(dataOffer.result.photo);
         }
     }, [isLoading, data, dispatch]);
 
@@ -163,7 +136,6 @@ function EditOfferForm() {
         formDataToSend.append('postalCode', formData.postalCode);
         formDataToSend.append('price', formData.price.toString());
         formData.offerAnimalTypes.forEach((type: string) => {
-            console.log(type);
             formDataToSend.append('offerAnimalTypes[]', type);
         });
         formData.facilities.forEach((facility: number) => {
@@ -179,11 +151,9 @@ function EditOfferForm() {
                 userId: loggedInUserEmail,
                 id: offerId,
             }).unwrap();
-            //console.log(response);
             // window.location.href = `/myOfferDetails/${offerId}`;
             toastNotify('Edytowanie oferty zakończone sukcesem!');
         } catch (error: any) {
-            console.log('Błąd');
             console.error('Błąd przy edytowaniu:', error);
             if (error?.data?.errors) {
                 setErrorMessage(error.data.errors);
@@ -191,20 +161,14 @@ function EditOfferForm() {
                 setErrorMessage(['Wystąpił  błąd.']);
             }
         }
-        console.log('Dane załadowane:', formData);
         setLoading(false);
-        //console.log('Dane send:', Object.fromEntries(formDataToSend));
     };
     const { data: facilities, isLoading: isLoadingFacilities } =
         useGetFacilitiesQuery(null);
-    //console.log(facilities.result);
     function getErrorMessage(key: any) {
-        console.log(errorMessage);
-        // console.log(errorMessage['Name'][0]);
-        // console.log(errorMessage[key][0]);
+        // console.log(errorMessage);
         return errorMessage.hasOwnProperty(key) ? errorMessage[key][0] : '';
     }
-    //console.log(formData.facilities);
 
     const renderSelectedFacilities = () => {
         if (
@@ -220,33 +184,17 @@ function EditOfferForm() {
                     const myFacility = facilitiesArray.find(
                         (f: any) => f.id === id,
                     );
-                    console.log(id);
-                    console.log(myFacility);
                     return myFacility
                         ? myFacility.facilitiesDescription
                         : 'błąd';
                 })
                 .join(', ') || 'Wybierz'
-            // formData.facilities
-            //     .map((facility: any) => {
-            //         const myFacility = facilitiesArray.find(
-            //             (f: facilityInterface) => f.id === facility.id,
-            //         );
-            //         console.log(facility);
-            //         console.log(myFacility);
-            //         return myFacility
-            //             ? myFacility.facilitiesDescription
-            //             : 'błąd';
-            //     })
-            //     .join(', ') || 'Wybierz'
         );
-        // return formData.facilities.join(', ') || 'Wybierz';
     };
     const handleCheckboxChangeFacilities = (id: number) => {
         const selectedFacility = facilities.result.find(
             (facility: facilityInterface) => facility.id === id,
         )?.id;
-        console.log(selectedFacility);
         if (selectedFacility) {
             setFormData((prev) => {
                 const isSelected = prev.facilities.includes(selectedFacility);
@@ -260,7 +208,6 @@ function EditOfferForm() {
             });
         }
     };
-    //console.log(photo);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         //setFormData((prev) => ({ prev, file: e.target.file[0] }));
@@ -276,9 +223,6 @@ function EditOfferForm() {
             //setPhoto(photo); // ustawienie wybranego pliku
         }
     };
-    // console.log('preview');
-    // console.log(preview);
-    //console.log(data);
     if (isLoading || isLoadingFacilities) {
         return <MainLoader />;
     }

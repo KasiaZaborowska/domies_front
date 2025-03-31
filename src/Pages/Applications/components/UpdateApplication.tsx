@@ -27,14 +27,11 @@ interface Props {
 function UpdateApplication({ offerId }: Props) {
     const { data: animals, isLoading: isLoadingAnimals } =
         useGetAnimalsQuery(null);
-    console.log('dataaaa');
-    console.log(animals);
     const [dateStart, setDateStart] = React.useState<Dayjs | null>(dayjs());
     const [dateEnd, setDateEnd] = React.useState<Dayjs | null>(
         dayjs().add(1, 'day').startOf('day'),
     );
     const [applicationToAdd] = useAddApplicationMutation();
-    console.log('offerIdaaaaaaaaaaaaaaa ', offerId);
 
     const [validated, setValidated] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
@@ -64,7 +61,6 @@ function UpdateApplication({ offerId }: Props) {
     } = useGetOfferByIdQuery({
         id: offerId,
     });
-    console.log(animalTypesAccepted);
 
     const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const tempData = inputHelperUtility(e, formData);
@@ -122,17 +118,13 @@ function UpdateApplication({ offerId }: Props) {
         };
 
         try {
-            console.log('Dane, które wysyłam:', formDataToSend);
-            console.log('FormData contents:');
             await applicationToAdd({
                 data: formDataToSend,
                 userId: userData.Email,
             }).unwrap();
             window.location.href = '/applications';
         } catch (error: any) {
-            console.log('Błąd');
-            console.error('Błąd przy dodawaniu:', error);
-            console.error('Błąd przy dodawaniu:', error.data.errors.Animals[0]);
+            // console.error('Błąd przy dodawaniu:', error.data.errors.Animals[0]);
             setErrorMessage(error.data.errors.Animals[0] || 'Wystąpił błąd.');
         }
     };
@@ -140,10 +132,6 @@ function UpdateApplication({ offerId }: Props) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    // const [tableAnimalsFromOffer, setTableAnimalsFromOffer] =
-    //     useState<string[]>();
-    // console.log('tableAnimalsFromOffer');
-    // console.log(tableAnimalsFromOffer);
 
     const [filtredtableAnimalsFromOffer, setFilteredTableAnimalsFromOffer] =
         useState<string[]>([]);
@@ -155,26 +143,18 @@ function UpdateApplication({ offerId }: Props) {
     }, [dateStart, dateEnd]);
 
     useEffect(() => {
-        console.log('aaaaaaaaaaaaaaaaa');
         if (!isLoadingAnimalTypesAccepted) {
-            console.log(animalTypesAccepted.result.offerAnimalTypes);
             const tableAnimalTypes: string[] =
                 animalTypesAccepted.result.offerAnimalTypes.split(', ');
-            console.log('tableAnimalTypes');
-            console.log(tableAnimalTypes);
             // setTableAnimalsFromOffer(tableAnimalTypes);
 
             const filtredAnimals = animals.result.filter((animal: any) =>
                 tableAnimalTypes?.includes(animal.type),
             );
-            console.log('filtredAnimals');
-            console.log(filtredAnimals);
             setFilteredTableAnimalsFromOffer(filtredAnimals);
         }
     }, [isLoadingAnimalTypesAccepted, isLoadingAnimals]);
 
-    console.log('filtredtableAnimalsFromOffer');
-    console.log(filtredtableAnimalsFromOffer);
     if (isLoadingAnimals) {
         return <MainLoader />;
     }

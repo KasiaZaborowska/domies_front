@@ -45,15 +45,10 @@ function Home() {
         fetch(`${process.env.REACT_APP_BACKEND_URL}/api/offer`)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 const tempData = data.result.map((result: any) => ({
                     ...result,
                     offerAnimalTypes: result.offerAnimalTypes.split(', '),
                 }));
-
-                console.log('tempData.offerAnimalTypes');
-                console.log(tempData);
-
                 setOffers(tempData);
             });
     }, []);

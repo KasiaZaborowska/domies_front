@@ -26,33 +26,24 @@ export default function ActionsColumn({ row }: ActionsColumnProps) {
     const [animalData, setAnimalData] = useState(row);
 
     const handleDelete = async (id: number) => {
-        console.log('ID: ', id);
         if (id !== null && id !== undefined) {
             try {
-                console.log(`Usuwam rodzaj zwierzęcia o ID: ${id}`);
                 await deleteType(id);
                 setShowDeleteModal(false);
-            } catch (error) {
-                console.error('Błąd podczas usuwania:', error);
-            }
+            } catch (error) {}
         } else {
-            console.error('Brak ID do usunięcia.');
         }
     };
 
     const handleEdit = async () => {
-        console.log('ID: ', animalData.id);
-        console.log('animalData: ', animalData);
         if (animalData.id !== null && animalData.id !== undefined) {
             try {
                 setShowEditModal(true);
-                console.log(`Edytuje rodzaj zwierzęcia o ID: ${animalData.id}`);
 
                 const dataToUpdate = {
                     type: animalData.type,
                 };
                 await editType({ data: dataToUpdate, id: animalData.id });
-                console.log('animalData: ', animalData);
 
                 setShowEditModal(false);
             } catch (error) {

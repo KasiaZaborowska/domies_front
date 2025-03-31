@@ -31,14 +31,8 @@ import Tooltip from '@mui/material/Tooltip';
 
 function Users() {
     const { data, error, isLoading } = useGetUsersQuery(null);
-    // const { data: animals } = useGetAnimalsQuery(null);
-    // console.log('dataaaa');
-    // console.log(data);
-    // console.log(animals);
-
     const navigate = useNavigate();
     const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
-
     const [applicationToAdd] = useAddApplicationMutation();
     const [deleteUser] = useDeleteUserMutation();
 
@@ -52,10 +46,6 @@ function Users() {
         dateAdd: '',
     });
     console.log(error);
-
-    // if (error?.status === 401) {
-    //     return <Navigate to="/login" replace />;
-    // }
 
     const [deleteApplication] = useDeleteApplicationMutation();
 
@@ -101,8 +91,6 @@ function Users() {
         }
     };
     const role = getRole();
-    console.log('roleeeeee');
-    console.log(role);
     const columns: GridColDef[] = [
         {
             field: 'email',
@@ -157,14 +145,13 @@ function Users() {
         },
     ];
     const [rows, setRows] = useState([]);
-    if (!isLoading) {
-        console.log(data.result);
-    }
+    // if (!isLoading) {
+    //     console.log(data.result);
+    // }
 
     useEffect(() => {
         if (!isLoading) {
             if (data.result && Array.isArray(data.result)) {
-                //console.log('Data:', data.result);
                 const dataInRows = data.result.map((item: userInterface) => ({
                     id: item.email,
                     email: item.email,
@@ -177,25 +164,9 @@ function Users() {
                 }));
 
                 setRows(dataInRows); // Ustawiamy dane w stanie
-                //console.log('dataInRows');
-                //console.log(dataInRows);
-                //console.log(data.result[1].animals);
             }
         }
     }, [data, navigate]);
-
-    // const handleDelete = async (row: any) => {
-    //     if (row && row.id) {
-    //         DeleteButtonWithModal({
-    //             id: row.id,
-    //             deleteFunction: async (id: number) =>
-    //                 await deleteApplication({ id }),
-    //         });
-    //     } else {
-    //         console.error('Brak ID w wierszu do usunięcia:', row);
-    //     }
-    //     // DeleteButtonWithModal(data.result.id, deleteApplication);
-    // };
 
     const [promotionToManagerRole] = usePromotionToManagerRoleMutation();
     const [downgradingToUserRole] = useDowngradingToUserRoleMutation();

@@ -35,7 +35,6 @@ function SingIn() {
         if (form.checkValidity() === false) {
             e.stopPropagation();
             setValidated(true);
-            console.log('is  false ! ');
             // return;
         }
         setLoading(true);
@@ -45,29 +44,19 @@ function SingIn() {
                 Password: userInput.Password,
             }).unwrap();
 
-            console.log(response);
-            console.log(response.token);
-
             if (response) {
-                console.log('if, data:', response);
                 const token = response.token;
-                console.log(token);
                 const {
                     Email,
                     FirstName,
                     LastName,
                     Role,
                 }: userAccountInterface = jwt_decode(token);
-                console.log(' przed token ustawiam');
                 localStorage.setItem('firstName', FirstName);
                 localStorage.setItem('lastName', LastName);
                 localStorage.setItem('role', Role);
                 localStorage.setItem('token', token);
-                console.log('token ustawiam');
                 dispatch(setLoggedInUser({ Email, FirstName, LastName, Role }));
-                console.log(
-                    setLoggedInUser({ Email, FirstName, LastName, Role }),
-                );
 
                 navigate('/');
                 toastNotify('Logowanie zakończone sukcesem.');

@@ -20,7 +20,6 @@ function DeleteButtonWithModal({
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const handleConfirmDelete = async () => {
-        console.log('ID: ', id);
         if (id) {
             try {
                 await deleteFunction(id);

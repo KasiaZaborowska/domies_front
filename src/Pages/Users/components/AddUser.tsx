@@ -20,14 +20,11 @@ interface Props {
 function AddUser({ offerId }: Props) {
     const { data: animals, isLoading: isLoadingAnimals } =
         useGetAnimalsQuery(null);
-    console.log('dataaaa');
-    console.log(animals);
     const [dateStart, setDateStart] = React.useState<Dayjs | null>(dayjs());
     const [dateEnd, setDateEnd] = React.useState<Dayjs | null>(
         dayjs().add(1, 'day').startOf('day'),
     );
     const [applicationToAdd] = useAddApplicationMutation();
-    console.log('offerIdaaaaaaaaaaaaaaa ', offerId);
 
     const [formData, setFormData] = useState<applicationInterface>({
         dateStart: '',
@@ -100,15 +97,12 @@ function AddUser({ offerId }: Props) {
         });
 
         try {
-            console.log('Dane, które wysyłam:', formData);
-            console.log(formDataToSend);
             await applicationToAdd({
                 data: formData,
                 //userId: userData.Email,
             }).unwrap();
             window.location.href = '/animals';
         } catch (error) {
-            console.log('Błąd');
             console.error('Błąd przy dodawaniu:', error);
         }
     };

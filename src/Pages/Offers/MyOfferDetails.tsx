@@ -35,7 +35,6 @@ function MyOfferDetails() {
     const [rows, setRows] = useState<applicationTableInterface[]>();
     const [filteredRows, setFilteredRows] =
         useState<applicationTableInterface[]>();
-    console.log(data);
 
     // Application Status
     const [applicationStatusState, setApplicationStatus] = useState<
@@ -110,21 +109,21 @@ function MyOfferDetails() {
 
         setRows(dataToSet);
         setFilteredRows(dataToSet);
-        console.log(
-            data.result.applications.map(
-                (application: applicationInterface) => ({
-                    id: application.id,
-                    dateStart: application.dateStart,
-                    //owner: animal.owner,
-                    dateEnd: application.dateEnd,
-                    applicant: application.applicant,
-                    note: application.note,
-                    petName: application.animals
-                        .map((animal) => animal.petName)
-                        .join(', '),
-                }),
-            ),
-        );
+        // console.log(
+        //     data.result.applications.map(
+        //         (application: applicationInterface) => ({
+        //             id: application.id,
+        //             dateStart: application.dateStart,
+        //             //owner: animal.owner,
+        //             dateEnd: application.dateEnd,
+        //             applicant: application.applicant,
+        //             note: application.note,
+        //             petName: application.animals
+        //                 .map((animal) => animal.petName)
+        //                 .join(', '),
+        //         }),
+        //     ),
+        // );
     }, [isLoading, applicationStatusState, data]);
 
     const formatDate = (dateString: string) => {
@@ -283,10 +282,6 @@ function MyOfferDetails() {
 
         setFilteredRows(filteredRows); // Aktualizacja wyświetlanych wierszy
     };
-    if (!isLoading) {
-        console.log('data');
-        console.log(data.result);
-    }
     const formatPhoneNumber = (phone: string): string => {
         return phone.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
     };
