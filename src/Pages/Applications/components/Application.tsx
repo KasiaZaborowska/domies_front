@@ -151,7 +151,7 @@ function Application({ offerId, show, setShow, application }: Props) {
                 data: formDataToSend,
                 userId: userData.Email,
             }).unwrap();
-            // window.location.href = '/applications';
+            window.location.href = '/applications';
         } catch (error: any) {
             console.log('Błąd');
             console.error('Błąd przy dodawaniu:', error);
@@ -245,7 +245,7 @@ function Application({ offerId, show, setShow, application }: Props) {
                     <Modal.Title>
                         {application
                             ? 'Edytuj aplikację:'
-                            : 'Aplikuj na ofertę:'}
+                            : 'Aplikuj o ofertę:'}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
