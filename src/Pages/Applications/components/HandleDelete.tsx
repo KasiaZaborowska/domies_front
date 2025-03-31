@@ -47,7 +47,7 @@ function DeleteButtonWithModal({
                     dialogClassName="custom-modal"
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>Confirm Delete</Modal.Title>
+                        <Modal.Title>Potwierdź usunięcie</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         Czy napewno chcesz usunąć ten element? Nie da się tego
