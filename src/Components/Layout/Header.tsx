@@ -25,7 +25,7 @@ function Header() {
         localStorage.removeItem('role');
         localStorage.removeItem('token');
         dispatch(setLoggedInUser({ ...emptyUserState }));
-        navigate('/');
+        window.location.href = '/';
     };
 
     return (
