@@ -66,7 +66,7 @@ function SingUp() {
                 // RoleId: 1,
             }).unwrap();
             console.log(response);
-            if (response.data) {
+            if (response) {
                 toastNotify(
                     'Rejestracja zakończona sukcesem! Potwierdź swój adres email aby móc się zalogować.',
                 );

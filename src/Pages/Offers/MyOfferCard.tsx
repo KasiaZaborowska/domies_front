@@ -20,6 +20,7 @@ function MyOfferCard(props: Props) {
                 console.log(`Usuwam ofertę o ID: ${id}`);
                 await deleteOffer(id);
                 setShowDeleteModal(false);
+                window.location.href = '/offers';
             } catch (error) {
                 console.error('Błąd podczas usuwania:', error);
             }
@@ -98,7 +99,7 @@ function MyOfferCard(props: Props) {
                 ></i>{' '}
                 <Link
                     to={`/myOfferDetails/${props.offer.id}`}
-                    style={{ textDecoration: 'none' }}
+                    style={{ textDecoration: 'none', color: 'black' }}
                 >
                     <div className="card-body pt-2">
                         {' '}
@@ -150,7 +151,7 @@ function MyOfferCard(props: Props) {
                 }}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Confirm Delete</Modal.Title>
+                    <Modal.Title>Potwierdź usunięcie</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     Czy na pewno chcesz usunąć tę ofertę? Tej operacji nie można

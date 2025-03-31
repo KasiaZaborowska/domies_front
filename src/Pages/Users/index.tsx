@@ -226,7 +226,7 @@ function Users() {
                             />
                         </Button>
                     </Tooltip>
-                    <Tooltip title="Promocja do roli managera">
+                    <Tooltip title="Promocja do roli moderatora">
                         <Button
                             variant="contained"
                             color="success"

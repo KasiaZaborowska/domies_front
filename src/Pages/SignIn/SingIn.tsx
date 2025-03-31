@@ -59,6 +59,9 @@ function SingIn() {
                     Role,
                 }: userAccountInterface = jwt_decode(token);
                 console.log(' przed token ustawiam');
+                localStorage.setItem('firstName', FirstName);
+                localStorage.setItem('lastName', LastName);
+                localStorage.setItem('role', Role);
                 localStorage.setItem('token', token);
                 console.log('token ustawiam');
                 dispatch(setLoggedInUser({ Email, FirstName, LastName, Role }));
@@ -97,13 +100,13 @@ function SingIn() {
                 noValidate
                 validated={validated}
             >
-                <h1 className="mt-5">Login</h1>
+                <h1 className="mt-5">Logowanie</h1>
                 <div className="mt-5" style={{ minWidth: '40vw' }}>
                     <div className="mt-4">
                         <input
                             type="email"
                             className="form-control"
-                            placeholder="Enter Username"
+                            placeholder="Podaj adres e-mail"
                             required
                             name="Email"
                             value={userInput.Email}
@@ -118,7 +121,7 @@ function SingIn() {
                         <input
                             type="password"
                             className="form-control"
-                            placeholder="Enter Password"
+                            placeholder="Podaj hasło"
                             required
                             minLength={8}
                             name="Password"
@@ -142,7 +145,7 @@ function SingIn() {
                             backgroundColor: '#f4acb7',
                         }}
                     >
-                        Login
+                        Zaloguj się
                     </button>
                 </div>
             </Form>
