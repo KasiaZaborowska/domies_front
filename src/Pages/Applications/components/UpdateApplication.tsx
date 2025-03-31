@@ -198,7 +198,7 @@ function UpdateApplication({ offerId }: Props) {
 
             <Modal show={show} onHide={handleClose} size={'lg'}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Aplikuj na ofertę:</Modal.Title>
+                    <Modal.Title>Aplikuj o ofertę:</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form

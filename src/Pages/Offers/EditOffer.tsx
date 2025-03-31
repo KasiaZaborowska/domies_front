@@ -99,7 +99,7 @@ function EditOfferForm() {
 
     const [preview, setPreview] = useState<string | null>();
 
-    const photo = formData.file;
+    // const photo = formData.file;
 
     useEffect(() => {
         if (!isLoading || !isLoadingFacilities) {
@@ -179,7 +179,8 @@ function EditOfferForm() {
                 userId: loggedInUserEmail,
                 id: offerId,
             }).unwrap();
-            console.log(response);
+            //console.log(response);
+            // window.location.href = `/myOfferDetails/${offerId}`;
             toastNotify('Edytowanie oferty zakończone sukcesem!');
         } catch (error: any) {
             console.log('Błąd');
