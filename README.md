@@ -1,3 +1,31 @@
+<h1 align="left">Domies Front-End</h1>
+<p>This is the front-end application for Domies web application. Domies is a web application that supports hiring individuals as pet sitters for a specified period of time. It offers a safe space that will connect pet owners and people willing to take care of their pets while their owners are away. It allows users to book pet sitters for a specific period of time. </p>
+
+<h2 align="left">Technologies</h2>
+
+<ul>
+  <li><b>TypeScript</b> - Superset of JavaScript that adds static typing, improving code quality and maintainability with better tooling and error detection.</li>
+  <li><b>React</b> - JavaScript library for building user interfaces, enabling the creation of responsive, dynamic, and component-based web applications.</li>
+  <li><b>Redux Toolkit</b> - Library for managing application state, simplifying the use of Redux with built-in tools for efficient state management and reducing boilerplate code.</li>
+</ul>
+
+<h2 align="left">Installation</h2>
+<ol>
+  <li>Clone the repository.</li>
+  <li>Install dependencies using: <code>npm install</code> </li>
+  <li>Set up environment variables:</li>
+  <ul>
+    <li>Find a <code>.env</code> file in the root directory of the project.</li>
+    <li>Ensure that <code>REACT_APP_BACKEND_URL</code> in your <code>.env</code> points to the correct backend address.</li>
+  </ul>
+  <li>Run the application using: <code>npm start</code> </li>
+</ol>
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
